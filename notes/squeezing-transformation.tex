@@ -1,0 +1,111 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Detailed derivation: the squeezing transformation}
+\label{sec:squeezing-transformation}
+
+\subsection{Setup}
+
+After the displacement step, the photon sector Hamiltonian restricted to a fixed
+eigenvalue sector $(j,t)$ of the commuting operators $(J,T)$ reads
+\begin{equation}
+h'(j,t)=\Omega\,a^\dagger a-\frac{g^2t}{2L}(a^\dagger+a)^2-\frac{g^2j^2}{\Omega L}+\mathcal O(g^3).
+\end{equation}
+We now diagonalize this using the squeezing transformation
+\begin{equation}
+\mathcal S \equiv e^{S^{\mathrm{sq}}},\qquad S^{\mathrm{sq}}=\frac{\xi}{2}\left(a^2-a^{\dagger2}\right),
+\end{equation}
+with $\xi=\xi(t)$ to be determined by requiring that the transformed Hamiltonian is diagonal in $a^\dagger a$.
+
+\subsection{Transformation of \texorpdfstring{$a$}{a} and \texorpdfstring{$a^\dagger$}{adag} via the Hadamard lemma}
+
+For any operator $S$,
+\begin{equation}
+e^{S}Xe^{-S}=\sum_{n=0}^{\infty}\frac{1}{n!}\ad_S^n(X),\qquad \ad_S(X)\equiv[S,X].
+\end{equation}
+
+\paragraph{First commutators.}
+Using $[AB,C]=A[B,C]+[A,C]B$ and $[a,a^\dagger]=1$:
+\begin{align}
+[a^2,a]&=0, & [a^{\dagger2},a]&=a^\dagger[a^\dagger,a]+[a^\dagger,a]a^\dagger=-2a^\dagger,\\
+[a^2,a^\dagger]&=a[a,a^\dagger]+[a,a^\dagger]a=2a, & [a^{\dagger2},a^\dagger]&=0.
+\end{align}
+Hence
+\begin{equation}
+[S^{\mathrm{sq}},a]=\xi\,a^\dagger,
+\qquad
+[S^{\mathrm{sq}},a^\dagger]=\xi\,a.
+\end{equation}
+
+\paragraph{Nested commutators.} Iterating,
+\begin{equation}
+\ad_{S^{\mathrm{sq}}}^0(a)=a,\quad \ad_{S^{\mathrm{sq}}}^1(a)=\xi a^\dagger,\quad
+\ad_{S^{\mathrm{sq}}}^2(a)=\xi^2 a,\quad
+\ad_{S^{\mathrm{sq}}}^3(a)=\xi^3a^\dagger,\ \ldots
+\end{equation}
+Summing the Hadamard series:
+\begin{equation}
+e^{S^{\mathrm{sq}}}a\,e^{-S^{\mathrm{sq}}}=a\cosh\xi+a^\dagger\sinh\xi, \label{eq:aT}
+\end{equation}
+and by the dagger shortcut ($S^{\mathrm{sq}}$ is anti-Hermitian for real $\xi$),
+\begin{equation}
+e^{S^{\mathrm{sq}}}a^\dagger e^{-S^{\mathrm{sq}}}=a^\dagger\cosh\xi+a\sinh\xi. \label{eq:adagT}
+\end{equation}
+
+\subsection{Transforming the number operator \texorpdfstring{$a^\dagger a$}{adag a}}
+
+\begin{align}
+e^{S^{\mathrm{sq}}}(a^\dagger a)e^{-S^{\mathrm{sq}}}
+&=(a^\dagger\cosh\xi+a\sinh\xi)(a\cosh\xi+a^\dagger\sinh\xi)\notag\\
+&=a^\dagger a\cosh^2\xi+a^{\dagger2}\cosh\xi\sinh\xi+a^2\sinh\xi\cosh\xi+aa^\dagger\sinh^2\xi.
+\end{align}
+Normal-order the last term using $aa^\dagger=a^\dagger a+1$ and collect:
+\begin{equation}
+\boxed{\,e^{S^{\mathrm{sq}}}(a^\dagger a)e^{-S^{\mathrm{sq}}}=a^\dagger a\,\cosh(2\xi)+\sinh^2\xi+\frac12\sinh(2\xi)\big(a^2+a^{\dagger2}\big)\,}
+\label{eq:numtransform}
+\end{equation}
+
+\subsection{Transforming \texorpdfstring{$(a^\dagger+a)^2$}{(adag+a)\^2}}
+
+\begin{equation}
+e^{S^{\mathrm{sq}}}(a^\dagger+a)e^{-S^{\mathrm{sq}}}=(a^\dagger+a)\,e^{\xi},
+\qquad
+e^{S^{\mathrm{sq}}}(a^\dagger+a)^2e^{-S^{\mathrm{sq}}}=e^{2\xi}(a^\dagger+a)^2.
+\end{equation}
+\begin{equation}
+\boxed{\,e^{S^{\mathrm{sq}}}(a^\dagger+a)^2e^{-S^{\mathrm{sq}}}=e^{2\xi}\big(a^{\dagger2}+a^2+2a^\dagger a+1\big)\,}
+\label{eq:sqtransform}
+\end{equation}
+
+\subsection{Assembling the transformed Hamiltonian}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Operator & Coefficient \\
+\midrule
+$a^\dagger a$ & $\Omega\cosh(2\xi)-\dfrac{g^2t}{L}e^{2\xi}$ \\[2mm]
+$a^2+a^{\dagger2}$ & $\dfrac{\Omega}{2}\sinh(2\xi)-\dfrac{g^2t}{2L}e^{2\xi}$ \\[2mm]
+const. & $\Omega\sinh^2\xi-\dfrac{g^2t}{2L}e^{2\xi}-\dfrac{g^2j^2}{\Omega L}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Diagonalization condition}
+
+Requiring the $(a^2+a^{\dagger2})$ coefficient to vanish gives $\tanh(2\xi)=\dfrac{g^2t/L}{\Omega-g^2t/L}$, hence
+\begin{equation}
+\boxed{\;\xi(t)=-\frac14\ln\!\left(1-2\frac{g^2}{\Omega}\frac{t}{L}\right)\;}
+\label{eq:xifinal}
+\end{equation}
+
+\subsection{Cross-check: the renormalized frequency}
+
+With $\eta\equiv1-\dfrac{2g^2t}{\Omega L}$, plugging \eqref{eq:xifinal} into the $a^\dagger a$ coefficient gives
+\begin{equation}
+\tilde\Omega=\Omega\cosh(2\xi)-\frac{g^2t}{L}e^{2\xi}=\Omega\sqrt{1-2\frac{g^2}{\Omega}\frac tL},
+\end{equation}
+matching the surviving frequency independently of the sign/normalization convention for $\xi$.
+
+\end{document}

@@ -1,0 +1,124 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Similarity transformations of operators: computing \texorpdfstring{$e^{A}Be^{-A}$}{eABe-A}}
+\label{sec:similarity-transformations}
+
+\subsection{Motivation}
+
+Similarity transformations $B\mapsto e^{A}Be^{-A}$ are ubiquitous whenever a Hamiltonian is
+brought to a simpler (often diagonal) form: Bogoliubov transformations of quadratic
+Hamiltonians, displacement/squeezing of bosonic modes, polaron (Lang--Firsov)
+transformations, Schrieffer--Wolff transformations, and passage to the interaction
+picture or a rotating frame are all instances of this construction. If $A^\dagger=-A$
+(generator anti-Hermitian), $U=e^{A}$ is unitary and the transformation preserves
+Hermiticity and spectra -- the case in all examples below.
+
+\subsection{Method A: the Hadamard lemma}
+
+\begin{lemma*}
+For any two operators $A,B$,
+\begin{equation}
+e^{A}Be^{-A}=\sum_{n=0}^{\infty}\frac{1}{n!}\,\ad_A^n(B),\qquad
+\ad_A(B)\equiv[A,B],\quad \ad_A^n(B)\equiv\underbrace{[A,[A,\dots[A}_{n},B]\dots]].
+\end{equation}
+\end{lemma*}
+
+The series is exact (not merely asymptotic) whenever it converges, e.g.\ whenever the
+nested commutators eventually reproduce a small, recognizable pattern.
+
+\paragraph{Strategy 1 -- reduce to elementary operators.}
+Conjugation is an algebra automorphism: for any $X,Y$,
+\begin{equation}
+e^{A}(XY)e^{-A}=\big(e^{A}Xe^{-A}\big)\big(e^{A}Ye^{-A}\big).
+\end{equation}
+It suffices to compute $e^{A}\,a\,e^{-A}$ and $e^{A}\,a^\dagger e^{-A}$ once; any
+polynomial in these follows by substitution and normal-ordering, with no further
+Hadamard series needed.
+
+\paragraph{Strategy 2 -- the dagger shortcut.}
+If $A^\dagger=-A$, $U=e^A$ is unitary with $U^\dagger=e^{-A}=U^{-1}$, so
+$e^{A}Be^{-A}=UBU^\dagger$; taking the dagger,
+\begin{equation}
+\big(e^{A}Be^{-A}\big)^\dagger = e^{A}B^\dagger e^{-A}.
+\end{equation}
+Once $e^{A}ae^{-A}$ is known, $e^{A}a^\dagger e^{-A}$ follows for free by Hermitian
+conjugation, roughly halving the bookkeeping.
+
+\subsection{Method B: the differential-equation (generator-flow) method}
+
+Define $X(\theta)\equiv e^{\theta A}\,X\,e^{-\theta A}$, $X(0)=X$. Differentiating,
+\begin{equation}
+\frac{dX(\theta)}{d\theta}=[A,X(\theta)]=\ad_A\big(X(\theta)\big).
+\end{equation}
+This ODE is exactly equivalent to Method A -- the Hadamard series is its formal Taylor
+solution around $\theta=0$ -- but is often more tractable in practice.
+
+\paragraph{Key fact: closure $\Rightarrow$ finite-dimensional linear ODE.}
+If $\ad_A$ maps a finite set of operators $\{X_1,\dots,X_n\}$ into linear combinations
+of themselves, the operator ODE collapses to a matrix ODE:
+\begin{equation}
+\frac{d}{d\theta}\vec X(\theta)=M\,\vec X(\theta),\qquad
+[A,X_j]=\sum_iM_{ij}X_i,\qquad \vec X(\theta)=e^{\theta M}\vec X(0),
+\end{equation}
+reducing the problem to exponentiating an ordinary $n\times n$ matrix.
+
+\paragraph{Why this works for Gaussian generators.}
+If $A$ is at most quadratic in bosonic ladder operators, $[A,a]$ and $[A,a^\dagger]$ are
+each at most linear, so $\{a,a^\dagger,\mathbb1\}$ is automatically closed under
+$\ad_A$. Quadratic bosonic Hamiltonians generate the (metaplectic representation of the)
+symplectic group $Sp(2,\mathbb R)$ acting linearly on phase space.
+
+\subsubsection*{Worked examples}
+
+\paragraph{(a) Squeezing.} $A=\tfrac{\xi}{2}(a^2-a^{\dagger2})$: $[A,a]=\xi a^\dagger$,
+$[A,a^\dagger]=\xi a$, i.e.\ $M=\begin{pmatrix}0&1\\1&0\end{pmatrix}$. Eigenvalues
+$\pm1$ (hyperbolic), $M^2=\mathbb1$:
+\begin{equation}
+a(\xi)=a\cosh\xi+a^\dagger\sinh\xi.
+\end{equation}
+
+\paragraph{(b) Displacement.} $A=\alpha(a^\dagger-a)$: $[A,a]=-\alpha\,\mathbb 1$ is a
+c-number, so enlarge the closed set to $\{a,\mathbb1\}$. The matrix is nilpotent,
+giving polynomial growth:
+\begin{equation}
+a(\alpha)=a-\alpha\,\mathbb 1.
+\end{equation}
+
+\paragraph{(c) Phase rotation (interaction picture).} $A=i\theta\,a^\dagger a$:
+$[a^\dagger a,a]=-a$, closed on $\{a\}$ alone:
+\begin{equation}
+a(\theta)=e^{-i\theta}a.
+\end{equation}
+
+\paragraph{Classification.} Eigenvalues of $M$ purely imaginary $\to$ oscillatory
+(elliptic); real nonzero $\to$ hyperbolic (squeezing); nilpotent/zero $\to$ polynomial
+(displacement).
+
+\subsection{When to prefer which method}
+Both methods are mathematically identical. Method A is fast when the pattern is
+recognizable by eye; Method B is more systematic for anything beyond the simplest
+single-operator case, especially with mixed or multiple generators to track jointly.
+
+\subsection{Scope: when this machinery fails}
+The closure property requires $A$ to be at most quadratic in a set of canonically
+(anti)commuting operators. For a genuinely quartic operator such as
+$H_{\mathrm{int}}=U\sum_i(n_i-\tfrac12)(n_{i+1}-\tfrac12)$, $\ad_A(H_{\mathrm{int}})$
+does not close on a finite set for generic one-body $A$ (e.g.\ $A\propto J$ or
+$A\propto T$) -- $[J,H_{\mathrm{int}}]$ is generically nonzero and does not reduce to a
+small closed set of operators. The Hadamard series then cannot be resummed in closed
+form; one is limited to a perturbative treatment in the strength of $A$.
+
+\subsection{References}
+\begin{itemize}
+\item J.J.\ Sakurai \& J.\ Napolitano, \emph{Modern Quantum Mechanics}.
+\item C.\ Gerry \& P.\ Knight, \emph{Introductory Quantum Optics}.
+\item D.F.\ Walls \& G.J.\ Milburn, \emph{Quantum Optics}.
+\item J.-P.\ Blaizot \& G.\ Ripka, \emph{Quantum Theory of Finite Systems}, MIT Press.
+\item A.\ Perelomov, \emph{Generalized Coherent States and Their Applications}, Springer.
+\item J.W.\ Negele \& H.\ Orland, \emph{Quantum Many-Particle Systems}.
+\item B.C.\ Hall, \emph{Lie Groups, Lie Algebras, and Representations}.
+\end{itemize}
+
+\end{document}

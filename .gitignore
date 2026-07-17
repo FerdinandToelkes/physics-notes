@@ -1,0 +1,20 @@
+# LaTeX build artifacts (redirected to build/ by .latexmkrc, but ignore
+# stragglers too in case someone compiles without latexmk)
+build/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.nav
+*.snm
+*.vrb
+
+# OS / editor cruft
+.DS_Store

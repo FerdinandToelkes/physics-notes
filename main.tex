@@ -1,0 +1,24 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{subfiles}  % loads each note both standalone and as part of this master doc
+
+% --- shared macros, used by every note ---
+\newcommand{\ad}{\mathrm{ad}}
+\newtheorem*{lemma*}{Hadamard Lemma}
+
+\title{Physics Reference Notes}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+% Add one \subfile line per note, in whatever order you want them to appear.
+\subfile{notes/squeezing-transformation}
+\subfile{notes/similarity-transformations}
+
+\end{document}
