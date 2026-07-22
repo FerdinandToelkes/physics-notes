@@ -1,6 +1,8 @@
 # LaTeX build artifacts (redirected to build/ by .latexmkrc, but ignore
-# stragglers too in case someone compiles without latexmk)
-build/
+# stragglers too in case someone compiles without latexmk).
+# The combined PDF is tracked so it's downloadable straight from GitHub.
+build/*
+!build/main.pdf
 *.aux
 *.log
 *.out
