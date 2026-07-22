@@ -9,40 +9,39 @@
 
 Given Maxwell's equations,
 \begin{align}
-\vec\nabla\cdot\vec E(\vec r,t)&=\frac{1}{\varepsilon_0}\,\rho(\vec r,t) &&(\mathrm{A.1a})\\
-\vec\nabla\cdot\vec B(\vec r,t)&=0 &&(\mathrm{A.1b})\\
-\vec\nabla\times\vec E(\vec r,t)&=-\frac{\partial}{\partial t}\vec B(\vec r,t) &&(\mathrm{A.1c})\\
+\vec\nabla\cdot\vec E(\vec r,t)&=\frac{1}{\varepsilon_0}\,\rho(\vec r,t) \label{eq:maxwell_a}\\
+\vec\nabla\cdot\vec B(\vec r,t)&=0 \label{eq:maxwell_b}\\
+\vec\nabla\times\vec E(\vec r,t)&=-\frac{\partial}{\partial t}\vec B(\vec r,t) \label{eq:maxwell_c}\\
 \vec\nabla\times\vec B(\vec r,t)&=\frac{1}{c^2}\frac{\partial}{\partial t}\vec E(\vec r,t)
-   +\frac{1}{\varepsilon_0 c^2}\,\vec j(\vec r,t) &&(\mathrm{A.1d})
+   +\frac{1}{\varepsilon_0 c^2}\,\vec j(\vec r,t) \label{eq:maxwell_d}
 \end{align}
 
 \subsection{Continuity equation}
 
-From $\varepsilon_0\,\partial_t\,(\mathrm{A.1a})$, using $\partial_x\partial_t=\partial_t\partial_x$,
+From $\varepsilon_0\,\partial_t\,(\cref{eq:maxwell_a})$, using $\partial_x\partial_t=\partial_t\partial_x$,
 \begin{equation}
 \frac{\partial}{\partial t}\rho(\vec r,t)
 =\varepsilon_0\,\vec\nabla\cdot\bigl(\partial_t\vec E(\vec r,t)\bigr),
 \end{equation}
-and from $\varepsilon_0 c^2\,\vec\nabla\cdot(\mathrm{A.1d})$,
+and from $\varepsilon_0 c^2\,\vec\nabla\cdot(\cref{eq:maxwell_d})$,
 \begin{align}
 \vec\nabla\cdot\vec j(\vec r,t)
 &=\vec\nabla\cdot\bigl(\vec\nabla\times\vec B(\vec r,t)\bigr)
 -\varepsilon_0\,\vec\nabla\cdot\bigl(\partial_t\vec E(\vec r,t)\bigr)\notag\\
-&\overset{\operatorname{div}(\operatorname{rot}\vec F)=0}{=}
--\varepsilon_0\,\vec\nabla\cdot\bigl(\partial_t\vec E(\vec r,t)\bigr).
+&= -\varepsilon_0\,\vec\nabla\cdot\bigl(\partial_t\vec E(\vec r,t)\bigr) \qquad (\operatorname{div}(\operatorname{rot}\vec F)=0).
 \end{align}
 Adding the two gives the continuity equation
 \begin{equation}
-\frac{\partial}{\partial t}\rho(\vec r,t)+\vec\nabla\cdot\vec j(\vec r,t)=0.\tag{A.3}\label{eq:continuity}
+\frac{\partial}{\partial t}\rho(\vec r,t)+\vec\nabla\cdot\vec j(\vec r,t)=0.\label{eq:continuity}
 \end{equation}
 
 \subsection{Point-particle solutions}
 
 Solutions of the continuity equation:
 \begin{align}
-\rho(\vec r,t)&=\sum_\alpha q_\alpha\,\delta\bigl(\vec r-\vec r_\alpha(t)\bigr) &&(\mathrm{A.5a})\\
+\rho(\vec r,t)&=\sum_\alpha q_\alpha\,\delta\bigl(\vec r-\vec r_\alpha(t)\bigr) \label{eq:continuity_solution_rho}\\
 \vec j(\vec r,t)&=\sum_\alpha q_\alpha\,\vec v_\alpha(t)\,\delta\bigl(\vec r-\vec r_\alpha(t)\bigr)
-&&(\mathrm{A.5b})
+\label{eq:continuity_solution_j}
 \end{align}
 
 \begin{proof}
@@ -51,11 +50,10 @@ Note that
 \partial_t\,\delta\bigl(\vec r-\vec r_\alpha(t)\bigr)
 &=\partial_t\Bigl(\delta\bigl(r_x-r_x^\alpha(t)\bigr)\delta\bigl(r_y-r_y^\alpha(t)\bigr)
 \delta\bigl(r_z-r_z^\alpha(t)\bigr)\Bigr)\notag\\
-&\overset{\text{chain rule}}{=}
--\sum_{i=x,y,z}\dot r_i^\alpha(t)\,\partial_{r_i}\delta\bigl(r_i-r_i^\alpha(t)\bigr)
+&= -\sum_{i=x,y,z}\dot r_i^\alpha(t)\,\partial_{r_i}\delta\bigl(r_i-r_i^\alpha(t)\bigr)
 =-\dot{\vec r}_\alpha(t)\cdot\vec\nabla\,\delta\bigl(\vec r-\vec r_\alpha(t)\bigr),
 \end{align}
-and
+where we used the chain rule in the second line and
 \begin{align}
 \vec\nabla\cdot\Bigl(\vec v_\alpha(t)\,\delta\bigl(\vec r-\vec r_\alpha(t)\bigr)\Bigr)
 &=\sum_{i=x,y,z}\partial_{r_i}\Bigl(v_i^\alpha(t)\,\delta\bigl(\vec r-\vec r_\alpha(t)\bigr)\Bigr)\notag\\
@@ -72,7 +70,7 @@ Therefore
 which is \eqref{eq:continuity}.
 \end{proof}
 
-Note that these solutions are not unique (one equation for four components). Intermediate
-result: the current can be defined by ``charge times velocity''.
+Note that these solutions are not unique (one equation for four components). 
+\paragraph{Intermediate result: the current can be defined by ``charge times velocity''.}
 
 \end{document}

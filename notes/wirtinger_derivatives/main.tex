@@ -12,7 +12,7 @@ Define for $z=x+iy\in\mathbb C$ with $x,y\in\mathbb R$
 \frac{\partial}{\partial z}\equiv\frac12\Bigl(\frac{\partial}{\partial x}-i\frac{\partial}{\partial y}\Bigr)
 \qquad\&\qquad
 \frac{\partial}{\partial\bar z}=\frac12\Bigl(\frac{\partial}{\partial x}+i\frac{\partial}{\partial y}\Bigr)
-\tag{$\ast$}\label{eq:wirtinger-def}
+\label{eq:wirtinger-def}
 \end{equation}
 for functions of one complex variable, and
 \begin{equation}
@@ -36,11 +36,9 @@ For $f(z)=u(z)+iv(z)$ complex differentiable,
 \frac12\Bigl(\frac{\partial f}{\partial x}-i\frac{\partial f}{\partial y}\Bigr)
 =\frac12\Bigl(\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}
 -i\frac{\partial u}{\partial y}+\frac{\partial v}{\partial y}\Bigr)\notag\\
-&\overset{\text{CR}}{=}\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}
-\overset{\text{Def.}}{=}\frac{df}{dz},
+&\overset{\eqref{eq:wirtinger-def}}{=}\frac{\partial u}{\partial z}+i\frac{\partial v}{\partial z}
+\overset{\text{Def.}}{=}\frac{df}{dz}.
 \end{align}
-where in the second step the Cauchy--Riemann (CR) equations
-$\partial_x u=\partial_y v$ and $\partial_x v=-\partial_y u$ were used.
 \end{proof}
 
 \subsection{The \texorpdfstring{$\bar z$}{z-bar}-derivative and Cauchy--Riemann}
@@ -61,16 +59,20 @@ i.e.\ the necessary \& sufficient condition for $f$ to be complex differentiable
 
 \subsection{Minimizing a real-valued function}
 
-Minimize a real-valued function $f\colon\mathbb C\to\mathbb R$, $f(z)=g(x,y)$, via the
-condition
+Minimize a real-valued function\footnote{Minimizing a complex-valued $f$ does not make sense because $\mathbb C$ has no order.} 
+\begin{align}
+    f\colon\mathbb C &\to \mathbb R \\ 
+    f(z)&=f(x,y) , \qquad (z= x + iy)
+\end{align}
+via the condition
 \begin{equation}
-\nabla g(x,y)=\begin{pmatrix}\partial_x g\\\partial_y g\end{pmatrix}\overset{!}{=}0.
+\nabla f(x,y)=\begin{pmatrix}\partial_x f\\\partial_y f\end{pmatrix}\overset{!}{=}0.
 \end{equation}
-(Minimizing a complex-valued $f$ does not make sense because $\mathbb C$ has no order.) Then
+Then
 \begin{equation}
-\partial_x g\overset{!}{=}0\overset{!}{=}\partial_y g
+\partial_x f\overset{!}{=}0\overset{!}{=}\partial_y f
 \quad\Longleftrightarrow\quad
-\frac{\partial f}{\partial\bar z}\overset{!}{=}0,
+\frac{\partial f}{\partial\bar z} =\frac12\Bigl(\frac{\partial f}{\partial x}+i\frac{\partial f}{\partial y}\Bigr) \overset{!}{=}0,
 \end{equation}
 so one can minimize a real-valued function by imposing
 $\boxed{\dfrac{\partial f}{\partial\bar z}=0}$.

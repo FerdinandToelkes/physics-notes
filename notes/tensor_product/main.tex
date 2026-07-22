@@ -21,7 +21,6 @@ Since $V\otimes W$ is a vector space, an arbitrary element of it can be written 
 \begin{equation}
 \sum_{(i,j)\in I\times J}c_{ij}\,(v_i\otimes w_j).
 \end{equation}
-
 The bilinear map $\otimes$ is defined by
 \begin{align}
 \otimes\colon V\times W&\longrightarrow V\otimes W,\\
@@ -67,7 +66,6 @@ w=\begin{pmatrix}b_1\\\vdots\\b_n\end{pmatrix}
 v\otimes w:=\begin{pmatrix}a_1\,w\\\vdots\\a_m\,w\end{pmatrix}
 =\begin{pmatrix}a_1 b_1\\\vdots\\a_1 b_n\\\vdots\\a_m b_1\\\vdots\\a_m b_n\end{pmatrix}.
 \end{equation}
-
 Now choose $\{v_i\}$ to be the standard basis, so that $Av_i=A_{\cdot i}$ (the $i$-th column
 of $A$) and likewise for $B$. Then
 \begin{align}
@@ -83,19 +81,19 @@ of $A$) and likewise for $B$. Then
 \end{align}
 Setting $v_i\otimes v_j\equiv w_k$ with $k=j+n\,i$ (for zero-based $i$), the matrix of
 $A\otimes B$ is the block matrix
-\begin{equation}
+\begin{align}
 A\otimes B
-=\begin{pmatrix}
+&=\begin{pmatrix}
 A_{11}B_{\cdot 1}&\cdots&A_{11}B_{\cdot n}&\cdots&A_{1m}B_{\cdot 1}&\cdots&A_{1m}B_{\cdot n}\\
 \vdots& & & & & &\vdots\\
 A_{m1}B_{\cdot 1}&\cdots&A_{m1}B_{\cdot n}&\cdots&A_{mm}B_{\cdot 1}&\cdots&A_{mm}B_{\cdot n}
-\end{pmatrix}
-=\begin{pmatrix}
+\end{pmatrix} \notag\\
+&=\begin{pmatrix}
 A_{11}B&\cdots&A_{1m}B\\
 \vdots&\ddots&\vdots\\
 A_{m1}B&\cdots&A_{mm}B
 \end{pmatrix},
-\end{equation}
+\end{align}
 which is the Kronecker product for matrices.
 
 \subsection{References}

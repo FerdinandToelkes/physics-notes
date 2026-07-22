@@ -17,10 +17,10 @@ is found to obey spin commutation relations.
 
 As references I used
 \begin{itemize}
-\item \emph{Fermions and Jordan--Wigner String} $\sim$ ITensor C\texttt{++} Documentation,
-\item \emph{Introduction to Many-Body Physics}, Chapter 4.1 $\sim$ Piers Coleman,
+\item \emph{Fermions and Jordan--Wigner String} -- ITensor C\texttt{++} Documentation,
+\item \emph{Introduction to Many-Body Physics}, Chapter 4.1 -- Piers Coleman,
 \item \emph{The Fermionic canonical commutation relations and the Jordan--Wigner transform}
-      $\sim$ M.\ Nielsen,
+      -- M.\ Nielsen,
 \end{itemize}
 which I supplemented with some calculations and my own way of structuring things.
 
@@ -38,27 +38,25 @@ fermions
 Many things directly follow from this, such as a possible basis for the Hilbert space, namely
 the occupation number basis
 \begin{equation}
-\ket{\vec n}=\ket{n_1,n_2,\dots,n_L}\equiv\Bigl(\prod_{i=1}^{L}(c_i^\dagger)^{n_i}\Bigr)\ket{0},
+\ket{\vec n}=\ket{n_1,n_2,\dots,n_L}\equiv\left(\prod_{i=1}^{L}(c_i^\dagger)^{n_i}\right)\ket{0},
 \end{equation}
 where $\hat n_i\ket{\vec n}=c_i^\dagger c_i\ket{\vec n}=n_i\ket{\vec n}$ with $n_i=0,1$ and
 \begin{equation}
-[\hat n_i,\hat n_j]=0.\tag{$\star_1$}\label{eq:jw-nn}
+[\hat n_i,\hat n_j]=0.\label{eq:jw-nn}
 \end{equation}
 
 \subsection{The transformation}
 
 The JWT introduces new operators $a_j$ by writing
 \begin{equation}
-c_j\equiv\Bigl(\prod_{i=1}^{j-1}Z_i\Bigr)a_j\qquad\&\qquad
-c_j^\dagger\equiv a_j^\dagger\Bigl(\prod_{i=1}^{j-1}Z_i\Bigr),\tag{$\ast$}\label{eq:jw-def}
+c_j\equiv\left(\prod_{i=1}^{j-1}Z_i\right)a_j\qquad\&\qquad
+c_j^\dagger\equiv a_j^\dagger\left(\prod_{i=1}^{j-1}Z_i\right), \label{eq:jw-def}
 \end{equation}
 with $Z_j=(-1)^{n_j}=1-2n_j$ and $n_j=c_j^\dagger c_j$. The ordering of the $Z_i$ does not
-matter since $[Z_i,Z_j]=0$ (using \eqref{eq:jw-nn}).
-
-Inverting \eqref{eq:jw-def} using $Z_i^2=\mathds{1}$ and $[Z_i,Z_j]=0$ yields
+matter since $[Z_i,Z_j]=0$ due to \cref{eq:jw-nn}. Inverting \cref{eq:jw-def} using $Z_i^2=\mathds{1}$ and $[Z_i,Z_j]=0$ yields
 \begin{equation}
-a_j=\Bigl(\prod_{i=1}^{j-1}Z_i\Bigr)c_j\qquad\&\qquad
-a_j^\dagger=c_j^\dagger\Bigl(\prod_{i=1}^{j-1}Z_i\Bigr).\tag{$\ast'$}\label{eq:jw-inv}
+a_j=\left(\prod_{i=1}^{j-1}Z_i\right)c_j\qquad\&\qquad
+a_j^\dagger=c_j^\dagger\left(\prod_{i=1}^{j-1}Z_i\right). \label{eq:jw-inv}
 \end{equation}
 
 \subsection{Algebra of the new operators}
@@ -71,24 +69,24 @@ One can show that these new operators obey
 \end{align}
 using that
 \begin{equation}
-\{Z_i,c_j^{(+)}\}=0\tag{$\star_2$}\label{eq:jw-Zc}
+\{Z_i,c_j^{(+)}\}=0 \label{eq:jw-Zc}
 \end{equation}
-(proofs further below).
+The corresponding proofs can be found in \cref{subsec:proofs_jwt}.
 
 \subsection{The occupation-number basis in the new operators}
 
 The basis states of the fermionic Hilbert space can be written as
 \begin{align}
 \ket{n_1,n_2,\dots,n_L}
-&\equiv\Bigl(\prod_{i=1}^{L}(c_i^\dagger)^{n_i}\Bigr)\ket{0}
+&\equiv\left(\prod_{i=1}^{L}(c_i^\dagger)^{n_i}\right)\ket{0}
 &&\text{w.\ }n_i=0,1\notag\\
-&=\Bigl\{\prod_{i=1}^{L}\Bigl[a_i^\dagger\Bigl(\prod_{j=1}^{i-1}Z_j\Bigr)\Bigr]^{n_i}\Bigr\}\ket{0}
+&=\left\{\prod_{i=1}^{L}\left[a_i^\dagger\left(\prod_{j=1}^{i-1}Z_j\right)\right]^{n_i}\right\}\ket{0}
 &&(c_1^\dagger=a_1^\dagger)\notag\\
 &=(a_1^\dagger)^{n_1}(a_2^\dagger Z_1)^{n_2}(a_3^\dagger Z_2 Z_1)^{n_3}\cdots
   (a_L^\dagger Z_{L-1}\cdots Z_1)^{n_L}\ket{0}\notag\\
-&=\Bigl(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\Bigr)
+&=\left(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\right)
   (Z_1)^{n_2}(Z_2 Z_1)^{n_3}\cdots(Z_{L-1}\cdots Z_1)^{n_L}\ket{0}\notag\\
-&=\Bigl(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\Bigr)\ket{0}
+&=\left(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\right)\ket{0}
 &&\text{w.\ }n_i=0,1,
 \end{align}
 using $[Z_i,Z_j]=0\ \forall i,j$, $[Z_i,c_j]=0$ for $i\neq j$ (hence
@@ -102,17 +100,17 @@ $Z_1\cdots Z_{j-1}$ is non-local, so one has to examine them on the full many-bo
 For $n_\ell=0$,
 \begin{align}
 a_\ell\ket{n_1,\dots,n_\ell=0,\dots,n_L}
-&=a_\ell\Bigl(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\Bigr)\ket{0}\notag\\
-&\overset{[a_\ell,a_j^\dagger]=0}{=}\Bigl(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\Bigr)a_\ell\ket{0}=0,
+&=a_\ell\left(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\right)\ket{0}\notag\\
+&\overset{[a_\ell,a_j^\dagger]=0}{=}\left(\prod_{i=1}^{L}(a_i^\dagger)^{n_i}\right)a_\ell\ket{0}=0,
 \end{align}
 since $a_\ell\ket{0}=c_\ell\ket{0}=0$. For $n_\ell=1$,
 \begin{align}
 a_\ell\ket{n_1,\dots,n_\ell=1,\dots,n_L}
-&=a_\ell\Bigl(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\Bigr)a_\ell^\dagger\ket{0}\notag\\
+&=a_\ell\left(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\right)a_\ell^\dagger\ket{0}\notag\\
 &\overset{[a_\ell,a_j^\dagger]=0}{=}
-\Bigl(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\Bigr)a_\ell a_\ell^\dagger\ket{0}
-=\Bigl(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\Bigr)c_\ell c_\ell^\dagger\ket{0}\notag\\
-&=\Bigl(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\Bigr)\ket{0}
+\left(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\right)a_\ell a_\ell^\dagger\ket{0}
+=\left(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\right)c_\ell c_\ell^\dagger\ket{0}\notag\\
+&=\left(\prod_{\substack{i=1\\i\neq\ell}}^{L}(a_i^\dagger)^{n_i}\right)\ket{0}
 =\ket{n_1,\dots,n_\ell=0,\dots,n_L}.
 \end{align}
 Using $[a_\ell^\dagger,a_j^\dagger]=0$ and $(a_\ell^\dagger)^2=0$, one quickly finds
@@ -131,14 +129,14 @@ new operators can be associated with spins by identifying
 a_j=S_j^-,\qquad a_j^\dagger=S_j^+\qquad\&\qquad n_j-\tfrac12=S_j^z=\tfrac12\,\sigma_j^z,
 \end{equation}
 since $[S_j^-,S_j^+]=-2S_j^z$ for spins (see the quick refresher on spin,
-\S\ref{sec:spin-refresher}). For instance
+\cref{sec:spin-refresher}). For instance
 \begin{equation*}
 a_3^\dagger\ket{0}=S_3^+\ket{\downarrow\downarrow\downarrow}=\ket{\uparrow\downarrow\downarrow}.
 \end{equation*}
 Matrix elements do not change under the JWT, since it is only a rewriting of operators and a
 renaming of basis states.
 
-\subsection{Proofs about the JWT}
+\subsection{Proofs about the JWT} \label{subsec:proofs_jwt}
 
 \paragraph{Claim: $\{Z_j,c_j^{(+)}\}=0$.}
 \begin{proof}
@@ -146,36 +144,36 @@ On the single site $j$, with $Z_j\ket{0}_j=\ket{0}_j$, $Z_j\ket{1}_j=-\ket{1}_j$
 $c_j\ket{0}_j=0$ and $c_j\ket{1}_j=\ket{0}_j$,
 \begin{align}
 Z_j c_j\ket{0}_j&=Z_j\cdot 0=0=c_j\ket{0}_j=c_j Z_j\ket{0}_j,\\
-Z_j c_j\ket{1}_j&=Z_j\ket{0}_j=\ket{0}_j=c_j\ket{0}_j,\\
+Z_j c_j\ket{1}_j&=Z_j\ket{0}_j=\ket{0}_j=c_j\ket{1}_j,\\
 c_j Z_j\ket{1}_j&=-c_j\ket{1}_j=-\ket{0}_j.
 \end{align}
 Hence, on both basis states $\{Z_j,c_j\}=Z_j c_j+c_j Z_j=c_j-c_j=0$, and since
 $Z_j^\dagger=Z_j$ it follows that $\{Z_j,c_j^\dagger\}=0$ as well. (see Coleman, Chapter 4.1)
 \end{proof}
 
-\paragraph{Claim: $[a_i^{(+)},a_j^{(+)}]=0\ \forall\,i,j$.}
+\paragraph{Claim: $[a_i^{(+)},a_j^{(+)}]=0\ \, \forall\,i,j$.}
 \begin{proof}
-Assume w.l.o.g.\ that $i<j$. Using \eqref{eq:jw-inv},
+Assume w.l.o.g.\ that $i<j$. Using \cref{eq:jw-inv},
 \begin{align}
-a_j a_i&=\bigl(Z_1\cdots Z_{j-1}c_j\bigr)\bigl(Z_1\cdots Z_{i-1}c_i\bigr)\notag\\
+a_j a_i&=\left(Z_1\cdots Z_{j-1}c_j\right)\left(Z_1\cdots Z_{i-1}c_i\right)\notag\\
 &\overset{\substack{[Z_j,c_\ell]=0,\,j\neq\ell\\ \{c_i,c_j\}=0}}{=}
 Z_1^2\cdots Z_{i-1}^2\,Z_i\cdots Z_{j-1}\,c_j c_i
 =-Z_i\cdots Z_{j-1}\,c_i c_j\qquad(=0\text{ if }i=j),
 \end{align}
 and likewise
 \begin{align}
-a_i a_j&=\bigl(Z_1\cdots Z_{i-1}c_i\bigr)\bigl(Z_1\cdots Z_{j-1}c_j\bigr)\notag\\
+a_i a_j&=\left(Z_1\cdots Z_{i-1}c_i\right)\left(Z_1\cdots Z_{j-1}c_j\right)\notag\\
 &\overset{[Z_i,c_\ell]=0,\,i\neq\ell}{=}Z_{i+1}\cdots Z_{j-1}\,c_i Z_i c_j
 \overset{\{Z_i,c_i\}=0}{=}-Z_i\cdots Z_{j-1}\,c_i c_j.
 \end{align}
 Comparing the two, $a_i a_j=a_j a_i$, i.e.\ $[a_i,a_j]=0$. Analogously for
 $[a_i^\dagger,a_j^\dagger]$ and for $i>j$; the case $i=j$ is straightforward since
-$c_i^2=0$.\hfill(i)
+$c_i^2=0$.
 \end{proof}
 
-\paragraph{Claim: $[a_i,a_j^\dagger]=0\ \forall\,i\neq j$.}
+\paragraph{Claim: $[a_i,a_j^\dagger]=0\ \, \forall\,i\neq j$.}
 \begin{proof}
-We can show it w.l.o.g.\ for $i<j$. Using \eqref{eq:jw-inv} and \eqref{eq:jw-Zc},
+We can show it w.l.o.g.\ for $i<j$. Using \cref{eq:jw-inv} and \cref{eq:jw-Zc},
 \begin{align}
 a_i^\dagger a_j&=\bigl(c_i^\dagger Z_{i-1}\cdots Z_1\bigr)\bigl(Z_1\cdots Z_{j-1}c_j\bigr)
 \overset{Z_i^2=1,\,i<j}{=}c_i^\dagger\,Z_i\cdots Z_{j-1}\,c_j\notag\\
@@ -185,18 +183,17 @@ a_i^\dagger a_j&=\bigl(c_i^\dagger Z_{i-1}\cdots Z_1\bigr)\bigl(Z_1\cdots Z_{j-1
 \end{align}
 and
 \begin{align}
-a_j a_i^\dagger&=\bigl(Z_1\cdots Z_{j-1}c_j\bigr)\bigl(c_i^\dagger Z_{i-1}\cdots Z_1\bigr)
-\overset{[Z_j,c_\ell^{(+)}]=0,\,j\neq\ell}{=}
-Z_i\cdots Z_{j-1}\,c_j c_i^\dagger\,\underbrace{Z_{i-1}^2\cdots Z_1^2}_{=\mathds 1}
-=Z_i\cdots Z_{j-1}\,c_j c_i^\dagger .
+a_j a_i^\dagger &= \bigl(Z_1\cdots Z_{j-1}c_j\bigr)\bigl(c_i^\dagger Z_{i-1}\cdots Z_1\bigr) \notag \\
+&= Z_i\cdots Z_{j-1}\,c_j c_i^\dagger\,Z_{i-1}^2\cdots Z_1^2 \qquad ([Z_j,c_\ell^{(+)}]=0,\,j\neq\ell) \notag \\
+&=Z_i\cdots Z_{j-1}\,c_j c_i^\dagger .
 \end{align}
 Both reduce to the same expression, so $a_j a_i^\dagger-a_i^\dagger a_j=0$ for $i<j$, i.e.\
-$[a_j,a_i^\dagger]=0$; the case $i>j$ follows straightforwardly.\hfill(ii)
+$[a_j,a_i^\dagger]=0$; the case $i>j$ follows straightforwardly.
 \end{proof}
 
 \paragraph{Claim: $[a_i,a_i^\dagger]=1-2n_i$ with $n_i=c_i^\dagger c_i$.}
 \begin{proof}
-Using \eqref{eq:jw-inv} and $Z_k^2=\mathds 1$,
+Using \cref{eq:jw-inv} and $Z_k^2=\mathds 1$,
 \begin{align}
 a_i^\dagger a_i&=c_i^\dagger\,Z_{i-1}\cdots Z_1 Z_1\cdots Z_{i-1}\,c_i=c_i^\dagger c_i=n_i,\\
 a_i a_i^\dagger&=Z_1\cdots Z_{i-1}\,c_i c_i^\dagger\,Z_{i-1}\cdots Z_1=c_i c_i^\dagger=1-c_i^\dagger c_i,
@@ -204,7 +201,7 @@ a_i a_i^\dagger&=Z_1\cdots Z_{i-1}\,c_i c_i^\dagger\,Z_{i-1}\cdots Z_1=c_i c_i^\
 so that
 \begin{equation}
 [\hat a_i,\hat a_i^\dagger]=a_i a_i^\dagger-a_i^\dagger a_i=(1-c_i^\dagger c_i)-c_i^\dagger c_i
-=1-2\hat n_i.\tag*{(iii)}
+=1-2\hat n_i.
 \end{equation}
 \end{proof}
 
