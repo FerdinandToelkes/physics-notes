@@ -1,6 +1,6 @@
 # Physics Reference Notes
 
-A personal collection of derivations and techniques that are missing, scattered, or explained too briefly in the standard literature.
+A personal collection of derivations and techniques that are missing, scattered, or explained too briefly in the standard literature. The current PDF can be found in [`build/main.pdf`](build/main.pdf).
 
 ## Structure
 

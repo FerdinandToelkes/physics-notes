@@ -1,0 +1,453 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Variational fermionic wave functions on lattices}
+\label{sec:variational-fermionic-wave-functions}
+
+\subsection{Summary}
+% (left blank in the handwritten notes -- fill in once part 2 exists)
+
+\subsection{Crash course on the origin of antisymmetric wave functions}
+
+This can be found in probably any introductory book on quantum mechanics, here I directly follow Schwabl, \emph{Quantum Mechanics}, section 13.1.
+
+The Heisenberg uncertainty relation implies that identical particles are
+indistinguishable. Consequently the probability amplitude
+$|\psi(x_1,\dots,x_N)|^2$ of a quantum many-body state is invariant under the
+exchange $x_i\leftrightarrow x_j$ of two indistinguishable particles. Define the
+exchange operator
+\begin{equation}
+P_{ij}\,\psi(x_1,\dots,x_i,\dots,x_j,\dots,x_N)
+\coloneqq \psi(x_1,\dots,x_j,\dots,x_i,\dots,x_N),
+\end{equation}
+so that invariance of the amplitude gives
+\begin{equation}
+P_{ij}\,\psi(\vec x)=\lambda\,\psi(\vec x),\qquad |\lambda|^2=1 .
+\end{equation}
+Furthermore, exchanging the same two particles twice cannot change the wave
+function at all, hence
+\begin{equation}
+P_{ij}^2\,\psi(\vec x)=\lambda^2\psi(\vec x)=\psi(\vec x)
+\quad\Longrightarrow\quad \lambda^2=1,\ \text{i.e.}\ \lambda=\pm1 .
+\end{equation}
+Fermions are the particles for which $\lambda=-1$, i.e.
+\begin{equation}
+\boxed{\;\psi(\dots,x_i,\dots,x_j,\dots)=-\,\psi(\dots,x_j,\dots,x_i,\dots)\;}
+\end{equation}
+and thus $\psi(\dots,x_i,\dots,x_i,\dots)=0$.
+
+\subsection{Slater determinants}
+
+Here we loosely follow E.\ Koch, \emph{Mean-Field Theory: Hartree-Fock and BCS}
+(J\"ulich 2024), section 1.
+
+Let $\{\varphi_n\}$ be a complete, orthonormal single-particle basis,
+\begin{align}
+\sum_n \varphi_n^*(x)\varphi_n(x')&=\delta(x-x') &&\text{(complete)},\\
+\int\! dx\, \varphi_n^*(x)\varphi_m(x)&=\delta_{nm} &&\text{(orthonormal)}.
+\end{align}
+An arbitrary $N$-particle function can then be expanded in its first argument as
+\begin{align}
+a(x_1,\dots,x_N)&=\sum_{n_1} a_{n_1}(x_2,\dots,x_N)\,\varphi_{n_1}(x_1),\qquad\text{with}\\
+a_{n_1}(x_2,\dots,x_N)&=\int\! dx'_1\, \varphi^*_{n_1}(x'_1)\,a(x'_1,x_2,\dots,x_N).
+\end{align}
+Iterating in all arguments, yields
+\begin{equation}
+\psi(x_1,\dots,x_N)=\sum_{n_1,\dots,n_N} a_{n_1,\dots,n_N}\,
+\varphi_{n_1}(x_1)\cdots\varphi_{n_N}(x_N),
+\end{equation}
+which is not antisymmetric yet.
+Now apply the antisymmetrizer $\mathcal A$, with $\mathrm{sgn}(P)=(-1)^P$:
+\begin{align}
+\mathcal A\,\psi(x_1,\dots,x_N)
+&\overset{\text{[K~(3)]}}{\equiv}  \frac{1}{\sqrt{N!}}\sum_P (-1)^P\,\psi(x_{P(1)},\dots,x_{P(N)})\\
+&=\frac{1}{\sqrt{N!}}\sum_P (-1)^P \sum_{n_1,\dots,n_N} a_{n_1,\dots,n_N}\,
+\varphi_{n_1}(x_{P(1)})\cdots\varphi_{n_N}(x_{P(N)})\\
+&=\sum_{n_1,\dots,n_N} a_{n_1,\dots,n_N}\,\Phi_{n_1,\dots,n_N}(x_1,\dots,x_N),
+\end{align}
+where we have used the \emph{Slater determinant}
+\begin{align}
+\Phi_{\alpha_1,\dots,\alpha_N}(x_1,\dots,x_N)
+&\overset{\text{[K~(4)]}}{\equiv} \frac{1}{\sqrt{N!}}
+\begin{vmatrix}
+\varphi_{\alpha_1}(x_1) & \varphi_{\alpha_2}(x_1) & \cdots & \varphi_{\alpha_N}(x_1)\\
+\varphi_{\alpha_1}(x_2) & \varphi_{\alpha_2}(x_2) & \cdots & \varphi_{\alpha_N}(x_2)\\
+\vdots & \vdots & \ddots & \vdots\\
+\varphi_{\alpha_1}(x_N) & \varphi_{\alpha_2}(x_N) & \cdots & \varphi_{\alpha_N}(x_N)
+\end{vmatrix}\\
+&\overset{\text{Leibniz}}{=}\frac{1}{\sqrt{N!}}\sum_{P\in S_N}
+\mathrm{sgn}(P)\prod_{i=1}^{N}\varphi_{\alpha_i}\big(x_{P(i)}\big).
+\end{align}
+Hence \textbf{any $\psi(x_1,\dots,x_N)$ can be expanded in Slater determinants.}
+Furthermore, it follows immediately that $\psi(\vec x)$ vanishes if either
+$x_i=x_j$ \underline{or} $\alpha_i=\alpha_j$ for $i\neq j$:
+\textbf{fermions cannot occupy the same position $x$ or the same quantum state
+$\alpha$.}
+
+\subsection{The variational principle}
+
+Following F.\ Becca \& S.\ Sorella, \emph{Quantum Monte Carlo Approaches for
+Correlated Systems}, section 1.4.
+
+Formulate some variational state $|\psi_{\mathrm{var}}\rangle$ and consider
+\begin{equation}
+E_{\mathrm{var}}=\frac{\langle\psi_{\mathrm{var}}|H|\psi_{\mathrm{var}}\rangle}
+{\langle\psi_{\mathrm{var}}|\psi_{\mathrm{var}}\rangle}
+\qquad\text{[B\&S~(1.38)]}.
+\end{equation}
+Expanding in the energy eigenstates $|\varphi_i\rangle$,
+\begin{equation}
+|\psi_{\mathrm{var}}\rangle=\sum_i |\varphi_i\rangle\langle\varphi_i|\psi_{\mathrm{var}}\rangle
+=\sum_i a_i|\varphi_i\rangle
+\qquad\text{[B\&S~(1.39)]},
+\end{equation}
+so that, using $\langle\varphi_i|\varphi_j\rangle=\delta_{ij}$,
+\begin{align}
+E_{\mathrm{var}}&=\Big(\sum_i|a_i|^2\Big)^{-1}
+\Big(\sum_i a_i|\varphi_i\rangle\Big)^{\dagger} H
+\Big(\sum_j a_j|\varphi_j\rangle\Big)
+=\Big(\sum_i|a_i|^2\Big)^{-1}\sum_i |a_i|^2 E_i .
+\end{align}
+Assume $E_i\le E_j$ for $i<j$, i.e.\ $E_0$ is the ground-state energy. Then
+\begin{equation}
+E_{\mathrm{var}}-E_0=\Big(\underbrace{\sum_i|a_i|^2}_{>0}\Big)^{-1}
+\Big(\sum_{i\neq0}\underbrace{|a_i|^2}_{\ge0}
+\underbrace{(E_i-E_0)}_{\ge0}\Big)\ \ge\ 0
+\qquad\text{[B\&S~(1.41)]},
+\end{equation}
+i.e.\ \textbf{$E_{\mathrm{var}}$ is an upper bound for the exact energy.} In
+practice: parametrize some $|\psi_{\mathrm{var}}\rangle$ and minimize
+$E_{\mathrm{var}}$.
+
+\subsection{Variational wave functions}
+
+\subsubsection{Hartree-Fock wave functions}
+
+The Hartree-Fock (HF) approximation writes the many-body wave function as a
+product of single-particle orbitals,
+\begin{equation}
+\boxed{\;
+|\psi_{\mathrm{HF}}\rangle=\prod_{\alpha=1}^{N_e}\phi^\dagger_\alpha|0\rangle,
+\qquad
+\phi^\dagger_\alpha=\sum_{i=1}^{N}\sum_\sigma W_{\sigma,\alpha,i}\,c^\dagger_{i,\sigma},
+\quad \sigma=\uparrow,\downarrow \;}
+\end{equation}
+with $N$ lattice sites and $N_e$ electrons. This leaves
+$2\cdot N_e\cdot N$ parameters instead of the exponentially many amplitudes of a
+generic many-body state.
+% As written in the handwritten notes: "2 N_e N_e instead of 2^{N_e}"; the point
+% is 2 (spin) x N_e (orbitals) x N (sites) vs. exponentially many parameters.
+The parameters are then optimized by minimizing
+\begin{equation}
+E_{\mathrm{HF}}=\frac{\langle\psi_{\mathrm{HF}}|H|\psi_{\mathrm{HF}}\rangle}
+{\langle\psi_{\mathrm{HF}}|\psi_{\mathrm{HF}}\rangle},
+\qquad\text{e.g.}\quad
+W_{\sigma,\alpha,i}\ \to\ W_{\sigma,\alpha,i}
+-\frac{\partial E_{\mathrm{HF}}}{\partial W^*_{\sigma,\alpha,i}}\,\delta\tau
+\qquad\text{[B\&S~(1.54)]},
+\end{equation}
+using Wirtinger derivatives (see \cref{sec:wirtinger-derivatives}).
+
+The HF wave function can equivalently be written in first quantization as
+\textbf{one Slater determinant}. Since it is a \emph{product of single-particle
+orbitals}, it is mostly useful in the non-interacting case or at weak coupling.
+In the Hubbard model, turning up $U$ makes the motion of one electron depend on
+where the other electrons are, i.e.\ it generates electron-electron correlation.
+
+\subsubsection{The Gutzwiller wave function}
+
+Gutzwiller's idea: describe the effect of the Hubbard $U$ interaction by reducing
+the weight of configurations with multiply occupied sites. Start from some ground
+state $|\psi_0\rangle$ (e.g.\ non-interacting, a Slater determinant) and apply an
+operator $P_g$ that suppresses such configurations:
+\begin{align}
+|\psi_g\rangle &= P_g|\psi_0\rangle\;  \qquad \text{[B\&S~(1.58)]} \\
+\text{with} \qquad P_g &=\exp\Big[-\frac{g}{2}\sum_{i=1}^{N}(n_i-n)^2\Big]
+\qquad\text{[B\&S~(1.59)]},
+\end{align}
+where $n_i=\sum_\sigma n_{i\sigma}$ and
+$n=\frac{1}{N}\big\langle\sum_{i=1}^{N} n_i\big\rangle$ is the average density per
+site. Here $g$ is the variational parameter ($g>0$ for the repulsive Hubbard
+model).
+
+Given some configuration $|x\rangle$, $P_g$ counts how many sites within that
+state have higher or lower occupation than the average; for repulsive
+interactions these states are suppressed accordingly:
+\begin{equation}
+\langle x|\psi_g\rangle=P_g(x)\,\langle x|\psi_0\rangle,
+\qquad P_g(x)\le 1
+\qquad\text{[B\&S~(1.60)]}.
+\end{equation}
+Since $P_g(x)\ge 0$, it \emph{does not} affect the sign structure.
+
+In the Hubbard model a metal-insulator transition is expected at \emph{finite}
+$U/t$ for $n=1$. The Gutzwiller wave function can only reproduce this for
+$g\to\infty$; otherwise there is always a non-zero probability for
+doublon-holon creation, and these could then move around freely and thus conduct.
+
+\paragraph{Fully projected Gutzwiller wave function ($g\to\infty$).}
+Examine $P_\infty$ for $n=1$:
+\begin{equation}
+P_\infty=\lim_{g\to\infty}P_g
+=\lim_{g\to\infty}\exp\Big[-\frac{g}{2}\sum_{i=1}^{N}(\hat n_i-1)^2\Big],
+\end{equation}
+\begin{align}
+\Rightarrow\quad
+P_\infty|\psi\rangle &=\lim_{g\to\infty}
+\begin{cases}
+\exp\!\big(-\tfrac{g}{2}a\big), & \text{if }\exists\ \text{site with a holon/doublon }(a>0) \notag\\[2pt]
+\exp(0), & \text{else}
+\end{cases}
+\ |\psi\rangle \\
+&=\begin{cases}0\\ |\psi\rangle\end{cases}
+\end{align}
+Therefore we can rewrite $P_\infty$ as (B\&S~(1.63))
+\begin{equation}
+P_\infty=\prod_i\big(n_{i,\uparrow}-n_{i,\downarrow}\big)^2.
+\end{equation}
+If we want to allow empty sites, one has to set
+\begin{equation}
+P_\infty=\prod_i\big(1-n_{i,\uparrow}n_{i,\downarrow}\big),
+\end{equation}
+which is important for $n<1$, since then holons and doublons do not come in
+pairs.
+
+For $g=\infty$ no density fluctuations can occur, whereas in a true insulator
+density fluctuations do occur but produce no net current -- e.g.\ double-occupancy
+fluctuations via virtual processes in the Hubbard model at large $U$\footnote{see \textit{Lecture Notes on Correlation and Magnetism}, Patrik Fazekas, chapter 5, $t$-$J$ model)}.
+
+\subsubsection{The density-density Jastrow wave function}
+
+Since the Gutzwiller wave function does not correctly describe an insulator, the
+ansatz requires modification. We can, for instance, change the correlation term
+that is applied to $|\psi_0\rangle$ (or change $|\psi_0\rangle\rightsquigarrow
+|\psi_{U=\infty}\rangle$). The Jastrow factor does this by including long-range
+correlations:
+\begin{align}
+\mathcal J=\exp\Big[-\frac{1}{2}\sum_{i,j}v_{ij}\,(n_i-n)(n_j-n)\Big]
+&\qquad\text{[B\&S~(1.65)]}\\
+|\psi_{\mathcal J}\rangle=\mathcal J|\psi_0\rangle=|\psi_g\rangle,
+\quad\text{for } v_{ij}=\delta_{ij}\,g
+&\qquad\text{[B\&S~(1.64)]}.
+\end{align}
+For translationally invariant systems the variational parameters are
+$v_{ij}=v_{|i-j|}$, i.e.\ $\mathcal O(L)$ possible different distances.
+
+The long-range correlations induced by $\mathcal J$ shall create a bound state
+between holons and doublons, possibly hindering conduction while still allowing
+local density fluctuations. It can be shown that the behaviour of $v_{ij}$
+resulting from an energy minimization is \emph{not} enough to capture a fully
+gapped phase (power-law behaviour is present, but the Fourier transform of
+$v_{ij}$ decays exponentially).
+
+\paragraph{Jastrow-Slater wave function.}
+In the case $v_{ij}=v_{ji}$ the Jastrow factor is symmetric under particle
+exchange, so (in first quantization) it can be combined with a Slater determinant
+to obtain a suitable fermionic wave function,
+$\psi_{\mathrm{JS}}(\vec x)=\langle\vec x|\psi_{\mathrm{JS}}\rangle$:
+\begin{equation}
+\psi_{\mathrm{JS}}(\vec r_1,\dots,\vec r_{N_e})
+=\exp\Big[-\sum_{i<j}v_{ij}(n_i-n)(n_j-n)\Big]\cdot
+\psi_{\mathrm{HF}}(\vec r_1,\dots,\vec r_{N_e}),
+\end{equation}
+with $\psi_{\mathrm{HF}}(\vec r_1,\dots,\vec r_{N_e})=\det\{\phi_\alpha(\vec r_i)\}$
+and $\{\phi_\alpha(\vec r_i)\}$ a set of one-particle orbitals (see B\&S (1.68)).
+
+\subsubsection{The backflow wave function}
+
+As explained earlier, the set of Slater determinants forms a basis of the
+$N$-electron Hilbert space, so one can systematically improve HF by adding more
+Slater determinants, but this is computationally very demanding. Instead:
+\textbf{try to improve one single Slater determinant by making the orbitals
+configuration dependent}, which goes beyond mean field.
+
+\paragraph{Original idea.}
+The movement of one particle ``pushes other particles away'' in order to avoid
+large overlap among them, i.e.\ a ``counter flow'' of all other particles --
+hence \emph{backflow correlations}. One therefore constructs the Slater
+determinant with modified coordinates (continuum backflow),
+\begin{equation}
+\vec r_i^{\,b}=\vec r_i+\sum_{j\neq i}\eta\big(|\vec r_i-\vec r_j|\big)
+\big(\vec r_i-\vec r_j\big),
+\end{equation}
+which also describes the effective displacement of the $i$-th particle due to the
+$j$-th one.
+
+\paragraph{On a lattice.}
+For lattice models this effective displacement is much less useful, since all
+distances are discretized. Instead one changes the one-particle orbitals:
+\begin{equation}
+\phi_k\big(\vec r^{\,b}_{i,\sigma}\big)\ \simeq\ \phi^b_k\big(\vec r_{i,\sigma}\big)
+\equiv \phi_k\big(\vec r_{i,\sigma}\big)+\sum_j c_{ij}[x]\,\phi_k\big(\vec r_{j,\sigma}\big)
+\end{equation}
+where $\phi_k(\vec r_{i,\sigma})=\langle 0|c_{i,\sigma}|\phi_k\rangle$, the
+$|\phi_k\rangle$ are eigenstates of the mean-field Hamiltonian, and $|x\rangle$ is
+the many-body configuration of the system.
+
+This is essentially a \emph{dynamic linear combination of orbitals}: dynamic,
+since it \emph{depends on the electron configuration}. In the Hubbard model at
+large $U$ one can hybridize the orbitals as follows:
+\begin{equation}
+\phi^b_k(\vec r_{i,\sigma})=\varepsilon\,\phi_k(\vec r_{i,\sigma})
++\eta\sum_j t_{ij}\,\big(D_i H_j\big)\,\phi_k(\vec r_{j,\sigma})
+\end{equation}
+i.e.\ hybridize the orbitals at $i$ and $j$ if there is a doublon at $i$ and a
+holon at $j$, such that the electron can minimize energy by going to the empty
+site\footnote{cf.\ \emph{``Role of
+backflow correlations for the non-magnetic phase of the $t$-$t'$ Hubbard model''} by Tocchio and Sorella, Eqs.~(2)-(4)}.
+
+\paragraph{Summary.}
+Backflow correlations improve a single Slater determinant by replacing fixed
+single-particle orbitals with \textbf{configuration-dependent orbitals},
+effectively introducing \textbf{many-body corrections} through a determinant whose
+elements depend on the full configuration. Combining this with a Jastrow factor
+gives the Slater-Jastrow-backflow wave function.
+
+\subsection{Parametrization via neural networks}
+
+Now let us have a look at how neural networks are used for variational states.
+There is no single resource that reviews the physics-motivated approaches like
+backflow, hidden fermions etc., so we mostly look at the corresponding papers.
+
+\subsubsection{Backflow transformations via neural networks}
+
+Following D.\ Luo \& B.K.\ Clark, \emph{Backflow Transformations via Neural
+Networks for Quantum Many-Body Wave Functions}.
+
+Recall the definition of backflow introduced by Tocchio et al.\ in ``Role of
+backflow correlations for the non-magnetic phase of the $t$-$t'$ Hubbard model'',
+Eq.~(4):
+\begin{align}
+\phi^b_{k\sigma}\big(r_{i,\sigma};\vec x\big)
+&=\phi_{k\sigma}\big(r_{i,\sigma}\big)+\sum_j \eta_{ij,\sigma}\,
+\phi_{k\sigma}\big(r_{j,\sigma}\big),\\
+\eta_{ij,\sigma}&=t\,D_i H_j\,\Theta_{|i-j|,\sigma}, \qquad \text{(L\&C (6))}
+\end{align}
+with $D_i=n_{i,\uparrow}n_{i,\downarrow}$ and
+$H_i=(1-n_{i,\uparrow})(1-n_{i,\downarrow})$ counting doublons and holons.
+
+The $i,j$-dependence of the hopping amplitudes $t_{ij}$ is absorbed in the
+variational parameters $\Theta_{|i-j|,\sigma}$; e.g.\ for next-nearest-neighbour
+hopping one sets them to zero if $|i-j|\neq 1,2$.
+
+Now we make the ansatz to parametrize the backflow part via a neural network:
+\begin{equation}
+\phi^b_{k\sigma}\big(r_{i,\sigma};\vec x\big)
+=\phi_{k\sigma}\big(r_{i,\sigma}\big)+a^{\mathrm{NN}}_{k i,\sigma}(\vec x) \qquad \text{(L\&C (5))}
+\end{equation}
+The typical advantage of a NN parametrization is that neural networks are
+universal approximators. On top of that, one can show \textbf{explicitly how to
+construct the backflow with a NN with two hidden layers}:
+
+\paragraph{Step 1: rewrite $\eta$ as a ReLU.}
+Assuming $t\,\Theta_{|i-j|,\sigma}\ge0$,
+\begin{equation*}
+\eta_{ij,\sigma}=t\,D_iH_j\,\Theta_{|i-j|,\sigma}
+=t\,n_{i,\uparrow}n_{i,\downarrow}h_{j,\uparrow}h_{j,\downarrow}\,\Theta_{|i-j|,\sigma},
+\end{equation*}
+which is nonzero only if
+$n_{i,\uparrow}=n_{i,\downarrow}=h_{j,\uparrow}=h_{j,\downarrow}=1$, and hence
+\begin{equation*}
+\eta_{ij,\sigma}=\mathrm{ReLU}\Big[t\,\Theta_{|i-j|,\sigma}
+\big(n_{i,\uparrow}+n_{i,\downarrow}+h_{j,\uparrow}+h_{j,\downarrow}-3\big)\Big].
+\end{equation*}
+
+\paragraph{Step 2: input layer.}
+The NN shall have the input layer
+\begin{align*}
+\big(\underbrace{\sigma_1,\dots,\sigma_N}_{\text{spin up}},
+\underbrace{\sigma_{N+1},\dots,\sigma_{2N}}_{\text{spin down}}\big),
+\qquad \text{with} \\
+\sigma_i=2n_{i,\uparrow}-1,\quad \sigma_{i+N}=2n_{i,\downarrow}-1,
+\quad i=1,\dots,N .
+\end{align*}
+Inverting the relation for $\sigma_i$ and inserting it into $\eta_{ij,\sigma}$,
+\begin{align*}
+&\eta_{ij,\sigma}=\mathrm{ReLU}\Big[\tfrac{1}{2}\,t\,\Theta_{|i-j|,\sigma}
+\big(\sigma_i+\sigma_{i+N}-\sigma_j-\sigma_{j+N}-2\big)\Big],  
+\end{align*}
+with $i,j\in\{1,\dots,N\}$ and $\sigma=\pm1$.
+
+\paragraph{Step 3: first hidden layer.}
+Use this to construct $\eta_{ij,\sigma}$ as the following NN (cf.\ \cref{fig:sketch_nn_first_layer}):
+\begin{equation}
+v_k=\sum_{\ell=1}^{2N}w_{k\ell}\,\sigma_\ell+b_k,
+\qquad\text{set}\quad k=\sigma\cdot(i+N\cdot j).
+\end{equation}
+\begin{equation}
+\Rightarrow\quad
+v_{\sigma\cdot(i+N\cdot j)}=\sum_{\ell=1}^{2N}w_{\sigma\cdot(i+N\cdot j),\ell}\,
+\sigma_\ell+b_{\sigma\cdot(i+N\cdot j)},
+\end{equation}
+with
+\begin{equation}
+b_{\sigma\cdot(i+N\cdot j)}=-t\,\Theta_{|i-j|,\sigma}
+\qquad\text{and}\qquad
+w_{\sigma\cdot(i+N\cdot j),\ell}=\frac{t}{2}\,\Theta_{|i-j|,\sigma}
+\begin{cases}
+\ \ 1 & \text{if }\ell\ \%\ N=i\\
+-1 & \text{if }\ell\ \%\ N=j\\
+\ \ 0 & \text{else}
+\end{cases}
+\end{equation}
+such that $\eta_{ij,\sigma}=\mathrm{ReLU}\big(v_{\sigma\cdot(i+N\cdot j)}\big)$.
+
+% ---- sketch of the first hidden layer (requires \usepackage{tikz}) ----------
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[>=stealth, node distance=1cm]
+  \node (in0) at (0,4)    {$1$};
+  \node (in1) at (0,3)    {$\sigma_i$};
+  \node (in2) at (0,2)    {$\sigma_j$};
+  \node (dots) at (0,1.2) {$\vdots$};
+  \node (in3) at (0,0.4)  {$\sigma_{i+N}$};
+  \node (in4) at (0,-0.6) {$\sigma_{j+N}$};
+  \node (out) at (5,1.7)  {$v_k$};
+  \foreach \n in {in0,in1,in2,in3,in4}{\fill (\n.east) ++(0.25,0) circle (1.4pt);}
+  \draw[->] ($(in0.east)+(0.25,0)$) -- node[above,sloped,font=\small]{$b_{0k}$} (out);
+  \draw[->] ($(in1.east)+(0.25,0)$) -- node[above,sloped,font=\small]{$w_{ki}$} (out);
+  \draw[->] ($(in2.east)+(0.25,0)$) -- node[above,sloped,font=\small]{$w_{kj}$} (out);
+  \draw[->] ($(in3.east)+(0.25,0)$) -- node[below,sloped,font=\small]{$w_{k,i+N}$} (out);
+  \draw[->] ($(in4.east)+(0.25,0)$) -- node[below,sloped,font=\small]{$w_{k,j+N}$} (out);
+\end{tikzpicture}
+\caption{First hidden layer producing $v_k$, with $k=\sigma\cdot(i+N\cdot j)$.}
+\label{fig:sketch_nn_first_layer}
+\end{figure}
+
+\paragraph{Step 4: second hidden layer.}
+Finally, the full backflow is obtained by adding another hidden layer which takes
+the $\eta_{ij,\sigma}$ as inputs and weights them by the single-particle orbitals
+$\phi_k(r_{j,\sigma})$. The activation function of this layer is simply the
+identity. If $t\,\Theta_{|i-j|,\sigma}<0$, the minus sign can be absorbed into
+this layer, resulting in
+\begin{equation}
+a^{\mathrm{NN}}_{k i,\sigma}(\vec r)=\sum_j
+\underbrace{\eta_{ij,\sigma}}_{\text{inputs}}\,
+\underbrace{s_{ij,\sigma}\,\phi_{k\sigma}(r_{j,\sigma})}_{\text{weights}},
+\qquad
+s_{ij,\sigma}=\mathrm{sgn}\big(t\,\Theta_{|i-j|,\sigma}\big)=\pm1 .
+\end{equation}
+\textbf{$\Rightarrow$ the backflow can be represented by a neural network.}
+
+In practice, one simply chooses some NN (RBM, MLP, CNN, \dots) and lets
+backpropagation take care of the rest.
+
+\subsection{References}
+\begin{itemize}
+\item F.\ Schwabl, \emph{Quantum Mechanics}, section 13.1.
+\item E.\ Koch, \emph{Mean-Field Theory: Hartree-Fock and BCS}, J\"ulich lecture
+      notes (2024), section 1.
+\item F.\ Becca \& S.\ Sorella, \emph{Quantum Monte Carlo Approaches for
+      Correlated Systems}, sections 1.4-1.5.
+\item P.\ Fazekas, \emph{Lecture Notes on Electron Correlation and Magnetism},
+      chapter 5 ($t$-$J$ model).
+\item L.F.\ Tocchio, F.\ Becca, A.\ Parola \& S.\ Sorella, \emph{Role of backflow
+      correlations for the nonmagnetic phase of the $t$-$t'$ Hubbard model},
+      Phys.\ Rev.\ B \textbf{78}, 041101(R) (2008).
+\item D.\ Luo \& B.K.\ Clark, \emph{Backflow Transformations via Neural Networks
+      for Quantum Many-Body Wave Functions}, Phys.\ Rev.\ Lett.\ \textbf{122},
+      226401 (2019).
+\end{itemize}
+
+\end{document}
