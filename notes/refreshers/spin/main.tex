@@ -1,0 +1,42 @@
+\documentclass[../../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Quick refresher on spin}
+\label{sec:spin-refresher}
+
+Spin can be described with the operators $\hat S_x,\hat S_y,\hat S_z$ that obey the following
+commutation relations:
+\begin{equation}
+\boxed{\,[\hat S_j,\hat S_k]=i\hbar\,\epsilon_{jk\ell}\hat S_\ell\,}\tag{$\circledcirc$}\label{eq:spin-comm}
+\qquad(\hbar=1),
+\end{equation}
+with $i,j,k=x,y,z=1,2,3$ and using the Einstein summation convention.
+
+One can define raising \& lowering operators as
+\begin{equation}
+\boxed{\,\hat S_\pm=\hat S_x\pm i\hat S_y\,}\qquad\text{with}\qquad
+\boxed{\,[S_-,S_+]=-2S_z\,}.
+\end{equation}
+
+\begin{proof}
+\begin{align}
+[S_-,S_+]&=[S_x-iS_y,\ S_x+iS_y]\notag\\
+&\overset{[\cdot,\cdot]\ \mathrm{bilin.}}{=}
+\underbrace{[S_x,S_x]}_{=0}+i[S_x,S_y]-i[S_y,S_x]+\underbrace{[S_y,S_y]}_{=0}\notag\\
+&=2i[S_x,S_y]
+\overset{\eqref{eq:spin-comm}}{=}2i\cdot i\,\epsilon_{12\ell}S_\ell
+=-2\,\epsilon_{12\ell}S_\ell
+=-2S_z,
+\end{align}
+where the last step uses $\epsilon_{jk\ell}=0$ if two indices are equal, leaving
+$\epsilon_{123}S_3=S_z$.
+\end{proof}
+
+For spin-$\tfrac12$ particles, one can write
+\begin{equation}
+S_j=\frac{\hbar}{2}\,\sigma_j\qquad\text{with }\sigma_j\text{ the Pauli matrices, }j=x,y,z,
+\end{equation}
+and often again $\hbar=1$.
+
+\end{document}

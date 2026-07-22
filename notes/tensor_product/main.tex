@@ -1,0 +1,106 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{The tensor product and the Kronecker product as one of its possible representations}
+\label{sec:tensor-product-kronecker}
+
+\subsection{The tensor product of vector spaces}
+
+Let $\underline v=\{v_i\mid i\in I\}$ and $\underline w=\{w_j\mid j\in J\}$ be bases for $V$
+and $W$. Then $V\otimes W$ is the product space, where there exists a basis which can be
+identified uniquely with the pairs of the cartesian product
+\begin{equation}
+\underline v\times\underline w=\bigl\{(v_i,w_j)\mid i\in I,\ j\in J\bigr\},
+\end{equation}
+so that
+\begin{equation}
+\dim(V\otimes W)=\dim V\cdot\dim W .
+\end{equation}
+Since $V\otimes W$ is a vector space, an arbitrary element of it can be written as
+\begin{equation}
+\sum_{(i,j)\in I\times J}c_{ij}\,(v_i\otimes w_j).
+\end{equation}
+
+The bilinear map $\otimes$ is defined by
+\begin{align}
+\otimes\colon V\times W&\longrightarrow V\otimes W,\\
+(v,w)&\longmapsto v\otimes w=\sum_{(i,j)\in I\times J}a_i b_j\,(v_i\otimes w_j),
+\end{align}
+for $v=\sum_i a_i v_i$ and $w=\sum_j b_j w_j$. As a check of bilinearity, writing
+$v'=\sum_i a_i' v_i$ and $v''=\sum_i a_i'' v_i$,
+\begin{align}
+(v'+v'')\otimes w
+&=\Bigl(\textstyle\sum_i a_i' v_i+\sum_i a_i'' v_i\Bigr)\otimes w
+=\Bigl(\textstyle\sum_i (a_i'+a_i'')\,v_i\Bigr)\otimes w\notag\\
+&=\sum_{i,j}(a_i'+a_i'')\,b_j\,(v_i\otimes w_j)\notag\\
+&=\sum_{i,j}a_i' b_j\,(v_i\otimes w_j)+\sum_{i,j}a_i'' b_j\,(v_i\otimes w_j)\notag\\
+&=v'\otimes w+v''\otimes w,
+\end{align}
+and analogously in the second argument.
+
+\subsection{The tensor product of operators}
+
+Introduce operators $A\colon V\to V$ and $B\colon W\to W$ with $V,W$ vector spaces. How is
+$A\otimes B\colon V\otimes W\to V\otimes W$ given? Define a map
+$\beta\colon V\times W\to V\otimes W$, $\beta(v,w):=Av\otimes Bw$. It is bilinear, e.g.
+\begin{align}
+\beta(v_1+v_2,w)
+&=A(v_1+v_2)\otimes Bw=(Av_1+Av_2)\otimes Bw\notag\\
+&\overset{\otimes\ \mathrm{bilin.}}{=}Av_1\otimes Bw+Av_2\otimes Bw
+=\beta(v_1,w)+\beta(v_2,w),
+\end{align}
+and analogously in the second argument. By the universal property there exists a unique
+linear $\tilde\beta$ with $\tilde\beta(v\otimes w):=\beta(v,w)$, so that
+\begin{equation}
+(A\otimes B)(v\otimes w)=Av\otimes Bw .
+\end{equation}
+
+\subsection{The Kronecker product as a matrix representation}
+
+Let $V=K^{m}$ and $W=K^{n}$ and identify (this is \emph{not} a unique representation!)
+$K^{m}\times K^{n}\to K^{(m\cdot n)}$ with the Kronecker product, i.e.\ for
+\begin{equation}
+v=\begin{pmatrix}a_1\\\vdots\\a_m\end{pmatrix}\quad\&\quad
+w=\begin{pmatrix}b_1\\\vdots\\b_n\end{pmatrix}
+\qquad\text{set}\qquad
+v\otimes w:=\begin{pmatrix}a_1\,w\\\vdots\\a_m\,w\end{pmatrix}
+=\begin{pmatrix}a_1 b_1\\\vdots\\a_1 b_n\\\vdots\\a_m b_1\\\vdots\\a_m b_n\end{pmatrix}.
+\end{equation}
+
+Now choose $\{v_i\}$ to be the standard basis, so that $Av_i=A_{\cdot i}$ (the $i$-th column
+of $A$) and likewise for $B$. Then
+\begin{align}
+(A\otimes B)(v_i\otimes v_j)
+&=(Av_i)\otimes(Bv_j)
+\overset{\text{std.\ basis}}{=}A_{\cdot i}\otimes B_{\cdot j}\notag\\
+&=\begin{pmatrix}A_{1i}\,B_{\cdot j}\\\vdots\\A_{mi}\,B_{\cdot j}\end{pmatrix}
+=\begin{pmatrix}
+\begin{pmatrix}A_{1i}B_{1j}\\\vdots\\A_{1i}B_{nj}\end{pmatrix}\\[1.2em]
+\vdots\\[0.4em]
+\begin{pmatrix}A_{mi}B_{1j}\\\vdots\\A_{mi}B_{nj}\end{pmatrix}
+\end{pmatrix}.
+\end{align}
+Setting $v_i\otimes v_j\equiv w_k$ with $k=j+n\,i$ (for zero-based $i$), the matrix of
+$A\otimes B$ is the block matrix
+\begin{equation}
+A\otimes B
+=\begin{pmatrix}
+A_{11}B_{\cdot 1}&\cdots&A_{11}B_{\cdot n}&\cdots&A_{1m}B_{\cdot 1}&\cdots&A_{1m}B_{\cdot n}\\
+\vdots& & & & & &\vdots\\
+A_{m1}B_{\cdot 1}&\cdots&A_{m1}B_{\cdot n}&\cdots&A_{mm}B_{\cdot 1}&\cdots&A_{mm}B_{\cdot n}
+\end{pmatrix}
+=\begin{pmatrix}
+A_{11}B&\cdots&A_{1m}B\\
+\vdots&\ddots&\vdots\\
+A_{m1}B&\cdots&A_{mm}B
+\end{pmatrix},
+\end{equation}
+which is the Kronecker product for matrices.
+
+\subsection{References}
+\begin{itemize}
+\item \emph{Tensorprodukt} and \emph{Kronecker-Produkt}, German Wikipedia.
+\end{itemize}
+
+\end{document}

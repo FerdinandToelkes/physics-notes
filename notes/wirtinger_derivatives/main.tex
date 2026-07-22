@@ -1,0 +1,78 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Minimizing complex functions with Wirtinger derivatives}
+\label{sec:wirtinger-derivatives}
+
+\subsection{Definition}
+
+Define for $z=x+iy\in\mathbb C$ with $x,y\in\mathbb R$
+\begin{equation}
+\frac{\partial}{\partial z}\equiv\frac12\Bigl(\frac{\partial}{\partial x}-i\frac{\partial}{\partial y}\Bigr)
+\qquad\&\qquad
+\frac{\partial}{\partial\bar z}=\frac12\Bigl(\frac{\partial}{\partial x}+i\frac{\partial}{\partial y}\Bigr)
+\tag{$\ast$}\label{eq:wirtinger-def}
+\end{equation}
+for functions of one complex variable, and
+\begin{equation}
+\frac{\partial}{\partial z_j}=\frac12\Bigl(\frac{\partial}{\partial x_j}-i\frac{\partial}{\partial y_j}\Bigr)
+\qquad\&\qquad
+\frac{\partial}{\partial\bar z_j}=\frac12\Bigl(\frac{\partial}{\partial x_j}+i\frac{\partial}{\partial y_j}\Bigr)
+\end{equation}
+for functions of multiple complex variables.
+
+\subsection{Agreement with the complex derivative}
+
+If $f$ is complex differentiable at a point (i.e.\ the limit
+$f'(z_0)=\lim_{z\to z_0}\frac{f(z)-f(z_0)}{z-z_0}$ exists), then $\frac{\partial f}{\partial z}$
+agrees with the complex derivative $\frac{df}{dz}$.
+
+\begin{proof}
+For $f(z)=u(z)+iv(z)$ complex differentiable,
+\begin{align}
+\frac{\partial f}{\partial z}
+&\overset{\eqref{eq:wirtinger-def}}{=}
+\frac12\Bigl(\frac{\partial f}{\partial x}-i\frac{\partial f}{\partial y}\Bigr)
+=\frac12\Bigl(\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}
+-i\frac{\partial u}{\partial y}+\frac{\partial v}{\partial y}\Bigr)\notag\\
+&\overset{\text{CR}}{=}\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}
+\overset{\text{Def.}}{=}\frac{df}{dz},
+\end{align}
+where in the second step the Cauchy--Riemann (CR) equations
+$\partial_x u=\partial_y v$ and $\partial_x v=-\partial_y u$ were used.
+\end{proof}
+
+\subsection{The \texorpdfstring{$\bar z$}{z-bar}-derivative and Cauchy--Riemann}
+
+Furthermore,
+\begin{align}
+0\overset{!}{=}\frac{\partial f}{\partial\bar z}
+&=\frac12\Bigl(\frac{\partial f}{\partial x}+i\frac{\partial f}{\partial y}\Bigr)
+=\frac12\Bigl(\frac{\partial u}{\partial x}+i\frac{\partial v}{\partial x}
++i\frac{\partial u}{\partial y}-\frac{\partial v}{\partial y}\Bigr)\notag\\
+&\Longleftrightarrow\quad
+\frac{\partial u}{\partial x}=\frac{\partial v}{\partial y}
+\quad\wedge\quad
+\frac{\partial v}{\partial x}=-\frac{\partial u}{\partial y},
+\end{align}
+so that $0=\dfrac{\partial f}{\partial\bar z}$ is equivalent to the Cauchy--Riemann equations,
+i.e.\ the necessary \& sufficient condition for $f$ to be complex differentiable.
+
+\subsection{Minimizing a real-valued function}
+
+Minimize a real-valued function $f\colon\mathbb C\to\mathbb R$, $f(z)=g(x,y)$, via the
+condition
+\begin{equation}
+\nabla g(x,y)=\begin{pmatrix}\partial_x g\\\partial_y g\end{pmatrix}\overset{!}{=}0.
+\end{equation}
+(Minimizing a complex-valued $f$ does not make sense because $\mathbb C$ has no order.) Then
+\begin{equation}
+\partial_x g\overset{!}{=}0\overset{!}{=}\partial_y g
+\quad\Longleftrightarrow\quad
+\frac{\partial f}{\partial\bar z}\overset{!}{=}0,
+\end{equation}
+so one can minimize a real-valued function by imposing
+$\boxed{\dfrac{\partial f}{\partial\bar z}=0}$.
+
+\end{document}

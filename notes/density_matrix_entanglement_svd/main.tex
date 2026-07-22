@@ -1,0 +1,165 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{The density matrix, entanglement entropy and their connection to singular value decomposition (SVD)}
+\label{sec:density-matrix-entanglement-svd}
+
+\subsection{Main goal}
+
+Prove that for $\lambda_i$ the eigenvalues of the reduced density matrix and $s_i$ the Schmidt
+values,
+\begin{equation}
+\boxed{\,S_{\mathrm{Neum}}\equiv\Tr\bigl(\rho_A\log\rho_A\bigr)
+=\sum_i\lambda_i\log\lambda_i=\sum_i s_i^2\log s_i^2\,}.
+\end{equation}
+
+\subsection{The density operator}
+
+Let $\{p_i,\ket{\psi_i}\}$ be an ensemble of pure states, describing a system that is in one
+of the states $\ket{\psi_i}$ with probability $p_i$, i.e.\ the system is not fully known. Define
+the density operator as
+\begin{equation}
+\rho=\sum_i p_i\,\dyad{\psi_i}{\psi_i},\qquad p_i\in\mathbb R\ \&\ \sum_i p_i=1,
+\end{equation}
+which is a positive semi-definite operator of trace one (see for example Nielsen \& Chuang).
+
+\subsection{Observables on a composite system}
+
+Take a system $A$ with some observable $M$, and a system $B$, giving the composite system
+$AB$ (see Box 2.6). Assume we can measure $M$ on system $A$; then a corresponding measurement
+on $AB$ is $\tilde M=M\otimes\mathds{1}_B$.
+
+\begin{proof}
+Take $AB$ to be prepared in $\ket{m}\ket{\psi}$ with $M\ket{m}=m\ket{m}$. Applying the
+measurement to $\ket{m}\ket{\psi}$ should yield $m$ with probability one, i.e.\ the
+corresponding projector for $\tilde M$ is $P_m\otimes\mathds{1}_B$. By the spectral theorem,
+$\tilde M=\sum_m m\,P_m\otimes\mathds{1}_B=M\otimes\mathds{1}_B$ for a general state of $AB$.
+\end{proof}
+
+\subsection{The reduced density matrix as a partial trace}
+
+Measurement averages must be the same whether computed via the full $\rho^{AB}$ or via some
+$\rho^{A}$ associated to system $A$, i.e.
+\begin{equation}
+\Trace\bigl(M\rho^A\bigr)\overset{!}{=}\Trace\bigl(\tilde M\rho^{AB}\bigr)
+=\Trace\bigl((M\otimes\mathds{1}_B)\rho^{AB}\bigr).
+\end{equation}
+Take $\rho^A=\Trace_B(\rho^{AB})$ where
+\begin{equation}
+\Trace_B\bigl(\dyad{a_1}{a_2}\otimes\dyad{b_1}{b_2}\bigr)
+\equiv\dyad{a_1}{a_2}\,\Trace\bigl(\dyad{b_1}{b_2}\bigr)
+\qquad\&\qquad\Trace_B(\cdot)\ \text{linear.}
+\end{equation}
+Write $\rho^{AB}$ by using the eigenbasis of $M$ for system $A$ with $M\ket{i}=m_i\ket{i}$ and
+$\braket{i}{j}=\delta_{ij}$:
+\begin{align}
+\rho^{AB}&=\sum_\alpha p^\alpha\dyad{\psi}{\psi}^\alpha
+=\sum_\alpha p^\alpha\sum_{ijk\ell}c_{ij}^\alpha(c_{k\ell}^\alpha)^*\,
+\ket{i}_A\ket{j}_B\bra{\ell}_B\bra{k}_A,\\
+\rho^{A}&=\sum_\alpha\sum_{ijk\ell}p^\alpha c_{ij}^\alpha(c_{k\ell}^\alpha)^*\,
+\dyad{i}{k}_A\underbrace{\Trace\bigl(\dyad{j}{\ell}_B\bigr)}_{=\delta_{j\ell}}
+=\sum_{\alpha,ijk}p^\alpha c_{ij}^\alpha(c_{kj}^\alpha)^*\,\dyad{i}{k}_A.
+\end{align}
+Therefore
+\begin{align}
+\Trace\bigl(M\rho^A\bigr)
+&=\sum_{\alpha,ijk}p^\alpha c_{ij}^\alpha(c_{kj}^\alpha)^*\,
+\underbrace{\Trace\bigl(m_i\dyad{i}{k}_A\bigr)}_{=m_i\delta_{ik}}
+=\sum_{\alpha,ij}p^\alpha m_i\,c_{ij}^\alpha(c_{ij}^\alpha)^*,
+\end{align}
+and similarly $\Trace\bigl((M\otimes\mathds{1}_B)\rho^{AB}\bigr)
+=\sum_{\alpha,ij}p^\alpha m_i\,c_{ij}^\alpha(c_{ij}^\alpha)^*$, which proves the claim. One can
+also easily show that this is the only map that conserves consistency (see Box 2.6).
+
+\subsection{Reduced density matrix of a pure state}
+
+Now examine the reduced density matrix for a pure state,
+\begin{align}
+\rho_{AB}&=\dyad{\psi}{\psi}
+=\sum_{ijk\ell}c_{ij}(c_{k\ell})^*\,\ket{i}_A\ket{j}_B\bra{\ell}_B\bra{k}_A,\\
+\rho_A&=\Trace_B(\rho_{AB})=\sum_{ijk}c_{ij}(c_{kj})^*\,\dyad{i}{k}_A,
+\end{align}
+such that the matrix representation is
+\begin{equation}
+\boxed{\,\rho_A=\psi\psi^\dagger\,},
+\end{equation}
+using that the $c_{ij}$ parametrize the matrix $\psi\in\mathbb C^{d_A\times d_B}$, i.e.\
+$\ket{\psi}=\sum_{ij}c_{ij}\ket{i}_A\ket{j}_B$.
+
+\subsection{Connection to the SVD}
+
+Now use the SVD on $\psi$:
+\begin{equation}
+\psi=USV^\dagger\qquad\text{with }U\in\mathbb C^{d_A\times d_A},\ V\in\mathbb C^{d_B\times d_B}\ \text{unitary.}
+\end{equation}
+Then, using $V^\dagger V=\mathds 1$,
+\begin{equation}
+\rho_A=USV^\dagger V S U^\dagger=US^2 U^\dagger,\qquad
+S^2=\diag(s_1^2,s_2^2,\dots)\in\mathbb R_{\geq 0}^{\,d_A\times d_A}.
+\end{equation}
+Furthermore, since $\rho_A$ is hermitian we can diagonalize it with
+$\rho_A=ODO^\dagger=US^2 U^\dagger$ and $D=\diag(\lambda_1,\dots)$, so that
+\begin{equation}
+\boxed{\,\lambda_i=s_i^2\,},
+\end{equation}
+i.e.\ the eigenvalues are given by the (squared) Schmidt values.
+
+\subsection{Functions of the density matrix via the spectral theorem}
+
+Since $\rho_A$ is hermitian, we can use the spectral theorem to write it as
+$\rho_A=\sum_i\lambda_i P_i$ where $\lambda_i$ are its eigenvalues and the eigenvectors
+$\ket{u_i}$ give $P_i=\dyad{u_i}{u_i}$, since
+\begin{equation}
+\rho_A=UDU^\dagger=\bigl(\ket{u_1},\dots,\ket{u_n}\bigr)
+\begin{pmatrix}\lambda_1& &\\ &\ddots&\\ & &\lambda_n\end{pmatrix}
+\begin{pmatrix}\bra{u_1}\\\vdots\\\bra{u_n}\end{pmatrix},
+\qquad\braket{u_i}{u_j}=\delta_{ij}.
+\end{equation}
+Thus a function $f(\cdot)$ applied to $\rho_A$ gives
+\begin{align}
+f(\rho_A)
+&=\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}\rho_A^{\,n}
+\overset{(*)}{=}\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}\sum_i\lambda_i^{\,n}\dyad{u_i}{u_i}\notag\\
+&=\sum_i\Bigl(\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}\lambda_i^{\,n}\Bigr)\dyad{u_i}{u_i}
+=\sum_i f(\lambda_i)\dyad{u_i}{u_i}=U\diag\bigl(f(\lambda_i)\bigr)U^\dagger,
+\end{align}
+where $(*)$ uses $\rho_A^{\,n}=\sum_i\lambda_i^{\,n}\dyad{u_i}{u_i}$ (e.g.\
+$\rho_A\rho_A=\sum_i\lambda_i^2\dyad{u_i}{u_i}$).
+
+\subsection{The Von Neumann entanglement entropy}
+
+Therefore, for the Von Neumann entanglement entropy,
+\begin{align}
+S=\Tr\bigl(\rho_A\log\rho_A\bigr)
+&=\Tr\bigl(\rho_A\,U\log(\diag(\lambda_i))\,U^\dagger\bigr)\notag\\
+&=\Tr\bigl(U\diag(\lambda_i)\underbrace{U^\dagger U}_{=\mathds 1}\log(\diag(\lambda_i))U^\dagger\bigr)\notag\\
+&=\sum_i\lambda_i\log\lambda_i
+=\boxed{\,\sum_i s_i^2\log s_i^2\,}.
+\end{align}
+$S$ is zero for two unentangled systems and non-zero for entangled systems.
+
+\subsection{Example}
+
+In our case, for example, $L=2$, $N_f=1$, $N_{\mathrm{ph}}=1$:
+\begin{align}
+&\{\ket{01},\ket{10}\}\ \&\ \{\ket{0},\ket{1}\}
+\quad\text{as bases of }\mathcal H_f\ \&\ \mathcal H_{\mathrm{ph}},\\
+&\Rightarrow\{\ket{01,0};\ \ket{01,1};\ \ket{10,0};\ \ket{10,1}\}
+\quad\text{as basis of }\mathcal H_f\otimes\mathcal H_{\mathrm{ph}},\\
+&\Rightarrow\ket{\psi}=\sum_{i=1}^{2}\sum_{j=1}^{2}\psi_{ij}\ket{i}_f\ket{j}
+\quad\text{with }(\psi)_{ij}=\psi_{ij}\ \&\ \psi\in\mathbb C^{2\times2},\\
+&\Rightarrow S(\rho_A)=\sum_\ell s_\ell^2\log s_\ell^2.
+\end{align}
+Note that since $\Trace\rho^{AB}=\Trace\rho^A=\Trace\rho^B=1$ we must have
+$\sum_\ell\lambda_\ell=\sum_\ell s_\ell^2=1$.
+
+\subsection{References}
+\begin{itemize}
+\item M.\ Nielsen \& I.\ Chuang, \emph{Quantum Computation and Quantum Information}
+      (density operator, partial trace; Box 2.6).
+\item U.\ Schollw\"ock, \emph{The density-matrix renormalization group in the age of matrix
+      product states}, beginning of Chapter 4 (MPS).
+\end{itemize}
+
+\end{document}

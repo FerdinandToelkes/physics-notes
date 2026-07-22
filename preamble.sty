@@ -9,3 +9,12 @@
 % --- shared macros, used by every note ---
 \newcommand{\ad}{\mathrm{ad}}
 \newtheorem*{lemma*}{Hadamard Lemma}
+
+% --- quantum-mechanics / linear-algebra shortcuts (shared by the notes) ---
+\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
+\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
+\newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
+\newcommand{\dyad}[2]{\left\lvert #1 \right\rangle\!\left\langle #2 \right\rvert}
+\DeclareMathOperator{\Tr}{Tr}      % full trace
+\DeclareMathOperator{\Trace}{tr}   % (partial) trace, lowercase
+\DeclareMathOperator{\diag}{diag}

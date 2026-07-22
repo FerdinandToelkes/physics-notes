@@ -1,0 +1,29 @@
+\documentclass[../../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{Quick refresher on unitary transformations}
+\label{sec:unitary-transformations}
+
+Let's say we have some Hamiltonian $\hat H$, which we examine in a basis $\{\ket{v_j}\}$ with
+$j=1,\dots,\dim(\mathcal H)$ and $\hat H\colon\mathcal H\to\mathcal H$. The matrix
+representation of the operator $\hat H$ in this basis is thus given by
+\begin{equation}
+H_{ij}=\braket{v_i}{\hat H\,v_j}=\bra{v_i}\hat H\ket{v_j}.
+\end{equation}
+
+Applying a unitary transformation $U$ (with $U^\dagger U=\mathds 1=UU^\dagger$), i.e.
+\begin{equation}
+\ket{v_j}\to\ket{\tilde v_j}=U\ket{v_j}\qquad\&\qquad\hat H\to\hat{\tilde H}=U\hat H U^\dagger,
+\end{equation}
+yields the matrix elements
+\begin{align}
+\tilde H_{ij}=\bra{\tilde v_i}\hat{\tilde H}\ket{\tilde v_j}
+&=\bra{v_i}\underbrace{U^\dagger U}_{=\mathds 1}\hat H
+\underbrace{U^\dagger U}_{=\mathds 1}\ket{v_j}
+=\bra{v_i}\hat H\ket{v_j}=H_{ij}.
+\end{align}
+Hence the matrix representation of an operator does \emph{not} change under a unitary
+transformation.
+
+\end{document}
