@@ -2,461 +2,368 @@
 
 \begin{document}
 
-\section{From the electron--phonon interaction to the BCS ground state}
-\label{sec:electron-phonon-to-bcs}
+\section{From the electron-phonon interaction to the BCS ground state -- overview}
+\label{sec:froehlich-to-bcs_overview}
 
-\subsection{Motivation}
+The road from deriving the Hamiltonian of the electron--phonon interaction to the BCS
+Hamiltonian, the physics it contains and finally its ground state is quite long and
+necessitates many calculations. Hence, this note only gives a concise summary and then
+refers to the literature for more information. I mostly follow \emph{Solid State Theory 2}
+by Gerd Czycholl; equation numbers of the form (C\,5.7) refer to that book. The
+Hamiltonian used as a starting point is derived by Czycholl in Sec.~7.1 of his first book
+and also by Bruus and Flensberg in Ch.~3 of \emph{Many-Body Quantum Theory in Condensed
+Matter Physics}. If you are simply interested in the BCS ground state, you can directly
+skip to \cref{sec:bcs-ground-state_overview}. If you want the details, refer to \cref{sec:froehlich-to-bcs_details}.
 
-The chain of arguments leading from a lattice of ions and electrons to the BCS ground
-state is long, and no single source spells out every step: the derivation of the
-Fr\"ohlich Hamiltonian, the canonical transformation that eliminates the phonons, the
-Cooper problem, the mean-field decoupling, the Bogoliubov diagonalization, and finally
-the pairing wavefunction. This note gives the skeleton of the argument together with the
-intermediate steps that are usually left as exercises: the choice of the generator $S$
-and its matrix elements, the sign structure that makes the induced interaction
-attractive, the evaluation of the Cooper and gap integrals, and the explicit verification
-that the BCS state is the quasiparticle vacuum.
+\subsection{Attractive electron--electron interaction through the electron--phonon
+mechanism}
+\label{sec:attractive-interaction_overview}
 
-The presentation follows G.\ Czycholl, \emph{Theoretische Festk\"orperphysik} Band~2,
-Ch.~5; equation numbers of the form (C\,5.x) refer to that book, so that the note can be
-read alongside it. The starting Hamiltonian is derived in Band~1, Sec.~7.1, and in Bruus
-\& Flensberg, Ch.~3.
+\paragraph{Intuitive picture/motivation.}
+An electron $e_1$ moving through the lattice distorts it, i.e.\ it drags the positive ions
+towards itself and leaves behind a region of enhanced positive charge. A second electron
+$e_2$ then feels an attraction to $e_1$ through this phonon excitation caused by $e_1$.
+The result is an effective electron--electron interaction that is attractive.
 
-Two of the steps below are similarity transformations in the sense of
-Sec.~\ref{sec:similarity-transformations}, and are cross-referenced where they occur: the
-phonon elimination is a case where the Hadamard series does \emph{not} close and must be
-truncated, whereas the Bogoliubov transformation is a textbook case where it does.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  x=1cm, y=1cm, line width=0.7pt,
+  eqion/.style={circle, draw=gray!55, minimum size=7.5mm, inner sep=0pt},
+  dsion/.style={circle, draw=teal!70!black, fill=teal!12, line width=0.8pt,
+                minimum size=7.5mm, inner sep=0pt},
+  elec/.style={circle, fill=black, minimum size=3pt, inner sep=0pt},
+  move/.style={-{Stealth[length=5pt]}},
+]
+% ---------------- panel I: e_1 drags the ions along
+\begin{scope}
+  \node[anchor=west] at (-1.15,2.5) {I.)};
+  \foreach \x/\y in {0/0, 1.7/0, 0/1.7, 1.7/1.7} {
+    \node[eqion] at (\x,\y) {};
+    \node[dsion] at ($ (\x,\y) + (0.17,-0.17) $) {};
+  }
+  \node[elec] (e1) at (0.85,0.85) {};
+  \node[anchor=south west, inner sep=2pt] at (0.9,0.85) {$e_1$};
+  \draw[move] (0.7,0.78) -- (-0.95,0.28);
+\end{scope}
+% ---------------- panel II: the distortion outlives e_1 and attracts e_2
+\begin{scope}[xshift=5.6cm]
+  \node[anchor=west] at (-1.15,2.5) {II.)};
+  \foreach \x/\y in {0/0, 1.7/0, 0/1.7, 1.7/1.7} {
+    \node[eqion] at (\x,\y) {};
+    \node[dsion] at ($ (\x,\y) + (0.17,-0.17) $) {};
+  }
+  \node[circle, fill=red!12, minimum size=10mm, inner sep=0pt] at (0.85,0.85)
+       {\textcolor{red!70!black}{$+$}};
+  \node[elec] (e2) at (3.1,1.35) {};
+  \node[anchor=south west, inner sep=2pt] at (3.15,1.35) {$e_2$};
+  \draw[move] (2.95,1.28) -- (1.75,1.05);
+\end{scope}
+\end{tikzpicture}
+\caption{The lattice distortion caused by $e_1$ (I.) outlives its passage and
+attracts a second electron $e_2$ (II.).}
+\label{fig:effective_phonon_interaction}
+\end{figure}
 
-\subsection{Physical picture}
-
-An electron $e_1$ moving through the lattice attracts the positively charged ions and
-leaves behind a region of enhanced positive charge density, i.e.\ a lattice distortion.
-Because the ions are slow ($\omega_D \ll E_F/\hbar$), this distortion persists after
-$e_1$ has moved on, and a second electron $e_2$ arriving later is attracted to it. The
-net result is an effective electron--electron interaction, mediated by the exchange of a
-phonon, that is attractive for electrons whose energies differ by less than a phonon
-energy. The retardation is essential: it is what allows the attraction to beat the
-(instantaneous, screened) Coulomb repulsion.
-
-\subsection{Step 1: the Fr\"ohlich Hamiltonian}
-
-The starting point is
-\begin{align}
-H &= \underbrace{\sum_{\vec k,\sigma}\varepsilon_{\vec k}\,
-      c^\dagger_{\vec k\sigma}c_{\vec k\sigma}
-    + \sum_{\vec q}\hbar\omega_{\vec q}\,b^\dagger_{\vec q}b_{\vec q}}_{\textstyle H_0}
-  \nonumber\\
-  &\quad + \underbrace{\sum_{\vec k,\vec q,\sigma}
-      \Big[M(\vec q)\,c^\dagger_{\vec k+\vec q,\sigma}c_{\vec k\sigma}b_{\vec q}
-      + M(-\vec q)\,c^\dagger_{\vec k-\vec q,\sigma}c_{\vec k\sigma}
-        b^\dagger_{\vec q}\Big]}_{\textstyle H_1},
+\paragraph{Starting point.}
+The starting point for all our derivations is the Fr\"ohlich Hamiltonian, derived in
+Czycholl Band~1, Sec.~7.1 (7.13)--(7.15) or Bruus and Flensberg, Sec.~3.8, (C\,5.7):
+\begin{equation}
+H = \sum_{\vec k,\sigma}\varepsilon_{\vec k}\,c^\dagger_{\vec k,\sigma}c_{\vec k,\sigma}
+  + \sum_{\vec q}\hbar\omega_{\vec q}\,b^\dagger_{\vec q}b_{\vec q}
+  + \sum_{\vec k,\vec q,\sigma}\Big[
+      M(\vec q)\,c^\dagger_{\vec k+\vec q,\sigma}c_{\vec k,\sigma}b_{\vec q}
+    + M(-\vec q)\,c^\dagger_{\vec k-\vec q,\sigma}c_{\vec k,\sigma}b^\dagger_{\vec q}
+    \Big],
 \label{eq:froehlich}
-\end{align}
-with $\omega_{-\vec q}=\omega_{\vec q}$ and $M(-\vec q)=M(\vec q)^*$ (the latter is forced
-by $H=H^\dagger$ after relabelling $\vec k\to\vec k-\vec q$ in the second term; for the
-jellium model $M$ can be chosen real, which is the convention used below). Each vertex
-absorbs or emits one phonon, conserves spin along the fermion line, and transfers
-momentum $\pm\vec q$.
+\end{equation}
+with $\omega_{-\vec q}=\omega_{\vec q}$ and $M(-\vec q)=M(\vec q)$.
 
-\subsection{Step 2: eliminating the phonons (Schrieffer--Wolff)}
+\paragraph{Canonical transformation.}
+Use a canonical transformation\footnote{See \cref{sec:similarity-transformations} for more general information on similarity transformations.} $H\rightsquigarrow H_T=e^{-iS}He^{iS}$ to find a purely
+electronic Hamiltonian that describes this interaction, i.e.\ to get rid of processes that
+change the number of phonons. At one point one simply restricts the Hamiltonian not to mix
+states with different phonon configurations.
 
-We want a purely electronic Hamiltonian, i.e.\ one that no longer contains processes
-changing the phonon number. Apply a canonical transformation
+The canonical transformation yields $H_T\cong H_0+H_{\mathrm{int}}$ with the interaction
+(C\,5.25)
 \begin{equation}
-H_T = e^{-iS}He^{iS},\qquad S^\dagger = S ,
-\end{equation}
-which is a similarity transformation with anti-Hermitian generator $A\equiv -iS$, so the
-Hadamard lemma of Sec.~\ref{sec:similarity-transformations} applies:
-\begin{equation}
-H_T = H + [A,H] + \tfrac12\big[A,[A,H]\big] + \dots
+H_{\mathrm{int}} = -\frac12\sum_{\sigma,\sigma'}\sum_{\vec k,\vec k',\vec q}
+  V_{\vec k,\vec k',\vec q}\;
+  c^\dagger_{\vec k+\vec q,\sigma}\,c^\dagger_{\vec k'-\vec q,\sigma'}\,
+  c_{\vec k',\sigma'}\,c_{\vec k,\sigma},
+\label{eq:h-int}
 \end{equation}
 
-\paragraph{Choosing the generator.}
-Split $H=H_0+H_1$ and demand that the transformation cancel $H_1$ at first order,
-\begin{equation}
-H_1 + [A,H_0] = 0 .
-\label{eq:sw-condition}
-\end{equation}
-Everything at first order in the coupling is then gone, and collecting the remaining
-terms,
-\begin{equation}
-H_T = H_0 + \tfrac12[A,H_1] + \mathcal O(H_1^3),
-\label{eq:sw-result}
-\end{equation}
-where the factor $\tfrac12$ arises because $\tfrac12[A,[A,H_0]] = -\tfrac12[A,H_1]$
-partially cancels $[A,H_1]$. Note the structure: \emph{because} $H_1$ has been removed at
-first order, the leading effect is second order in $M$, which is exactly the
-phonon-exchange process.
+which is attractive if
+$|\varepsilon_{\vec k}-\varepsilon_{\vec k-\vec q}|\le\hbar\omega_{\vec q}\le\hbar\omega_D$
+in $V_{\vec k,\vec k',\vec q}$, where $\omega_D$ is the Debye frequency, and can be
+represented as in \cref{fig:vertex}.
 
-Equation \eqref{eq:sw-condition} is solved in the eigenbasis of $H_0$: taking matrix
-elements of $[A,H_0]_{mn}=A_{mn}(E_n-E_m)$ gives
-\begin{equation}
-A_{mn} = \frac{(H_1)_{mn}}{E_m-E_n} .
-\end{equation}
-Every term of $H_1$ in \eqref{eq:froehlich} is an eigenoperator of $\ad_{H_0}$, so the
-energy denominators can be read off directly:
-\begin{equation}
-A = \sum_{\vec k,\vec q,\sigma}\left[
-\frac{M(\vec q)\,c^\dagger_{\vec k+\vec q,\sigma}c_{\vec k\sigma}b_{\vec q}}
-     {\varepsilon_{\vec k+\vec q}-\varepsilon_{\vec k}-\hbar\omega_{\vec q}}
-+\frac{M(\vec q)^*\,c^\dagger_{\vec k-\vec q,\sigma}c_{\vec k\sigma}b^\dagger_{\vec q}}
-     {\varepsilon_{\vec k-\vec q}-\varepsilon_{\vec k}+\hbar\omega_{\vec q}}\right].
-\end{equation}
-The denominators are the energy cost of the corresponding virtual process. They are the
-origin of the resonant denominator in the final interaction, and of the fact that the
-transformation is ill-defined on resonance.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  x=1cm, y=1cm, line width=0.7pt,
+  ferm/.style={decoration={markings,
+               mark=at position 0.58 with {\arrow{Stealth[length=5pt]}}},
+               postaction={decorate}},
+]
+  \coordinate (L) at (-1.05,0);
+  \coordinate (R) at ( 1.05,0);
+  \draw[ferm] (-2.75,-1.55) -- (L);
+  \draw[ferm] (L) -- (-2.75, 1.55);
+  \draw[ferm] ( 2.75,-1.55) -- (R);
+  \draw[ferm] (R) -- ( 2.75, 1.55);
+  \draw[decorate,
+        decoration={coil, aspect=0, amplitude=3pt, segment length=5.5pt,
+                    pre length=3pt, post length=3pt}] (L) -- (R);
+  \fill (L) circle (1.4pt);
+  \fill (R) circle (1.4pt);
+  \draw[-{Stealth[length=5pt]}] (0.3,-0.42) -- (-0.3,-0.42);
+  \node[anchor=north, inner sep=2pt] at (0,-0.5) {$\vec q$};
+  \node[anchor=north east, inner sep=2pt] at (-2.7,-1.5) {$\vec k,\sigma$};
+  \node[anchor=north west, inner sep=2pt] at ( 2.7,-1.5) {$\vec k',\sigma'$};
+  \node[anchor=south east, inner sep=2pt] at (-2.7, 1.5) {$\vec k+\vec q,\sigma$};
+  \node[anchor=south west, inner sep=2pt] at ( 2.7, 1.5) {$\vec k'-\vec q,\sigma'$};
+\end{tikzpicture}
+\caption{Vertex corresponding to \cref{eq:h-int}: two electrons exchange a phonon of
+momentum $\vec q$.}
+\label{fig:vertex}
+\end{figure}
 
-\paragraph{The effective interaction.}
-Inserting $A$ into \eqref{eq:sw-result}, normal-ordering, and restricting to the
-zero-phonon subspace (this is the step where one ``simply forbids'' states with different
-phonon configurations from mixing) gives
-\begin{equation}
-H_{\mathrm{int}} = \sum_{\vec k,\vec k',\vec q}\sum_{\sigma\sigma'}
-\frac{|M(\vec q)|^2\,\hbar\omega_{\vec q}}
-     {(\varepsilon_{\vec k}-\varepsilon_{\vec k+\vec q})^2-(\hbar\omega_{\vec q})^2}\,
-c^\dagger_{\vec k+\vec q,\sigma}c^\dagger_{\vec k'-\vec q,\sigma'}
-c_{\vec k'\sigma'}c_{\vec k\sigma},
-\label{eq:heff-explicit}
-\end{equation}
-which is Czycholl's (C\,5.25) written as
-\begin{equation}
-H_{\mathrm{int}} = -\frac12\sum_{\sigma\sigma'}\sum_{\vec k,\vec k',\vec q}
-V_{\vec k,\vec k',\vec q}\;
-c^\dagger_{\vec k+\vec q,\sigma}c^\dagger_{\vec k'-\vec q,\sigma'}
-c_{\vec k'\sigma'}c_{\vec k\sigma},\qquad
-V_{\vec k,\vec k',\vec q}=
-\frac{2|M(\vec q)|^2\hbar\omega_{\vec q}}
-{(\hbar\omega_{\vec q})^2-(\varepsilon_{\vec k}-\varepsilon_{\vec k+\vec q})^2}.
-\end{equation}
-The whole of superconductivity hangs on the sign of the denominator:
-\begin{equation}
-V_{\vec k,\vec k',\vec q}>0
-\quad\Longleftrightarrow\quad
-|\varepsilon_{\vec k}-\varepsilon_{\vec k+\vec q}|<\hbar\omega_{\vec q}\le\hbar\omega_D ,
-\end{equation}
-i.e.\ the interaction is attractive exactly for electrons within a Debye energy of one
-another --- a thin shell around the Fermi surface --- and repulsive otherwise. The Debye
-frequency enters as the maximum available phonon energy.
 
-\paragraph{Reading the vertex.}
-In the diagram for \eqref{eq:heff-explicit}, the wiggly line carries momentum $\vec q$ and
-each fermion line conserves its spin. Hence the incoming line $(\vec k,\sigma)$ must
-leave as $(\vec k+\vec q,\sigma)$ and $(\vec k',\sigma')$ as $(\vec k'-\vec q,\sigma')$.
-Connecting $(\vec k,\sigma)$ to $(\vec k'-\vec q,\sigma')$ is \emph{not} a valid fermion
-line for this term: it would require a momentum transfer
-$\vec k'-\vec q-\vec k\neq\vec q$ in general, and a spin flip. That ``crossed''
-assignment is the exchange process, which is a different term of the same sum (obtained
-by relabelling $\vec q\to\vec k'-\vec q-\vec k$) and is therefore already included ---
-drawing it as a second contraction of the same term would double count.
+Since we know that the momentum transfer is $\vec q$, we know that
+$(\vec k,\sigma)\to(\vec k'-\vec q,\sigma')$ is not a valid fermion line.
 
-\paragraph{Caveat.}
-This elimination is \emph{not} exact. $H_1$ is cubic in fermion/boson operators, so
-$\ad_A$ does not close on a finite set of operators (cf.\ the scope discussion in
-Sec.~\ref{sec:similarity-transformations}); the Hadamard series can only be truncated at
-$\mathcal O(M^2)$. Discarding the frequency dependence of the exchanged phonon in
-addition replaces a retarded interaction by an instantaneous one, which is what makes the
-naive comparison with the Coulomb repulsion misleading.
+\subsection{Cooper pairs}
+\label{sec:cooper-pairs_overview}
 
-\subsection{Step 3: the Cooper problem}
+In order to examine how this attractive interaction might change the many-body ground
+state, one looks at a highly simplified model:
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1cm, y=1cm, line width=0.7pt]
+  \def\kf{1.9}
+  \def\kd{2.45}
+  % Debye shell and Fermi sea
+  \fill[red!6]   (0,0) circle (\kd);
+  \fill[teal!10] (0,0) circle (\kf);
+  \draw[red!65!black]  (0,0) circle (\kd);
+  \draw[teal!60!black, line width=0.9pt] (0,0) circle (\kf);
+  \node[teal!45!black] at (-0.75,0.3) {FS};
+  % Fermi momentum
+  \fill (0,0) circle (1.4pt);
+  \draw[-{Stealth[length=5pt]}] (0,0) -- (-58:\kf);
+  \node at (-45:1.15) {$\vec k_F$};
+  % width of the shell
+  \draw[red!65!black, {Stealth[length=4pt]}-{Stealth[length=4pt]}]
+       (192:\kf) -- (192:\kd);
+  \node[red!65!black, anchor=east, inner sep=2pt] at (192:3.15) {$\hbar\omega_D$};
+  \draw[red!65!black] (192:3.1) -- (192:2.6);
+  % two states in the shell, connected by the effective interaction
+  \coordinate (A) at (112:2.17);
+  \coordinate (B) at (26:2.17);
+  \fill (A) circle (1.4pt);
+  \fill (B) circle (1.4pt);
+  \node[anchor=south east, inner sep=2pt] at (112:2.35) {$\vec k,\sigma$};
+  \node[anchor=west, inner sep=2pt]       at (26:2.5)   {$\vec k',\sigma'$};
+  \draw[decorate,
+        decoration={coil, aspect=0, amplitude=2.5pt, segment length=4.5pt,
+                    pre length=2pt, post length=2pt}] (A) to[bend left=38] (B);
+  \node[anchor=south, inner sep=2pt] at (69:3.05) {$H_{\mathrm{int}}$};
+  \draw (69:3.0) -- (69:2.55);
+  \node[anchor=north west, inner sep=2pt] at (1.9,-2.1) {$\vec k$-space};
+\end{tikzpicture}
+\caption{Only states in a shell of width $\hbar\omega_D$ around the Fermi surface
+take part in the effective interaction.}
+\label{fig:fermi-surface}
+\end{figure}
+\begin{itemize}
+\item a system of free, non-interacting electrons, i.e.\ the Fermi sea (C\,5.27)
+\begin{equation}
+|\phi_0\rangle = \prod_{\varepsilon_{\vec k}\le\varepsilon_F,\,\sigma}
+  c^\dagger_{\vec k,\sigma}|0\rangle ,
+\label{eq:fermi-sea}
+\end{equation}
+\item the effective interaction is only present for two electrons that are placed right
+outside of the Fermi sea with opposite momenta and opposite spins (Cooper pair, singlet
+pairing);
+\item the interaction is $V=\mathrm{const.}$ if
+$|\varepsilon_{\vec k+\vec q}-\varepsilon_{\vec k}|\le\hbar\omega_D$ and zero otherwise.
+\end{itemize}
+Here ``right outside the Fermi sea'' means that the energies are, cf.\ (C\,5.27),
+\begin{equation}
+E_F\le\varepsilon_{\vec k},\ \varepsilon_{-\vec k}\le E_F+\hbar\omega_D .
+\label{eq:shell}
+\end{equation}
+The interaction thus reads (C\,5.28)
+\begin{equation}
+H_{\mathrm{int}} = -\frac V2\sum_{\sigma,\sigma'}\sum_{\vec k,\vec q}
+  c^\dagger_{\vec k+\vec q,\sigma}\,c^\dagger_{-\vec k-\vec q,\sigma'}\,
+  c_{-\vec k,\sigma'}\,c_{\vec k,\sigma},
+  \qquad\text{with }
+  |\varepsilon_{\vec k+\vec q}-\varepsilon_{\vec k}|\le\hbar\omega_D .
+\label{eq:cooper-int}
+\end{equation}
+One solves this model by making the variational ansatz (C\,5.26)
+\begin{equation}
+|\psi_{\sigma,\sigma'}\rangle = \sum_{\vec k}a_{\sigma,\sigma'}(\vec k)\,
+  c^\dagger_{\vec k,\sigma}\,c^\dagger_{-\vec k,\sigma'}\,|\phi_0\rangle
+\label{eq:cooper-ansatz}
+\end{equation}
+and minimizing the energy
+$E=\langle\psi_{\sigma,\sigma'}|H|\psi_{\sigma,\sigma'}\rangle$ with the constraint that
+$\langle\psi_{\sigma,\sigma'}|\psi_{\sigma,\sigma'}\rangle\stackrel{!}{=}1$, which gets us
+an upper bound for the energy of the bound state. One finds that (C\,5.35)
+\begin{equation}
+\Delta E = 2E_F-E_{\mathrm{bs}} \cong -2\hbar\omega_{\vec q}\,e^{-2/(V\rho_0)},
+\label{eq:cooper-binding}
+\end{equation}
+which shows that a bound state (Cooper pair) of the two electrons is
+energetically favoured compared to the free, non-interacting state. This holds for all
+electrons close to the Fermi edge and therefore implies an instability of the Fermi sea.
 
-Does an arbitrarily weak attraction destabilize the Fermi sea? Cooper's model: take a
-filled, inert Fermi sea
-\begin{equation}
-|\phi_0\rangle=\prod_{\varepsilon_{\vec k}\le\varepsilon_F,\,\sigma}
-c^\dagger_{\vec k\sigma}|0\rangle
-\end{equation}
-and add two electrons just above it, interacting only with each other via a constant
-attraction $V>0$ in the shell $E_F\le\varepsilon_{\vec k}\le E_F+\hbar\omega_D$:
-\begin{equation}
-H_{\mathrm{int}}=-\frac V2\sum_{\sigma\sigma'}\sum_{\vec k,\vec q}
-c^\dagger_{\vec k+\vec q,\sigma}c^\dagger_{-\vec k-\vec q,\sigma'}
-c_{-\vec k\sigma'}c_{\vec k\sigma}.
-\end{equation}
-Only pairs with opposite momenta and opposite spins are retained (zero total momentum
-maximizes the phase space of scattering partners; the singlet is favoured because the
-orbital part is then symmetric and the two electrons can sit on top of each other, where
-the attraction acts). Make the variational ansatz
-\begin{equation}
-|\psi_{\sigma\sigma'}\rangle=\sum_{\vec k}a_{\sigma\sigma'}(\vec k)\,
-c^\dagger_{\vec k\sigma}c^\dagger_{-\vec k\sigma'}|\phi_0\rangle ,
-\end{equation}
-and minimize $E=\langle\psi|H|\psi\rangle$ subject to
-$\langle\psi|\psi\rangle\stackrel{!}{=}1$ --- this yields an \emph{upper bound} on the
-energy of the bound state, which is all that is needed to prove instability.
+\subsection{BCS theory}
+\label{sec:bcs-theory_overview}
 
-\paragraph{Solving it.}
-The stationarity condition is the two-body Schr\"odinger equation restricted to the shell,
+To solve the Hamiltonian and extract the relevant mechanism from it, it is simplified as
+follows: Only include interactions between electrons with opposite momenta and opposite
+spins, and neglect the $\vec q$-dependence. This yields (C\,5.38)
 \begin{equation}
-2\varepsilon_{\vec k}\,a(\vec k)-V\sum_{\vec k'}a(\vec k')=E\,a(\vec k)
-\;\Longrightarrow\;
-a(\vec k)=\frac{VC}{2\varepsilon_{\vec k}-E},\qquad C\equiv\sum_{\vec k'}a(\vec k').
+H = \sum_{\vec k,\sigma}\varepsilon_{\vec k}\,c^\dagger_{\vec k\sigma}c_{\vec k\sigma}
+  - V\sum_{\vec k,\vec k'}
+    c^\dagger_{\vec k'\uparrow}c^\dagger_{-\vec k'\downarrow}
+    c_{-\vec k\downarrow}c_{\vec k\uparrow},
+\label{eq:bcs-hamiltonian}
 \end{equation}
-Summing over $\vec k$ divides out $C$ and leaves the self-consistency condition
+with again $|\varepsilon_{\vec k}-\varepsilon_{\vec k'}|\le\hbar\omega_D$ for
+the interaction term. Finally, apply mean-field theory to the pair
+creation/destruction operators, (C\,5.41) and (C\,5.42):
 \begin{equation}
-1=V\sum_{\vec k}\frac{1}{2\varepsilon_{\vec k}-E}
-\;\simeq\;Vg_0\!\!\int_{E_F}^{E_F+\hbar\omega_D}\!\!\frac{d\varepsilon}{2\varepsilon-E}
-=\frac{Vg_0}{2}\,
-\ln\!\frac{2E_F+2\hbar\omega_D-E}{2E_F-E},
+H_{\mathrm{MF}} = \sum_{\vec k}
+  \begin{pmatrix}c^\dagger_{\vec k\uparrow}&c_{-\vec k\downarrow}\end{pmatrix}
+  \begin{pmatrix}
+    \varepsilon_{\vec k} & -\Delta\\
+    -\Delta^* & -\varepsilon_{\vec k}
+  \end{pmatrix}
+  \begin{pmatrix}c_{\vec k\uparrow}\\c^\dagger_{-\vec k\downarrow}\end{pmatrix}
+  \;\pm\;\mathrm{const.},
+\label{eq:h-mf}
 \end{equation}
-where $g_0$ is the density of states \emph{per spin} at $E_F$, taken constant across the
-thin shell. Writing $E=2E_F-\Delta_b$ and solving for the binding energy,
 \begin{equation}
-\Delta_b=\frac{2\hbar\omega_D}{e^{2/(Vg_0)}-1}
-\;\xrightarrow[\ Vg_0\ll1\ ]{}\;2\hbar\omega_D\,e^{-2/(Vg_0)} .
-\label{eq:cooper}
-\end{equation}
-So (C\,5.35): a bound state exists for \emph{arbitrarily small} $V>0$, lying below the
-non-interacting two-electron energy $2E_F$. The result is non-analytic in $V$ --- no
-order of perturbation theory in $V$ would ever produce it. Since the argument applies to
-every pair near the Fermi edge, the normal Fermi sea is unstable, and one must treat the
-pairing self-consistently for all electrons at once. That is BCS theory.
-
-\subsection{Step 4: mean-field (BCS) Hamiltonian}
-
-Simplify \eqref{eq:heff-explicit} by keeping only opposite momenta and opposite spins and
-dropping the $\vec q$-dependence of $V$ (C\,5.38):
-\begin{equation}
-H=\sum_{\vec k\sigma}\varepsilon_{\vec k}c^\dagger_{\vec k\sigma}c_{\vec k\sigma}
--V\sum_{\vec k,\vec k'}
-c^\dagger_{\vec k\uparrow}c^\dagger_{-\vec k\downarrow}
-c_{-\vec k'\downarrow}c_{\vec k'\uparrow},
-\qquad
-|\varepsilon_{\vec k}-\varepsilon_{\vec k'}|\le\hbar\omega_D .
-\end{equation}
-Now decouple the quartic term in the pair channel, $AB\approx\langle A\rangle B+
-A\langle B\rangle-\langle A\rangle\langle B\rangle$, with the pair amplitude
-\begin{equation}
-\Delta = V\sum_{\vec k}\langle c_{-\vec k\downarrow}c_{\vec k\uparrow}\rangle .
+\Delta = V\sum_{\vec k}\langle c_{-\vec k\downarrow}c_{\vec k\uparrow}\rangle
+\qquad(\text{possibly }\varepsilon_{\vec k}\rightsquigarrow\varepsilon_{\vec k}-\mu).
 \label{eq:gap-def}
 \end{equation}
-Using $c^\dagger_{-\vec k\downarrow}c_{-\vec k\downarrow}
-=\mathds{1}-c_{-\vec k\downarrow}c^\dagger_{-\vec k\downarrow}$ to bring the kinetic term
-into Nambu form gives (C\,5.41)
-\begin{equation}
-H_{\mathrm{MF}}=\sum_{\vec k}
-\begin{pmatrix}c^\dagger_{\vec k\uparrow}&c_{-\vec k\downarrow}\end{pmatrix}
-\begin{pmatrix}\varepsilon_{\vec k}&-\Delta\\-\Delta^*&-\varepsilon_{\vec k}\end{pmatrix}
-\begin{pmatrix}c_{\vec k\uparrow}\\c^\dagger_{-\vec k\downarrow}\end{pmatrix}
-+\sum_{\vec k}\varepsilon_{\vec k}+\frac{|\Delta|^2}{V}.
-\end{equation}
-Here $\varepsilon_{\vec k}$ must be measured from the chemical potential,
-$\varepsilon_{\vec k}\to\varepsilon_{\vec k}-\mu$, since $H_{\mathrm{MF}}$ does not
-conserve particle number and one is really working in the grand canonical ensemble.
 
-\subsection{Step 5: Bogoliubov diagonalization}
+\paragraph{Bogoliubov transformation.}
+Introduce a unitary transformation that diagonalizes
+\begin{equation*}
+B = \left(\begin{matrix}\varepsilon_{\vec k}&-\Delta\\
+-\Delta^*&-\varepsilon_{\vec k}\end{matrix}\right)     
+\end{equation*}
+and thus leads to an
+$H_{\mathrm{MF}}$ that only includes terms of the form
+$\alpha^\dagger_{\vec k}\alpha_{\vec k}$ and $\beta^\dagger_{\vec k}\beta_{\vec k}$:
+\begin{equation}
+H_{\mathrm{MF}} = \sum_{\vec k}
+  \underbrace{
+  \begin{pmatrix}c^\dagger_{\vec k\uparrow}&c_{-\vec k\downarrow}\end{pmatrix}
+  U_{\vec k}}_{\text{new operators}}\;
+  \underbrace{U^\dagger_{\vec k}
+  \begin{pmatrix}
+    \varepsilon_{\vec k} & -\Delta\\ -\Delta^* & -\varepsilon_{\vec k}
+  \end{pmatrix}
+  U_{\vec k}}_{\text{diagonal matrix}}\;
+  \underbrace{U^\dagger_{\vec k}
+  \begin{pmatrix}c_{\vec k\uparrow}\\c^\dagger_{-\vec k\downarrow}\end{pmatrix}
+  }_{(\text{new operators})^\dagger}.
+\label{eq:bogoliubov}
+\end{equation}
+These new operators will be fermionic, since $U$ is unitary, so that
+$\langle c_{-\vec k\downarrow}c_{\vec k\uparrow}\rangle\rightsquigarrow
+f(\alpha_{\vec k},\beta_{\vec k},\alpha^\dagger_{\vec k},\beta^\dagger_{\vec k})$ and one
+can then use $\langle\alpha^\dagger_{\vec k}\alpha_{\vec k}\rangle=f(E_F)$ and
+$\langle\beta_{\vec k}\alpha_{\vec k}\rangle=0$ etc. The elements of $U$ can be determined
+by diagonalizing $B$ and requiring that the eigenvectors are normalized to one.
 
-Introduce a unitary $U_{\vec k}$ diagonalizing the $2\times2$ matrix, so that
-$H_{\mathrm{MF}}$ contains only number operators of new fermions. Taking $\Delta$ real
-and positive (its phase can be absorbed into the fermion operators) the eigenvectors,
-normalized to one, give (C\,5.43)
+\paragraph{Result.}
+This yields
+\begin{align}
+H_{\mathrm{eff}} &= \sum_{\vec k}E_{\vec k}
+  \big(\alpha^\dagger_{\vec k}\alpha_{\vec k}
+     + \beta^\dagger_{\vec k}\beta_{\vec k}\big) + \mathrm{const.},
+  &&\text{(C\,5.46)}
+\label{eq:h-eff}\\
+E_{\vec k} &= \big(\varepsilon_{\vec k}^2+|\Delta|^2\big)^{1/2}\ \ge\ 0 ,
+  &&\text{(C\,5.47)}
+\label{eq:e-k}
+\end{align}
+and for $\Delta$ one arrives at the BCS self-consistency equation (C\,5.50)
 \begin{equation}
-\alpha_{\vec k}=u_{\vec k}c_{\vec k\uparrow}-v_{\vec k}c^\dagger_{-\vec k\downarrow},
-\qquad
-\beta_{\vec k}=u_{\vec k}c_{-\vec k\downarrow}+v_{\vec k}c^\dagger_{\vec k\uparrow},
+\Delta = \frac{V\Delta}{2}\sum_{\vec k}\frac{1}{E_{\vec k}}
+  \tanh\!\left(\frac{\beta E_{\vec k}}{2}\right).
+\label{eq:gap-selfconsistency}
 \end{equation}
+Obviously $\Delta=0$ is a solution. For $\Delta\neq0$ one obtains (C\,5.51)
 \begin{equation}
-u_{\vec k}^2=\frac12\Big(1+\frac{\varepsilon_{\vec k}}{E_{\vec k}}\Big),\qquad
-v_{\vec k}^2=\frac12\Big(1-\frac{\varepsilon_{\vec k}}{E_{\vec k}}\Big),\qquad
-2u_{\vec k}v_{\vec k}=\frac{\Delta}{E_{\vec k}},\qquad u^2_{\vec k}+v^2_{\vec k}=1 .
-\label{eq:uv}
-\end{equation}
-Because $U_{\vec k}$ is unitary, the new operators are again fermionic,
-$\{\alpha_{\vec k},\alpha^\dagger_{\vec k'}\}=\delta_{\vec k\vec k'}$, and hence
-$\langle\alpha^\dagger_{\vec k}\alpha_{\vec k}\rangle=f(E_{\vec k})$ (Fermi function)
-while anomalous averages such as $\langle\beta_{\vec k}\alpha_{\vec k}\rangle$ vanish.
-The result is (C\,5.46)--(C\,5.47)
-\begin{equation}
-H_{\mathrm{eff}}=\sum_{\vec k}E_{\vec k}
-\big(\alpha^\dagger_{\vec k}\alpha_{\vec k}+\beta^\dagger_{\vec k}\beta_{\vec k}\big)
-+\mathrm{const},
-\qquad
-E_{\vec k}=\big(\varepsilon_{\vec k}^2+|\Delta|^2\big)^{1/2}\ge0 ,
-\end{equation}
-with $\mathrm{const}=\sum_{\vec k}(\varepsilon_{\vec k}-E_{\vec k})+|\Delta|^2/V$. The
-excitation spectrum is gapped: $E_{\vec k}\ge|\Delta|$ for all $\vec k$.
-
-\paragraph{As a similarity transformation.}
-The same result follows from Method~B of Sec.~\ref{sec:similarity-transformations}. Take
-\begin{equation}
-S=\sum_{\vec k}\theta_{\vec k}
-\big(c^\dagger_{\vec k\uparrow}c^\dagger_{-\vec k\downarrow}
--c_{-\vec k\downarrow}c_{\vec k\uparrow}\big),\qquad S^\dagger=-S .
-\end{equation}
-Then $\ad_S$ closes on the pair $\{c_{\vec k\uparrow},c^\dagger_{-\vec k\downarrow}\}$,
-\begin{equation}
-[S,c_{\vec k\uparrow}]=-\theta_{\vec k}c^\dagger_{-\vec k\downarrow},\qquad
-[S,c^\dagger_{-\vec k\downarrow}]=+\theta_{\vec k}c_{\vec k\uparrow},
-\end{equation}
-so $M=\left(\begin{smallmatrix}0&-1\\1&0\end{smallmatrix}\right)$ is elliptic and the flow
-is a rotation,
-\begin{equation}
-e^{S}c_{\vec k\uparrow}e^{-S}
-=\cos\theta_{\vec k}\,c_{\vec k\uparrow}
--\sin\theta_{\vec k}\,c^\dagger_{-\vec k\downarrow},
-\end{equation}
-i.e.\ $u_{\vec k}=\cos\theta_{\vec k}$, $v_{\vec k}=\sin\theta_{\vec k}$ with
-$\tan2\theta_{\vec k}=\Delta/\varepsilon_{\vec k}$, reproducing \eqref{eq:uv}. This is the
-fermionic counterpart of the (hyperbolic) bosonic squeezing transformation; the compact
-rotation instead of a boost is the signature of the anticommuting algebra.
-
-\subsection{Step 6: the gap equation}
-
-Feed the diagonalization back into the definition \eqref{eq:gap-def}. Inverting,
-$c_{\vec k\uparrow}=u_{\vec k}\alpha_{\vec k}+v_{\vec k}\beta^\dagger_{\vec k}$ and
-$c_{-\vec k\downarrow}=u_{\vec k}\beta_{\vec k}-v_{\vec k}\alpha^\dagger_{\vec k}$, so
-\begin{equation}
-\langle c_{-\vec k\downarrow}c_{\vec k\uparrow}\rangle
-=u_{\vec k}v_{\vec k}\big(1-2f(E_{\vec k})\big)
-=\frac{\Delta}{2E_{\vec k}}\tanh\!\Big(\frac{\beta E_{\vec k}}{2}\Big),
-\end{equation}
-($\beta=1/k_BT$ here --- note the unfortunate clash with the Bogoliubov operator
-$\beta_{\vec k}$), giving the BCS self-consistency equation (C\,5.50)
-\begin{equation}
-\Delta=\frac{V\Delta}{2}\sum_{\vec k}\frac{1}{E_{\vec k}}
-\tanh\!\Big(\frac{\beta E_{\vec k}}{2}\Big).
-\end{equation}
-$\Delta=0$ always solves this. For $\Delta\neq0$ divide through (C\,5.51):
-\begin{equation}
-1=\frac V2\sum_{\vec k}^{|\varepsilon_{\vec k}|<\hbar\omega_D}
-\big(\varepsilon_{\vec k}^2+|\Delta|^2\big)^{-1/2}
-\tanh\!\left(\frac{\beta\big(\varepsilon_{\vec k}^2+|\Delta|^2\big)^{1/2}}{2}\right).
+1 = \frac V2\sum_{\vec k, |\varepsilon_{\vec k}|<\hbar\omega_D}
+  \big(\varepsilon_{\vec k}^2+|\Delta|^2\big)^{-1/2}
+  \tanh\!\left(
+    \frac{\beta\big(\varepsilon_{\vec k}^2+|\Delta|^2\big)^{1/2}}{2}\right).
+\label{eq:gap-equation}
 \end{equation}
 
-\paragraph{Two limits worth having explicitly.}
-At $T=0$ the $\tanh\to1$ and, with $g_0$ constant,
+\paragraph{$\Delta$ as an order parameter.}
+Actually, $\Delta$ is an order parameter for the superconducting phase, because of the
+following:
+\begin{itemize}
+\item For a normal metal
+$\langle c_{\vec k\uparrow}c_{-\vec k\downarrow}\rangle=0\ \forall\,\vec k$ and thus
+$\Delta = V\sum_{\vec k}\langle c_{-\vec k\downarrow}c_{\vec k\uparrow}\rangle = 0$.
+\item But if $\Delta\neq0$, it means that we are not in a metallic phase and that there
+are Cooper pairs present.
+\end{itemize}
+
+\subsection{The BCS ground state}
+\label{sec:bcs-ground-state_overview}
+
+We have $H=\sum_{\vec k}E_{\vec k}(\alpha^\dagger_{\vec k}\alpha_{\vec k}
++\beta^\dagger_{\vec k}\beta_{\vec k})$ with $E_{\vec k}\ge0$, cf.\ \cref{eq:h-eff}, where,
+following (C\,5.43),
 \begin{equation}
-1=\frac{Vg_0}{2}\int_{-\hbar\omega_D}^{\hbar\omega_D}
-\frac{d\varepsilon}{\sqrt{\varepsilon^2+\Delta^2}}
-=Vg_0\,\mathrm{arcsinh}\frac{\hbar\omega_D}{\Delta}
-\;\Longrightarrow\;
-\Delta(0)=\frac{\hbar\omega_D}{\sinh\big(1/(Vg_0)\big)}\simeq2\hbar\omega_D e^{-1/(Vg_0)} .
+\alpha_{\vec k} = u_{\vec k}c_{\vec k\uparrow}-v_{\vec k}c^\dagger_{-\vec k\downarrow}
+\qquad\text{and}\qquad
+\beta_{\vec k} = u_{\vec k}c_{-\vec k\downarrow}+v_{\vec k}c^\dagger_{\vec k\uparrow}.
+\label{eq:bogoliubov-ops}
 \end{equation}
-Setting instead $\Delta\to0$ locates the critical temperature,
-$k_BT_c\simeq1.13\,\hbar\omega_D e^{-1/(Vg_0)}$, whence the parameter-free BCS ratio
-$2\Delta(0)/k_BT_c\simeq3.53$.
-
-Comparing with the Cooper result \eqref{eq:cooper}: the exponents differ by a factor of
-two, $e^{-1/(Vg_0)}$ versus $e^{-2/(Vg_0)}$. The Cooper binding energy of a single pair
-on top of a rigid Fermi sea is therefore \emph{not} the gap; the self-consistent
-treatment, in which all pairs form simultaneously and the sea rearranges, is
-parametrically more strongly bound.
-
-\paragraph{Why $\Delta$ is an order parameter.}
-In a normal metal $\langle c_{\vec k\uparrow}c_{-\vec k\downarrow}\rangle=0$ for all
-$\vec k$, because a state of sharp particle number gives zero expectation to an operator
-that changes $N$ by two; hence $\Delta=0$. A solution with $\Delta\neq0$ therefore signals
-a state that is not an eigenstate of $N$, i.e.\ one with a condensate of Cooper pairs and
-a spontaneously chosen phase. $\Delta$ is complex, and its phase is the broken $U(1)$
-symmetry.
-
-\subsection{Step 7: the BCS ground state}
-
-Since $E_{\vec k}\ge0$ and $\alpha^\dagger_{\vec k}\alpha_{\vec k}$,
-$\beta^\dagger_{\vec k}\beta_{\vec k}$ have eigenvalues $0,1$, the ground state of
-$H_{\mathrm{eff}}$ is the state containing no quasiparticles:
+Since $\alpha^{(\dagger)}_{\vec k}$ and $\beta^{(\dagger)}_{\vec k}$ are
+fermionic, the eigenvalues of $\alpha^\dagger_{\vec k}\alpha_{\vec k}$ (and
+$\beta^\dagger_{\vec k}\beta_{\vec k}$) are $0,1$. Hence the ground state of $H$ does not
+contain any $\alpha$ or $\beta$ quasiparticles, i.e.
 \begin{equation}
-\alpha_{\vec k}|\mathrm{BCS}\rangle=\beta_{\vec k}|\mathrm{BCS}\rangle=0
-\quad\forall\,\vec k .
+\alpha_{\vec k}|\mathrm{BCS}\rangle = \beta_{\vec k}|\mathrm{BCS}\rangle = 0 .
+\label{eq:quasiparticle-vacuum}
 \end{equation}
 This is satisfied by
 \begin{equation}
-|\mathrm{BCS}\rangle=\prod_{\vec k}
-\big(u_{\vec k}+v_{\vec k}c^\dagger_{\vec k\uparrow}c^\dagger_{-\vec k\downarrow}\big)
-|0\rangle
-=\bigotimes_{\vec k}
-\big(u_{\vec k}+v_{\vec k}c^\dagger_{\vec k\uparrow}c^\dagger_{-\vec k\downarrow}\big)
-|0\rangle_{\vec k}.
-\label{eq:bcs}
+|\mathrm{BCS}\rangle
+ = \prod_{\vec k}\big(u_{\vec k}
+   + v_{\vec k}c^\dagger_{\vec k\uparrow}c^\dagger_{-\vec k\downarrow}\big)|0\rangle
+ = \bigotimes_{\vec k}\big(u_{\vec k}
+   + v_{\vec k}c^\dagger_{\vec k\uparrow}c^\dagger_{-\vec k\downarrow}\big)
+   |0\rangle_{\vec k}.
+\label{eq:bcs-state}
 \end{equation}
-
-\paragraph{Verification.}
-Two facts make this a one-line check. First, each factor
-$P_{\vec k}\equiv u_{\vec k}+v_{\vec k}c^\dagger_{\vec k\uparrow}
-c^\dagger_{-\vec k\downarrow}$ is \emph{even} in fermion operators, hence commutes with
-everything; so $\alpha_{\vec k}$ can be moved past all factors $P_{\vec k'}$,
-$\vec k'\neq\vec k$, without sign bookkeeping and acts on $P_{\vec k}|0\rangle_{\vec k}$
-alone. Second, within that single mode,
-\begin{align}
-u_{\vec k}c_{\vec k\uparrow}\,P_{\vec k}|0\rangle
-&=u_{\vec k}v_{\vec k}\,c_{\vec k\uparrow}c^\dagger_{\vec k\uparrow}
-   c^\dagger_{-\vec k\downarrow}|0\rangle
- =u_{\vec k}v_{\vec k}\,c^\dagger_{-\vec k\downarrow}|0\rangle,\\
--v_{\vec k}c^\dagger_{-\vec k\downarrow}\,P_{\vec k}|0\rangle
-&=-u_{\vec k}v_{\vec k}\,c^\dagger_{-\vec k\downarrow}|0\rangle
-\qquad\big(\text{the }v^2\text{ term dies on }(c^\dagger_{-\vec k\downarrow})^2=0\big),
-\end{align}
-and the two cancel, so $\alpha_{\vec k}|\mathrm{BCS}\rangle=0$. The computation for
-$\beta_{\vec k}$ is identical up to one anticommutation sign. The tensor-product form in
-\eqref{eq:bcs} reflects that the Hilbert space factorizes into independent four-dimensional
-blocks $\{|0\rangle,c^\dagger_{\vec k\uparrow}|0\rangle,
-c^\dagger_{-\vec k\downarrow}|0\rangle,c^\dagger_{\vec k\uparrow}
-c^\dagger_{-\vec k\downarrow}|0\rangle\}$, of which the pairing state occupies only the
-empty and doubly occupied ones.
-
-\paragraph{Properties.}
-Normalization is automatic, $\langle\mathrm{BCS}|\mathrm{BCS}\rangle=
-\prod_{\vec k}(u_{\vec k}^2+v_{\vec k}^2)=1$, and
-\begin{equation}
-\langle n_{\vec k\uparrow}\rangle=v_{\vec k}^2
-=\frac12\Big(1-\frac{\varepsilon_{\vec k}}{E_{\vec k}}\Big),
-\qquad
-\langle c_{-\vec k\downarrow}c_{\vec k\uparrow}\rangle=u_{\vec k}v_{\vec k}
-=\frac{\Delta}{2E_{\vec k}} .
-\end{equation}
-The step function of the Fermi sea is smeared over a width $\sim\Delta$ about
-$\varepsilon_{\vec k}=0$, and $u_{\vec k}v_{\vec k}$ (the coherence factor) is peaked
-exactly there: only the shell where occupation is uncertain contributes to pairing.
-Particle number is not sharp, $\langle N\rangle=2\sum_{\vec k}v_{\vec k}^2$ with
-$\langle\Delta N^2\rangle=4\sum_{\vec k}u_{\vec k}^2v_{\vec k}^2=\mathcal O(N)$, so
-relative fluctuations are $\mathcal O(N^{-1/2})$ and harmless in the thermodynamic limit.
-
-\paragraph{Remark: a pair-product wavefunction.}
-Factoring out $\prod u_{\vec k}$ recasts \eqref{eq:bcs} as a coherent state of pairs,
-\begin{equation}
-|\mathrm{BCS}\rangle\propto\exp\!\Big(\sum_{\vec k}g_{\vec k}\,
-c^\dagger_{\vec k\uparrow}c^\dagger_{-\vec k\downarrow}\Big)|0\rangle,
-\qquad g_{\vec k}=\frac{v_{\vec k}}{u_{\vec k}},
-\end{equation}
-whose fixed-$N$ projection is the geminal (pair-product) wavefunction
-$\big(\sum_{\vec k}g_{\vec k}c^\dagger_{\vec k\uparrow}
-c^\dagger_{-\vec k\downarrow}\big)^{N/2}|0\rangle$. This is the form in which BCS pairing
-is usually grafted onto variational many-body ans\"atze: a Pfaffian/geminal reference
-state, optionally multiplied by a correlator or a neural-network amplitude.
-
-\subsection{Pitfalls and conventions}
-\begin{itemize}
-\item \textbf{Sign of the Cooper result.} With $\Delta_b\equiv2E_F-E_{\mathrm{bs}}>0$ the
-binding energy is positive, $\Delta_b\simeq+2\hbar\omega_D e^{-2/(Vg_0)}$; sources that
-write $\Delta E\simeq-2\hbar\omega_D e^{-2/(Vg_0)}$ are defining
-$\Delta E=E_{\mathrm{bs}}-2E_F$. Worth fixing one convention, as the two appear
-interchangeably in the literature.
-\item \textbf{Density of states.} $g_0$ above is per spin. Using the total DOS
-($2g_0$) silently halves the exponents.
-\item \textbf{$\varepsilon_{\vec k}$ vs.\ $\varepsilon_{\vec k}-\mu$.} From Step~4 onwards
-energies are measured from the chemical potential; the gap equation is wrong otherwise.
-\item \textbf{Overloaded $\beta$.} Inverse temperature and Bogoliubov quasiparticle share
-the symbol in the standard notation.
-\item \textbf{Validity.} The phonon elimination is second order in $M$ and breaks down on
-resonance; the mean-field decoupling neglects pair fluctuations (fine in $d=3$ with the
-long coherence length of conventional superconductors, not in general); and the Coulomb
-repulsion, omitted throughout, must be screened and retardation-reduced (Morel--Anderson
-$\mu^*$) before the net interaction is attractive.
-\end{itemize}
 
 \subsection{References}
 \begin{itemize}
 \item G.\ Czycholl, \emph{Theoretische Festk\"orperphysik} Band~1, Sec.~7.1 (Fr\"ohlich
-Hamiltonian) and Band~2, Ch.~5 (Cooper pairs, BCS).
+Hamiltonian) and Band~2, Ch.~5 (Cooper pairs, BCS theory).
 \item H.\ Bruus \& K.\ Flensberg, \emph{Many-Body Quantum Theory in Condensed Matter
-Physics}, Ch.~3 and Ch.~18.
+Physics}, Ch.~3.
 \item J.\ Bardeen, L.N.\ Cooper \& J.R.\ Schrieffer, Phys.\ Rev.\ \textbf{108}, 1175
 (1957).
-\item L.N.\ Cooper, Phys.\ Rev.\ \textbf{104}, 1189 (1956).
-\item M.\ Tinkham, \emph{Introduction to Superconductivity}, Ch.~3.
-\item A.\ Fetter \& J.D.\ Walecka, \emph{Quantum Theory of Many-Particle Systems},
-Ch.~13.
-\item P.\ Coleman, \emph{Introduction to Many-Body Physics}, Ch.~14--15.
-\item J.R.\ Schrieffer \& P.A.\ Wolff, Phys.\ Rev.\ \textbf{149}, 491 (1966).
 \end{itemize}
 
 \end{document}

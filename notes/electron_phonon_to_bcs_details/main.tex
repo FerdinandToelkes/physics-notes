@@ -1,0 +1,578 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{From the electron-phonon interaction to the BCS ground state -- details}
+\label{sec:froehlich-to-bcs_details}
+
+\subsection{Preface}
+
+
+These are supplementary notes to \emph{Solid State Theory, Volume 2} by Gerd Czycholl.
+Since the derivations there are quite lengthy, only those steps are presented here that
+clarify what is done in the corresponding chapters. Numbers in parentheses such as
+(5.12) refer to equations of that book.
+
+\subsection{Attractive electron-electron interaction through the electron-phonon
+mechanism (Czycholl 5.2)}
+\label{sec:bcs-el-ph_details}
+
+\paragraph{Two small observations.}
+\begin{itemize}
+\item (5.12): use that $S$ is linear in $H_1$ to discard $[[H_1,S],S]$.
+\item (5.15): use that $\langle m|H_1|m\rangle=0$, since $H_1$ changes the number of
+      phonons and thus $H_1|m\rangle\perp|m\rangle$.
+\end{itemize}
+
+\paragraph{The transformed Hamiltonian.}
+Starting from (5.13) and inserting resolutions of the identity,
+\begin{align}
+H_T &= H_0+\frac{i}{2}\big(H_1S-SH_1\big)\\
+&= H_0+\frac{i}{2}\sum_{\tilde n,n,m}\Big(
+   |\tilde n\rangle\langle\tilde n|H_1|m\rangle\langle m|S|n\rangle\langle n|
+ - |\tilde n\rangle\langle\tilde n|S|m\rangle\langle m|H_1|n\rangle\langle n|\Big)\\
+&\overset{(5.15)}{=} H_0-\frac{1}{2}\sum_{\tilde n,n,m}\Big(
+   |\tilde n\rangle\langle\tilde n|H_1|m\rangle\langle m|H_1|n\rangle\langle n|
+   \frac{1}{E_m-E_n}\nonumber\\
+&\hspace{7em}
+ - |\tilde n\rangle\langle\tilde n|H_1|m\rangle\langle m|H_1|n\rangle\langle n|
+   \frac{1}{E_{\tilde n}-E_m}\Big),
+\end{align}
+where the matrix elements $\langle\tilde n|H_1|m\rangle$ and $\langle m|H_1|n\rangle$ are
+scalars and can be pulled out of the operator structure, which yields (5.16).
+
+\paragraph{Restriction to a fixed phonon configuration.}
+Since we want to derive a Hamiltonian for the electron-electron interaction only, we
+restrict $|\tilde n\rangle$ and $|n\rangle$ in (5.16) to states with the same phonon
+configuration, such that $H_T$ does not mix states with different phonon configurations.
+
+Let $|n\rangle$ be some many-particle state and assume that it contains one electron in
+the state $|k,\sigma\rangle$ and one in $|k',\sigma'\rangle$. The two elementary
+processes are
+\begin{align}
+H_{1,1}|k,\sigma\rangle &= \sqrt{n_q}\,|k+q,\sigma,n_q-1\rangle,
+  &&\text{by destroying a phonon,} \tag{$\ast_1$}\\
+H_{1,2}|k,\sigma\rangle &= \sqrt{n_q+1}\,|k-q,\sigma,n_q+1\rangle,
+  &&\text{by creating a phonon.} \tag{$\ast_2$}
+\end{align}
+Since $|\tilde n\rangle$ and $|n\rangle$ are restricted to states with the same phonon
+number, the created (destroyed) phonon with momentum $q$ has to be destroyed (created)
+again:
+\begin{align}
+H_{1,1}\sqrt{n_q}\,|k+q,\sigma,n_q-1\rangle
+  &= n_q\,|k+q,\sigma;\,k'-q,\sigma';\,n_q\rangle,\\
+H_{1,1}\sqrt{n_q+1}\,|k-q,\sigma,n_q+1\rangle
+  &= (n_q+1)\,|k-q,\sigma;\,k'+q,\sigma';\,n_q\rangle.
+\end{align}
+All other terms vanish, since their phonon configurations differ.
+
+\paragraph{Energy denominators.}
+Therefore we have
+\begin{align}
+(\ast_1):&\quad E_m-E_n=\varepsilon_{k+q}-\varepsilon_k-\hbar\omega_q,
+  &&E_{\tilde n}-E_m=\varepsilon_{k'-q}-\varepsilon_{k'}+\hbar\omega_q,
+  &&(5.19)\\
+(\ast_2):&\quad E_m-E_n=\varepsilon_{k-q}-\varepsilon_k+\hbar\omega_q,
+  &&E_{\tilde n}-E_m=\varepsilon_{k'+q}-\varepsilon_{k'}-\hbar\omega_q.
+  &&(5.20)
+\end{align}
+Inserting this into (5.16) gives
+\begin{equation}
+\begin{split}
+H_T=-\frac{1}{2}\sum_{n,\tilde n}|\tilde n\rangle\langle n|\sum_m
+\sum_{\substack{k,k',q\\ \sigma,\sigma'}}\Big(&
+\langle\tilde n|M(-q)c^\dagger_{k'-q,\sigma'}c_{k',\sigma'}b^\dagger_q|m\rangle
+\langle m|M(q)c^\dagger_{k+q,\sigma}c_{k,\sigma}b_q|n\rangle\\
+&\quad\times\Big(\frac{1}{\varepsilon_{k+q}-\hbar\omega_q-\varepsilon_k}
+-\frac{1}{\varepsilon_{k'-q}-\varepsilon_{k'}+\hbar\omega_q}\Big)\\
++\;&\langle\tilde n|M(q)c^\dagger_{k'+q,\sigma'}c_{k',\sigma'}b_q|m\rangle
+\langle m|M(-q)c^\dagger_{k-q,\sigma}c_{k,\sigma}b^\dagger_q|n\rangle\\
+&\quad\times\Big(\frac{1}{\varepsilon_{k-q}-\varepsilon_k+\hbar\omega_q}
+-\frac{1}{\varepsilon_{k'+q}-\varepsilon_{k'}-\hbar\omega_q}\Big)\Big),
+\end{split}
+\end{equation}
+where the first summand is the $(\ast_1)$-process and the second one the
+$(\ast_2)$-process.
+
+Using $M^*(q)=M(-q)$ and that all the above terms are independent of $n$, $m$, and
+$\tilde n$ yields (5.21). Using furthermore that
+\begin{equation}
+b^\dagger_q b_q|\dots n_q\dots\rangle=n_q|\dots n_q\dots\rangle,\qquad
+b_q b^\dagger_q|\dots n_q\dots\rangle=(n_q+1)|\dots n_q\dots\rangle
+\end{equation}
+results in (5.21), i.e.\ $\hat H_T(b_q,b^\dagger_q,\dots)\rightsquigarrow
+\hat H_T(n_q,\dots)$ in the phonon number basis.
+
+\paragraph{Combining the two processes.}
+We have
+\begin{equation}
+\frac{1}{\varepsilon_{k+q}-\hbar\omega_q-\varepsilon_k}
+=\frac{(\varepsilon_{k+q}-\varepsilon_k)+\hbar\omega_q}
+      {(\varepsilon_{k+q}-\varepsilon_k)^2-\hbar^2\omega_q^2}
+\end{equation}
+and, relabelling $k\leftrightarrow k'$ and $q\to-q$,
+\begin{equation}
+\sum_{k,k',q}\frac{1}{\varepsilon_{k'-q}-\varepsilon_{k'}+\hbar\omega_q}\,
+c^\dagger_{k+q}c_k c^\dagger_{k'-q}c_{k'}
+=\sum_{k,k',q}\frac{(\varepsilon_{k+q}-\varepsilon_k)-\hbar\omega_q}
+      {(\varepsilon_{k+q}-\varepsilon_k)^2-\hbar^2\omega_q^2}\,
+c^\dagger_{k'-q}c_{k'}c^\dagger_{k+q}c_k ,
+\end{equation}
+where
+\begin{align}
+\sum_{k,k',q}c^\dagger_{k'-q}c_{k'}c^\dagger_{k+q}c_k
+&=\sum_{k,k',q}c^\dagger_{k'-q}\big(\delta_{k',k+q}-c^\dagger_{k+q}c_{k'}\big)c_k\\
+&=\sum_{k,q}c^\dagger_k c_k-\sum_{k,k',q}c^\dagger_{k+q}c^\dagger_{k'-q}c_k c_{k'}\\
+&=\sum_{k,q}n_k-\sum_{k,k',q}c^\dagger_{k+q}
+   \big(\delta_{k,k'-q}-c_k c^\dagger_{k'-q}\big)c_{k'}\\
+&=\underbrace{\sum_{k,q}n_k-\sum_{k,q}c^\dagger_{k'}c_{k'}}_{=\,0}
+  +\sum_{k,k',q}c^\dagger_{k+q}c_k c^\dagger_{k'-q}c_{k'}\\
+&=\sum_{k,k',q}c^\dagger_{k+q}c_k c^\dagger_{k'-q}c_{k'} .
+\end{align}
+
+We know (Bruus \& Flensberg, Sec.~3.8) that $\omega_{-q}=\omega_q$ and $M(-q)=M(q)$.
+Furthermore, since we are only interested in the electronic process, we can assume that
+there is no net phononic motion within the system and thus $n_q=n_{-q}$.
+Hence the first term of (5.21) equals the first term of (5.22), analogously for the
+second term, and similarly (5.22) $\rightsquigarrow$ (5.23).
+
+\subsection{Cooper pairs (Czycholl 5.3)}
+\label{sec:bcs-cooper-pairs_details}
+
+\paragraph{Setup.}
+Simplify: look at the Fermi sea plus two electrons just above the Fermi energy, and only
+let them interact via $H_T$. The variational ansatz (5.26), for vanishing total pair
+momentum $K=k+k'\overset{!}{=}0$, is
+\begin{equation}
+|\psi_{\sigma,\sigma'}\rangle=\sum_k a_{\sigma,\sigma'}(k)\,
+c^\dagger_{k,\sigma}c^\dagger_{-k,\sigma'}|\phi_0\rangle ,
+\end{equation}
+with the sum over $k$ such that $E_F\le\varepsilon_k,\varepsilon_{k'}\le
+E_F+\hbar\omega_D$, cf.\ (5.27). The simplified interaction acts only outside the Fermi
+sea ($\ast$), otherwise $V=0$:
+\begin{equation}
+H_T=-\frac{V}{2}\sum_{\sigma,\sigma'}\sum_{k,q}
+c^\dagger_{k+q,\sigma}c^\dagger_{-k-q,\sigma'}c_{-k,\sigma'}c_{k,\sigma}.
+\qquad (5.28)
+\end{equation}
+
+\paragraph{Action on the ansatz.}
+\begin{align}
+H_T|\psi_{\sigma_1\sigma_2}\rangle
+&=-\frac{V}{2}\sum_{\sigma,\sigma'}\sum_{k,q,k'}
+c^\dagger_{k+q,\sigma}c^\dagger_{-k-q,\sigma'}c_{-k,\sigma'}c_{k,\sigma}\,
+a_{\sigma_1\sigma_2}(k')\,c^\dagger_{k',\sigma_1}c^\dagger_{-k',\sigma_2}|\phi_0\rangle\\
+&=-\frac{V}{2}\sum_{\sigma,\sigma'}\sum_{k,q,k'}a_{\sigma_1\sigma_2}(k')\,
+c^\dagger_{k+q,\sigma}c^\dagger_{-k-q,\sigma'}c_{-k,\sigma'}c_{k,\sigma}
+\,|k',\sigma_1;-k',\sigma_2\rangle\\
+&=-\frac{V}{2}\sum_{\sigma,\sigma'}\sum_{k,q,k'}a_{\sigma_1\sigma_2}(k')\Big(
+ \delta_{k,k'}\delta_{\sigma,\sigma_1}\delta_{\sigma',\sigma_2}
+ |k+q,\sigma_1;-k-q,\sigma_2\rangle\nonumber\\
+&\hspace{10em}
+ +\delta_{k,-k'}\delta_{\sigma,\sigma_2}\delta_{\sigma',\sigma_1}
+ |-k-q,\sigma_1;k+q,\sigma_2\rangle\Big)\\
+&=-\frac{V}{2}\sum_{k,q}\Big(a_{\sigma_1\sigma_2}(k)\,
+ |k+q,\sigma_1;-k-q,\sigma_2\rangle
+ +a_{\sigma_1\sigma_2}(-k)\,|-k-q,\sigma_1;k+q,\sigma_2\rangle\Big),
+\end{align}
+where the projection onto $|k',\sigma_1;-k',\sigma_2\rangle$ is allowed because, by
+($\ast$), only states outside the Fermi sea matter for the interaction. Taking the
+expectation value,
+\begin{align}
+\langle\psi_{\sigma_1\sigma_2}|H_T|\psi_{\sigma_1\sigma_2}\rangle
+&=-\frac{V}{2}\sum_{k,q,k'}a^*_{\sigma_1\sigma_2}(k')\Big\{
+ a_{\sigma_1\sigma_2}(k)\,
+ \langle k',\sigma_1;-k',\sigma_2|k+q,\sigma_1;-k-q,\sigma_2\rangle\nonumber\\
+&\hspace{8em}
+ +a_{\sigma_1\sigma_2}(-k)\,
+ \langle k',\sigma_1;-k',\sigma_2|-k-q,\sigma_1;k+q,\sigma_2\rangle\Big\}\\
+&=-\frac{V}{2}\sum_{k,q,k'}a^*_{\sigma_1\sigma_2}(k')\Big\{
+ a_{\sigma_1\sigma_2}(k)\,\delta_{k',k+q}
+ +a_{\sigma_1\sigma_2}(-k)\,\delta_{k',-k-q}\Big\}\\
+&=-\frac{V}{2}\sum_{k,q}\Big(a^*_{\sigma_1\sigma_2}(k+q)a_{\sigma_1\sigma_2}(k)
+ +a^*_{\sigma_1\sigma_2}(-k-q)a_{\sigma_1\sigma_2}(-k)\Big)\\
+&=-V\sum_{k,q}a^*_{\sigma_1\sigma_2}(k+q)a_{\sigma_1\sigma_2}(k),
+\end{align}
+where in the last step $k\to-k$, $q\to-q$ was substituted in the second term.
+
+\paragraph{The kinetic part.}
+Furthermore, by (5.17),
+\begin{equation}
+H_0=\sum_{k,\sigma}\varepsilon_k n_{k,\sigma}+\sum_q\hbar\omega_q b^\dagger_q b_q .
+\end{equation}
+Since the ansatz $|\psi_{\sigma\sigma'}\rangle$ is purely electronic,
+$\sum_q\hbar\omega_q b^\dagger_q b_q$ will not contribute. Splitting the electronic sum
+into states inside and outside the Fermi sea,
+\begin{align}
+\langle\psi_{\sigma,\sigma'}|H_0|\psi_{\sigma,\sigma'}\rangle
+&=\langle\psi_{\sigma\sigma'}|\Big(\sum_{k,\tilde\sigma}
+  \varepsilon_k n_{k,\tilde\sigma}\Big)
+  \Big(\sum_{k'}a_{\sigma,\sigma'}(k')c^\dagger_{k',\sigma}
+  c^\dagger_{-k',\sigma'}|\phi_0\rangle\Big)\\
+&=\langle\psi_{\sigma\sigma'}|\Big(\sum_{\substack{k\le k_F\\ \tilde\sigma}}
+  \varepsilon_k\hat n_{k,\tilde\sigma}
+  +\sum_{\substack{k>k_F\\ \tilde\sigma}}\varepsilon_k\hat n_{k,\tilde\sigma}\Big)
+  \Big(\sum_{k'}a_{\sigma,\sigma'}(k')c^\dagger_{k',\sigma}
+  c^\dagger_{-k',\sigma'}|\phi_0\rangle\Big)\\
+&=\langle\psi_{\sigma\sigma'}|\sum_{\substack{k\le k_F\\ \tilde\sigma}}
+  \varepsilon_k n_{k,\tilde\sigma}|\psi_{\sigma\sigma'}\rangle
+  +\sum_{k,k'}a_{\sigma,\sigma'}(k')\big(\varepsilon_{k'}\delta_{k,k'}
+  \delta_{\sigma,\tilde\sigma}\nonumber\\
+&\hspace{10em}
+  +\varepsilon_{k'}\delta_{k,-k'}\delta_{\sigma',\tilde\sigma}\big)
+  c^\dagger_{k',\sigma}c^\dagger_{-k',\sigma'}|\phi_0\rangle\\
+&=\Big(\langle\phi_0|\sum_k c_{-k,\sigma'}c_{k,\sigma}a^*_{\sigma,\sigma'}(k)\Big)
+  \Big(\sum_{\substack{k\le k_F\\ \tilde\sigma}}\varepsilon_k n_{k,\tilde\sigma}
+  |\psi_{\sigma\sigma'}\rangle\nonumber\\
+&\hspace{8em}
+  +\sum_{k'}a_{\sigma,\sigma'}(k')(\varepsilon_{k'}+\varepsilon_{-k'})
+  c^\dagger_{k',\sigma}c^\dagger_{-k',\sigma'}|\phi_0\rangle\Big)\\
+&=\sum_k|a_{\sigma,\sigma'}(k)|^2\Big((\varepsilon_k+\varepsilon_{-k})
+  +\sum_{\substack{k\le k_F\\ \tilde\sigma}}\varepsilon_k n_{k,\tilde\sigma}\Big)\\
+&=\sum_k|a_{\sigma,\sigma'}(k)|^2(\varepsilon_k+\varepsilon_{-k})
+  +c\sum_k|a_{\sigma\sigma'}(k)|^2 ,
+\end{align}
+where $c$ collects the (constant) energy of the filled Fermi sea. From
+$\langle\psi_{\sigma\sigma'}|\psi_{\sigma\sigma'}\rangle\overset{!}{=}1$ it follows that
+$\sum_k|a_{\sigma\sigma'}(k)|^2\overset{!}{=}1$, cf.\ (5.29), and therefore
+\begin{equation}
+H_0=\sum_k|a_{\sigma,\sigma'}(k)|^2(\varepsilon_k+\varepsilon_{-k}),
+\qquad\Longrightarrow\qquad H=H_0+H_T=(5.29).
+\end{equation}
+The step $\varepsilon_k=\varepsilon_{-k}$ needed for (5.30) is true due to Kramers'
+theorem; see e.g.\ Sec.~5.3 of Czycholl~I.
+
+\paragraph{When does the gap equation degenerate?}
+For (5.32) it was assumed that $C\equiv\sum_k a_{\sigma\sigma'}(k)\neq0$. Let us examine
+when $C$ is actually zero. We have
+\begin{equation}
+a_{\sigma\sigma'}(k)=\frac{V\sum_{k'}a_{\sigma\sigma'}(k')}{2\varepsilon_k-\lambda},
+\qquad (5.31)
+\end{equation}
+where $\varepsilon_k=\varepsilon_{-k}$ by Kramers' theorem, and hence
+\begin{equation}
+a_{\sigma\sigma'}(-k)=a_{\sigma\sigma'}(k). \tag{$\ast$}
+\end{equation}
+Moreover, for equal spins,
+\begin{align}
+|\psi_{\sigma\sigma}\rangle
+&=\sum_k a_{\sigma,\sigma}(k)c^\dagger_{k,\sigma}c^\dagger_{-k,\sigma}|\phi_0\rangle\\
+&=\sum_k a_{\sigma,\sigma}(k)\big(\delta_{k,-k}
+  -c^\dagger_{-k,\sigma}c^\dagger_{k,\sigma}\big)|\phi_0\rangle\\
+&=-\sum_k a_{\sigma,\sigma}(k)c^\dagger_{-k,\sigma}c^\dagger_{k,\sigma}|\phi_0\rangle\\
+&=-\sum_k a_{\sigma,\sigma}(-k)c^\dagger_{k,\sigma}c^\dagger_{-k,\sigma}|\phi_0\rangle\\
+&=-\sum_k a_{\sigma,\sigma}(k)c^\dagger_{k,\sigma}c^\dagger_{-k,\sigma}|\phi_0\rangle
+ =-|\psi_{\sigma\sigma}\rangle .
+\end{align}
+Here $\delta_{k,-k}$ drops out because $\sum_k$ does not include momenta inside the Fermi
+sea and thus $k\neq0$; in the fourth line $k\to-k$ was substituted, and in the fifth line
+($\ast$) was used. Consequently
+\begin{equation}
+\langle\psi_{\sigma\sigma}|\psi_{\sigma\sigma}\rangle
+=-\langle\psi_{\sigma\sigma}|\psi_{\sigma\sigma}\rangle
+\;\Longrightarrow\;\langle\psi_{\sigma\sigma}|\psi_{\sigma\sigma}\rangle=0
+\;\Longrightarrow\;\sum_k|a_{\sigma\sigma}(k)|^2=0
+\;\Longrightarrow\;a_{\sigma\sigma}(k)=0,
+\end{equation}
+so $\sum_k a_{\sigma\sigma}(k)=0$. Thus $\sigma=\sigma'$ yields $C=0$, cf.\ (5.35), and
+Cooper pairs consist of electrons with opposite spins.
+
+Note that if $\psi(r_1-r_2)$ is antisymmetric, then $\psi(0)=0$ and $C=0$ as well, so the
+derivation of (5.35) is different in that case.
+
+\paragraph{Position representation.}
+Project the state
+$|\psi_{\sigma,\sigma'}\rangle=\sum_k a_{\sigma,\sigma'}(k)c^\dagger_{k,\sigma}
+c^\dagger_{-k,\sigma'}|\phi_0\rangle$ onto the position basis. Since $H$ acts trivially
+on the spin space ($\sigma\to\sigma$, $\sigma'\to\sigma'$), one can factorize the wave
+function:
+\begin{equation}
+\langle \vec r_1,\vec r_2|\psi_{\sigma,\sigma'}\rangle
+=\psi_{\sigma,\sigma'}(\vec r_1,\vec r_2)
+=\psi(\vec r_1,\vec r_2)\,\chi(\sigma,\sigma'),
+\qquad (5.37)
+\end{equation}
+with
+\begin{equation}
+\psi(\vec r_1,\vec r_2)=\frac{1}{V}\sum_k a(k)\,
+e^{i\vec k\cdot\vec r_1}e^{-i\vec k\cdot\vec r_2}=\psi(\vec r_1-\vec r_2),
+\qquad (5.36)
+\end{equation}
+using $\langle\vec r|\vec k\rangle=\frac{1}{\sqrt V}e^{i\vec k\cdot\vec r}$.
+
+\subsection{BCS theory (Czycholl 5.4)}
+\label{sec:bcs-theory_details}
+
+\paragraph{Mean-field recap.}
+Write $\hat n_\alpha=\langle n_\alpha\rangle+\delta\hat n_\alpha$ and assume that
+$\delta\hat n_\alpha$ is small, such that second-order fluctuations can be dropped:
+\begin{align}
+\hat n_\alpha\hat n_\beta
+&=\big(\langle\hat n_\alpha\rangle+\delta\hat n_\alpha\big)
+  \big(\langle\hat n_\beta\rangle+\delta\hat n_\beta\big)\\
+&\overset{\delta\hat n_\alpha\delta\hat n_\beta\approx0}{=}
+  \langle\hat n_\alpha\rangle\langle\hat n_\beta\rangle
+  +\langle\hat n_\alpha\rangle\big(\hat n_\beta-\langle\hat n_\beta\rangle\big)
+  +\langle\hat n_\beta\rangle\big(\hat n_\alpha-\langle\hat n_\alpha\rangle\big)\\
+&=\langle\hat n_\alpha\rangle\hat n_\beta+\langle\hat n_\beta\rangle\hat n_\alpha
+  -\langle\hat n_\alpha\rangle\langle\hat n_\beta\rangle .
+\end{align}
+Now apply this to $c^{(\dagger)}_{-k\downarrow}c^{(\dagger)}_{k\uparrow}$ instead of
+$\hat n_\alpha$ to derive a mean-field version of the BCS Hamiltonian, which gives
+(5.40).
+
+\paragraph{Nambu form of the effective Hamiltonian.}
+Rewrite $H_{\mathrm{eff}}$ as (following Becca \& Sorella, and the Superconductivity
+IMPRS UFAST 2017 course of Michael Sentef)
+\begin{align}
+\tilde H_{\mathrm{eff}}
+&=\sum_k\begin{pmatrix}c^\dagger_{k\uparrow}&c_{-k\downarrow}\end{pmatrix}
+  \begin{pmatrix}\varepsilon_k&-\Delta\\-\Delta^*&-\varepsilon_k\end{pmatrix}
+  \begin{pmatrix}c_{k\uparrow}\\c^\dagger_{-k\downarrow}\end{pmatrix}\\
+&=\sum_k\begin{pmatrix}c^\dagger_{k\uparrow}&c_{-k\downarrow}\end{pmatrix}
+  \begin{pmatrix}\varepsilon_k c_{k\uparrow}-\Delta c^\dagger_{-k\downarrow}\\
+  -\Delta^* c_{k\uparrow}-\varepsilon_k c^\dagger_{-k\downarrow}\end{pmatrix}\\
+&=\sum_k\varepsilon_k c^\dagger_{k\uparrow}c_{k\uparrow}
+  -\Delta c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}
+  -\Delta^* c_{-k\downarrow}c_{k\uparrow}
+  -\varepsilon_k \underbrace{c_{-k\downarrow}c^\dagger_{-k\downarrow}}
+   _{=\,1-c^\dagger_{-k\downarrow}c_{-k\downarrow}}\\
+&=\sum_{k,\sigma}\varepsilon_k c^\dagger_{k\sigma}c_{k\sigma}
+  -\Delta^*\sum_k c_{-k\downarrow}c_{k\uparrow}
+  -\Delta\sum_k c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}
+  -\sum_k\varepsilon_k\\
+&=H_{\mathrm{eff}}-\underbrace{\frac{|\Delta|^2}{V}-\sum_k\varepsilon_k}
+   _{\text{const.}},\qquad (5.41)
+\end{align}
+Set $M\equiv\begin{pmatrix}\varepsilon_k&-\Delta\\-\Delta^*&-\varepsilon_k\end{pmatrix}$
+and diagonalize it, such that $H_{\mathrm{eff}}$ becomes diagonal --- this is a unitary
+transformation.
+
+\paragraph{Diagonalizing the $2\times2$ matrix $M$.}
+Eigenvalues:
+\begin{align}
+\det\begin{pmatrix}\varepsilon_k-\lambda&-\Delta\\
+ -\Delta^*&-\varepsilon_k-\lambda\end{pmatrix}
+&=-(\varepsilon_k-\lambda)(\varepsilon_k+\lambda)-|\Delta|^2\\
+&=-\big(\lambda^2-\varepsilon_k^2-|\Delta|^2\big)\overset{!}{=}0\\
+\Longrightarrow\quad \lambda_{1,2}
+&=\pm\sqrt{\varepsilon_k^2+|\Delta|^2}\equiv E_k^\pm\in\mathbb{R}. \tag{$\ast_1$}
+\end{align}
+Eigenvectors: from
+\begin{equation}
+\begin{pmatrix}\varepsilon_k-E_k^\pm&-\Delta\\
+ -\Delta^*&-\varepsilon_k-E_k^\pm\end{pmatrix}
+\begin{pmatrix}x_\pm\\y_\pm\end{pmatrix}\overset{!}{=}0
+\end{equation}
+the first row (I) gives
+\begin{equation}
+(\varepsilon_k-E_k^\pm)x_\pm-\Delta y_\pm=0
+\quad\Longleftrightarrow\quad
+y_\pm=\frac{\varepsilon_k-E_k^\pm}{\Delta}\,x_\pm, \tag{I$'$}
+\end{equation}
+while the second row (II) gives, using (I$'$) and
+$(E_k^\pm)^2=\varepsilon_k^2+|\Delta|^2$,
+\begin{equation}
+\Delta^*x_\pm+(\varepsilon_k+E_k^\pm)y_\pm
+\overset{\text{(I}'\text{)}}{=}
+\Big(\Delta^*+\frac{\varepsilon_k^2-(E_k^\pm)^2}{\Delta}\Big)x_\pm=0 ,
+\end{equation}
+i.e.\ it is satisfied identically. Hence $x_\pm$ can be chosen arbitrarily. \hfill($\odot$)
+
+\paragraph{Normalization.}
+Requiring $|x_\pm|^2+|y_\pm|^2\overset{!}{=}1$ and using (I$'$),
+\begin{equation}
+|x_\pm|^2\Big(1+\frac{(\varepsilon_k-E_k^\pm)^2}{|\Delta|^2}\Big)
+=|x_\pm|^2\,\frac{|\Delta|^2+(\varepsilon_k-E_k^\pm)^2}{|\Delta|^2}\overset{!}{=}1,
+\end{equation}
+where
+\begin{align}
+(\varepsilon_k-E_k^\pm)^2
+&=\varepsilon_k^2-2\varepsilon_k E_k^\pm+(E_k^\pm)^2\\
+&=\varepsilon_k^2-2\varepsilon_k E_k^\pm+\varepsilon_k^2+|\Delta|^2\\
+&=2\varepsilon_k^2-2\varepsilon_k E_k^\pm+|\Delta|^2 .
+\end{align}
+Therefore
+\begin{align}
+|x_\pm|^2
+&=\frac{|\Delta|^2}{2\big(\varepsilon_k^2-\varepsilon_k E_k^\pm+|\Delta|^2\big)}
+ \overset{(\ast_1)}{=}\frac{1}{2}\,
+ \frac{|\Delta|^2}{(E_k^\pm)^2-\varepsilon_k E_k^\pm}
+ \overset{(\ast_1)}{=}\frac{1}{2}\,
+ \frac{(E_k^\pm)^2-\varepsilon_k^2}{E_k^\pm\big(E_k^\pm-\varepsilon_k\big)}\\
+&=\frac{1}{2}\,\frac{E_k^\pm+\varepsilon_k}{E_k^\pm}
+ =\frac{1}{2}\Big(1+\frac{\varepsilon_k}{E_k^\pm}\Big)
+ =\frac{1}{2}\Big(1\pm\frac{\varepsilon_k}{E_k}\Big),\\
+|y_\pm|^2&=1-|x_\pm|^2
+ =\frac{1}{2}\Big(1-\frac{\varepsilon_k}{E_k^\pm}\Big)
+ =\frac{1}{2}\Big(1\mp\frac{\varepsilon_k}{E_k}\Big).
+\tag{A}
+\end{align}
+
+\paragraph{Fixing the free phase.}
+Choose $x_\pm$ to be some real value, which is allowed by ($\odot$). Then (A) gives
+$x_\pm^2=y_\mp^2$, i.e.\ $x_\pm=\pm y_\mp$, which is still too many solutions. Set
+\begin{equation}
+x_+=y_-\equiv u_k,\qquad x_-=-y_+\equiv v_k .
+\end{equation}
+Since $M^\dagger_k=M_k$, we know that $M_k$ can be diagonalized by a unitary $U_k$:
+\begin{equation}
+M=\begin{pmatrix}\varepsilon_k&-\Delta\\-\Delta^*&-\varepsilon_k\end{pmatrix}
+=U^\dagger_k\begin{pmatrix}E_k^+&0\\0&E_k^-\end{pmatrix}U_k,
+\qquad
+U_k=\begin{pmatrix}x^+&x^-\\y^+&y^-\end{pmatrix}
+=\begin{pmatrix}u_k&v_k\\-v_k&u_k\end{pmatrix},
+\end{equation}
+which is obviously unitary.
+
+\paragraph{The Bogoliubov transformation.}
+Inserting this into the Hamiltonian yields
+\begin{align}
+\tilde H_{\mathrm{eff}}
+&=\sum_k\begin{pmatrix}c^\dagger_{k\uparrow}&c_{-k\downarrow}\end{pmatrix}
+  U_kU^\dagger_k
+  \begin{pmatrix}\varepsilon_k&-\Delta\\-\Delta^*&-\varepsilon_k\end{pmatrix}
+  U_kU^\dagger_k
+  \begin{pmatrix}c_{k\uparrow}\\c^\dagger_{-k\downarrow}\end{pmatrix}
+  -\sum_k\varepsilon_k\\
+&=\sum_k\begin{pmatrix}\alpha^\dagger_k&\beta_k\end{pmatrix}
+  \begin{pmatrix}E_k^+&0\\0&E_k^-\end{pmatrix}
+  \begin{pmatrix}\alpha_k\\\beta^\dagger_k\end{pmatrix}-\sum_k\varepsilon_k\\
+&=\sum_k E_k^+\alpha^\dagger_k\alpha_k+E_k^-\beta_k\beta^\dagger_k
+  -\sum_k\varepsilon_k\\
+&=\sum_k E_k^+\big(\alpha^\dagger_k\alpha_k+\beta^\dagger_k\beta_k\big)
+  -\underbrace{\sum_k\big(\varepsilon_k+E_k^+\big)}_{\text{const.}},
+  \qquad\sim(5.46)
+\end{align}
+where $\{\beta_k,\beta^\dagger_k\}=1$ and $E_k^-=-E_k^+$ were used, and with
+$\begin{pmatrix}\alpha_k\\\beta^\dagger_k\end{pmatrix}
+=U^\dagger_k\begin{pmatrix}c_{k\uparrow}\\c^\dagger_{-k\downarrow}\end{pmatrix}$.
+Here $U_k$ is known as the Bogoliubov transformation, with the corresponding Bogoliubov
+quasiparticles
+\begin{align}
+\alpha_k&=u_k c_{k\uparrow}-v_k c^\dagger_{-k\downarrow},\\
+\beta_k&=u_k c_{-k\downarrow}+v_k c^\dagger_{k\uparrow},
+\end{align}
+which reproduces (5.43)--(5.47). They obey the usual fermionic anticommutation
+relations, as can be seen as follows (for arbitrary unitary transformations).
+
+\paragraph{Nambu spinors and the anticommutation relations.}
+Define
+\begin{equation}
+\psi_k=\begin{pmatrix}c_{k\uparrow}\\c^\dagger_{-k\downarrow}\end{pmatrix},\qquad
+\psi^\dagger_k=\begin{pmatrix}c^\dagger_{k\uparrow}&c_{-k\downarrow}\end{pmatrix}
+\qquad\text{(Nambu spinors)},
+\end{equation}
+with $\{\psi_{k,i},\psi^\dagger_{k,j}\}
+=\psi_{k,i}\psi^\dagger_{k,j}+\psi^\dagger_{k,j}\psi_{k,i}=\delta_{ij}$.
+The Bogoliubov transformation can then be written as
+\begin{equation}
+\Gamma_k\equiv\begin{pmatrix}\alpha_k\\\beta^\dagger_k\end{pmatrix}=U^\dagger\psi_k,
+\qquad
+\Gamma^\dagger_k\equiv\psi^\dagger_k U ,
+\end{equation}
+so that, using bilinearity of $\{\cdot,\cdot\}$ and that the $U^{(\dagger)}_{\alpha\beta}$
+are numbers,
+\begin{align}
+\{\Gamma_{k,i},\Gamma^\dagger_{k,j}\}
+&=\Big\{\sum_\ell U^\dagger_{i,\ell}\psi_{k,\ell},\,
+ \sum_m\psi^\dagger_{k,m}U_{m,j}\Big\}\\
+&=\sum_{\ell,m}U^\dagger_{i,\ell}\{\psi_{k,\ell},\psi^\dagger_{k,m}\}U_{m,j}\\
+&=\sum_\ell U^\dagger_{i,\ell}U_{\ell,j}=(U^\dagger U)_{ij}=\delta_{ij}.
+\end{align}
+Since $U$ is unitary, $\alpha_k$ and $\beta_k$ are fermionic operators.
+
+\paragraph{Coherence factors.}
+With (5.45),
+\begin{align}
+\big(u_kv_k\big)^2
+&=\frac{1}{4}\Big(1-\frac{\varepsilon_k^2}{(E_k^+)^2}\Big)
+ =\frac{1}{4}\Big(\frac{\varepsilon_k^2+|\Delta|^2-\varepsilon_k^2}
+ {\varepsilon_k^2+|\Delta|^2}\Big)\\
+&=\frac{1}{4}\,\frac{|\Delta|^2}{(E_k^+)^2}
+ \qquad\Longrightarrow\qquad
+ u_kv_k=\pm\frac{1}{2}\,\frac{|\Delta|}{E_k^+},
+\end{align}
+from which the rest follows, i.e.\ (5.51), where the negative solution leads to the
+contradiction $1=\text{negative value}$.
+
+\paragraph{The BCS ground state.}
+Since $\alpha_k$ is fermionic,
+$n^2_{\alpha,k}\equiv(\alpha^\dagger_k\alpha_k)^2=\alpha^\dagger_k\alpha_k$, and thus any
+eigenvalue $\lambda$ of $n_{\alpha,k}$ must satisfy $\lambda^2=\lambda$, i.e.\
+$\lambda\in\{0,1\}$ (and the same for $n_{\beta,k}$). Since $E_k^+\ge0$, it follows that
+if $\alpha_k|\psi_{\mathrm{BCS}}\rangle=\beta_k|\psi_{\mathrm{BCS}}\rangle=0$, then
+$|\psi_{\mathrm{BCS}}\rangle$ is the ground state of
+$H_{\mathrm{eff}}=\sum_k E_k^+(\alpha^\dagger_k\alpha_k+\beta^\dagger_k\beta_k)$.
+
+\paragraph{The pairing ansatz.}
+Following Becca \& Sorella (1.91),
+\begin{align}
+|\psi_{\mathrm{BCS}}\rangle
+&=\exp\Big(\sum_k f_k c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}\Big)|0\rangle\\
+&=\prod_k\exp\big(f_k c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}\big)|0\rangle\\
+&=\prod_k\Big[\sum_{n=0}^\infty\frac{f_k^n}{n!}
+ \big(c^\dagger_{k,\uparrow}\big)^n\big(c^\dagger_{-k,\downarrow}\big)^n\Big]|0\rangle,
+ \qquad\text{where }\big(c^\dagger_\alpha\big)^2|0\rangle=0,\\
+&=\prod_k\big(1+f_k c^\dagger_{k,\uparrow}c^\dagger_{-k,\downarrow}\big)|0\rangle\\
+&=\bigotimes_k\Big(|0\rangle_k
+ +f_k c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}|0\rangle_k\Big),
+\end{align}
+with the one-momentum vacuum $|0\rangle_k$ defined by $|0\rangle=\bigotimes_k|0\rangle_k$
+and $c^\dagger_{k\uparrow}|0\rangle_k=c^\dagger_{-k\downarrow}|0\rangle_k=0$. Thus this
+ansatz is a pure product state, $|\psi_{\mathrm{BCS}}\rangle
+=\bigotimes_k|\psi_{\mathrm{BCS}}\rangle_k$, and therefore
+\begin{equation}
+\alpha_k|\psi_{\mathrm{BCS}}\rangle
+=\alpha_k\bigotimes_{k'}|\psi_{\mathrm{BCS}}\rangle_{k'}
+=|\psi\rangle_{k_1}\otimes\dots\otimes
+ \alpha_k|\psi_{\mathrm{BCS}}\rangle_k\otimes\dots
+\end{equation}
+so that only a single momentum sector has to be examined:
+\begin{align}
+\alpha_k|\psi_{\mathrm{BCS}}\rangle_k
+&=\big(u_k c_{k\uparrow}-v_k c^\dagger_{-k\downarrow}\big)
+ \Big(|0\rangle_k+f_k c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}|0\rangle_k\Big)\\
+&=\big(u_kf_k c_{k\uparrow}c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}
+ -v_k c^\dagger_{-k\downarrow}\big)|0\rangle_k\overset{!}{=}0\\
+\Longleftrightarrow\quad
+v_k c^\dagger_{-k\downarrow}|0\rangle_k
+&=u_kf_k\big(1-c^\dagger_{k\uparrow}c_{k\uparrow}\big)
+ c^\dagger_{-k\downarrow}|0\rangle_k\\
+&=u_kf_k\Big(c^\dagger_{-k\downarrow}
+ +c^\dagger_{k\uparrow}\underbrace{c^\dagger_{-k\downarrow}c_{k\uparrow}}_{=0}\Big)
+ |0\rangle_k ,
+\end{align}
+where $c_\alpha|0\rangle=0$ and $c^\dagger_\alpha c^\dagger_\alpha|0\rangle=0$ were used.
+Since $u_k\neq0$ this gives $f_k=v_k/u_k$, and similarly
+\begin{align}
+\beta_k|\psi_{\mathrm{BCS}}\rangle_k
+&=\big(u_kf_k c_{-k\downarrow}c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}
+ +v_k c^\dagger_{k\uparrow}\big)|0\rangle_k\overset{!}{=}0\\
+\Longleftrightarrow\quad
+v_k c^\dagger_{k\uparrow}|0\rangle_k
+&=u_kf_k\,c^\dagger_{k\uparrow}
+ \big(1-c^\dagger_{-k\downarrow}c_{-k\downarrow}\big)|0\rangle_k ,
+\end{align}
+again yielding $f_k=v_k/u_k$.
+
+Therefore $|\psi_{\mathrm{BCS}}\rangle$ is indeed the ground state of the mean-field
+Hamiltonian, and it behaves like the vacuum of the Bogoliubons. To avoid problems due to
+$u_k=0$, one often writes instead
+\begin{equation}
+|\psi_{\mathrm{BCS}}\rangle
+=\prod_k\big(u_k+v_k c^\dagger_{k\uparrow}c^\dagger_{-k\downarrow}\big)|0\rangle .
+\end{equation}
+
+\subsection{References}
+\begin{itemize}
+\item G.\ Czycholl, \emph{Solid State Theory}, Volume 2 (and Sec.~5.3 of Volume 1 for
+      Kramers' theorem).
+\item H.\ Bruus \& K.\ Flensberg, \emph{Many-Body Quantum Theory in Condensed Matter
+      Physics}, Sec.~3.8.
+\item F.\ Becca \& S.\ Sorella, \emph{Quantum Monte Carlo Approaches for Correlated
+      Systems}, Eq.~(1.91).
+\item M.\ Sentef, \emph{Superconductivity}, IMPRS UFAST 2017 course.
+\end{itemize}
+
+\end{document}

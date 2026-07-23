@@ -1,8 +1,14 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{tikz}
-\usetikzlibrary{calc}
+\usetikzlibrary{
+    decorations.pathmorphing,
+    decorations.markings,
+    arrows.meta,
+    calc
+}
 \usepackage{dsfont}    % for the identity operator
 \usepackage{parskip}   % for paragraph spacing
+\usepackage{bm}
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \usepackage{cleveref}
@@ -22,3 +28,6 @@
 \DeclareMathOperator{\Tr}{Tr}      % full trace
 \DeclareMathOperator{\Trace}{tr}   % (partial) trace, lowercase
 \DeclareMathOperator{\diag}{diag}
+
+% display vectors in boldface, rather than with an arrow on top
+\renewcommand{\vec}[1]{\bm{#1}}
