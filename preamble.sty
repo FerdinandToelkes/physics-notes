@@ -9,6 +9,7 @@
 \usepackage{dsfont}    % for the identity operator
 \usepackage{parskip}   % for paragraph spacing
 \usepackage{bm}
+\usepackage{titlesec}  % for customizing for instance the \paragraph{} command
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \usepackage{cleveref}
@@ -18,7 +19,32 @@
 
 % --- shared macros, used by every note ---
 \newcommand{\ad}{\mathrm{ad}}
+
+\newtheoremstyle{break}
+  {3pt}      % Space above
+  {3pt}      % Space below
+  {\normalfont} % Body font
+  {}         % Indent
+  {\bfseries}% Head font
+  {.}        % Punctuation after head
+  {\newline} % Space after head
+  {}         % Head spec
+
+\theoremstyle{break}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
 \newtheorem*{lemma*}{Hadamard Lemma}
+
+\titleformat{\paragraph}
+  {\normalfont\normalsize\bfseries} % format
+  {\theparagraph}                   % label
+  {1em}                             % separation
+  {}                                % before-code
+
+\titlespacing*{\paragraph}
+  {0pt}                             % left indent
+  {3.25ex plus 1ex minus .2ex}      % space before
+  {1ex}                             % space after
 
 % --- quantum-mechanics / linear-algebra shortcuts (shared by the notes) ---
 \newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
@@ -31,3 +57,4 @@
 
 % display vectors in boldface, rather than with an arrow on top
 \renewcommand{\vec}[1]{\bm{#1}}
+

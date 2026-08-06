@@ -5,101 +5,185 @@
 \section{Group theory}
 \label{sec:group_theory}
 
-The following sections are part of the book \emph{Mathematical methods for physicists} by G. Arfken and H. Weber, chapter 4 and were taken literally word by word. The book goes more into detail on certain points so consider reading the book directly. All information that was added in this section originates from Wikipedia.
+\subsection{Basic definitions}
+\label{subsec:gt_basic_definitions}
 
-\subsection{Definition of a Group}
-\label{subsec:group-definition}
+\begin{definition}
+    A \emph{representation} of dimension $n$ of the abstract group $G$ is defined as a homomorphism $D: G \rightarrow \textnormal{GL}(n, \mathbb{C})$, the group of non-singular $n \times n$ matrices with complex entries. 
 
-A group $G$ may be defined as a set of objects or operations, rotations,
-transformations, called the elements of $G$, that may be combined, or
-``multiplied,'' to form a well-defined product in $G$, denoted by a $\ast$, that
-satisfies the following four conditions.
+    In other words it is a mapping under which $g \mapsto D(g)$, preserving the group structure:
+    \begin{equation}
+        D(g_1 g_2) = D(g_1) D(g_2) \qquad \text{(homomorphism)}.
+    \end{equation}
+    The mapping is necessarily into the set of non-singular matrices, since each matrix must be invertible: $D(g^{-1}) = (D(g))^{-1}$.
+\end{definition}
 
+\begin{definition}
+    Two elements $a$ and $b$ of a group $G$ are \emph{conjugate} if there exists and element $g \in G$ such that $a=gbg^{-1}$. The element $g$ is called the \emph{conjugating element}. This is an example of an \emph{equivalence relation}\footnote{A relation must be \emph{reflexive}, \emph{symmetric} and \emph{transitive} to be an equivalence relation.}.
+
+    \emph{Conjugacy classes} are defined as
+    \begin{equation}
+        (a) = \{b \mid \exists g \in G: b=gag^{-1} \}
+    \end{equation}
+    and are just one example of \emph{equivalence classes}. The equivalence classes are disjoint sets, that cover the whole set $G$.
+\end{definition}
+
+\begin{definition}
+    The character of a representation $D$ of a group $G$ is the set $\chi = \{\chi(g) \mid g \in G\}$, where $\chi(g)$ is the trace of the representation matrix $D(g)$:
+    \begin{equation}
+        \chi(g) = \textnormal{Tr}(D(g)). 
+    \end{equation}
+\end{definition}
+Characters are useful, since they are invariant under equivalence transformations $D(g) \rightarrow S D(g) S^{-1}$ due to the cyclic property of the trace.
+
+\begin{definition}
+    A representation of dimension $n+m$ is said to be \emph{reducible} if $D(g)$ takes the form
+    \begin{equation}
+        D(g) = \begin{pmatrix}
+            A(g) & C(g) \\
+            O & B(g)
+        \end{pmatrix} \label{eq:gt_reducible_representation}
+    \end{equation} 
+    $\forall g \in G$, where $A, C$ and $B$ are submatrices of dimension $m \times m$, $m \times n$ and $n \times n$ respectively, and $O$ denotes a null matrix of dimension $n \times m$.
+\end{definition}
+From $D(g)D(g') = D(gg')$ follows
+\begin{align*}
+    A(gg') &= A(g)A(g') \\
+    B(gg') &= B(g)B(g') ,
+\end{align*} 
+so that $\{A(g)\}$ and $\{B(g)\}$ constitute $[m]$ and $[n]$ representations of $G$ respectively. For finite groups it can be shown (see Maschke's theorem, below) that under equivalence $C$ can be taken to be a null matrix. The representation is then said to be \emph{completely reducible} or \emph{decomposable}, and we write
+\begin{equation*}
+    D(g) = A(g) \oplus B(g) .
+\end{equation*}
+It may be that the representations $A$ and $B$ are themselves decomposable, in which case it is natural to continue the process, which will terminate when we reach the level of \emph{irreducible representations} (irrep), namely representations which cannot be further reduced. Thus, the matrix representation $D$ of the abstrac group $G$ can be written as a direct sum of irreducible representations.
+
+\begin{definition}
+    A map $T: V \rightarrow V$ is \emph{linear} if
+    \begin{equation}
+        T(\alpha \vec u + \beta \vec v) = \alpha(T \vec u) + \beta (T \vec v)
+    \end{equation}
+    for all $\vec u, \vec v \in V; \alpha, \beta \in \mathbb{C}$.
+\end{definition}
+
+\paragraph{G-module} 
+It turns out to be extremely useful to think of a representation of a group $G$ as a homomorphism mapping $G$ into the group of non-singular\footnote{Non-singular means, that $T(\vec v) = 0 \Rightarrow \vec v = \vec 0$, which is equivalent to $T$ being invertible.} linear transformations of a vector space $V$. That is, every element $g$ of $G$ is mapped into a linear transformation $T(g)$ with the all-important property that 
+\begin{equation}
+    T(g'g) = T(g')T(g) \qquad \text{(homomorphism)}.
+\end{equation}
+A vector space in which a group $G$ acts in this way is called a \emph{G-module}.
+
+\paragraph{Reducibility}
+In this language reducibility corresponds to the existence of a \emph{submodule}, i.e. a subspace $U$ of the vector space $V$ which itself is closed under the action of the group:
+\begin{equation}
+    \vec u \in U \subset V \Rightarrow T(g)\vec u \in U .
+\end{equation}
+Using some basis of $V$ to express $T(g)$ as a matrix $D(g)$, one can easily show that the aforementioned closure of $U$ is equivalent to $D(g)$ having the form as in \cref{eq:gt_reducible_representation}.
+
+\paragraph{Unitary transformations}
+A linear transformation $T$ acting in the vector space $V$ is said to be \emph{unitary} if
+\begin{equation}
+    (T\vec u, T \vec v) = (\vec u, \vec v) \qquad \forall\vec u, \vec v \in V ,
+\end{equation}
+where $(\cdot\, , \cdot)$ denotes the scalar product. This is equivalent to
+\begin{equation}
+    (T\vec u, \vec v) = (\vec u, T^{-1} \vec v) , \label{eq:gt_def_unitary_trafo}
+\end{equation} 
+since $T$ is invertible. 
+
+\paragraph{Complete reducibility}
+Again, let $U$ be a submodule of the $G$-module $V$, closed under the action of the group: $\vec u \in U \subset V \Rightarrow T(g)\vec u \in U$. Use the scalar product to obtain an orthonormal basis of $U$ and of $W = V \setminus U$ such that W is the orthogonal complement if $U$:
+\begin{equation}
+    W = \{\vec w \in V \mid (\vec w, \vec u) = 0 \quad \forall \vec u \in U \}.
+\end{equation}
+In coordinate-free language, complete reducibility corresponds to the closure of $W$ as well as $U$ under the aciton of the group. This will always be the case of the $T(g)$ are unitary with respect to the scalar product we are using. For then, from \cref{eq:gt_def_unitary_trafo},
+\begin{equation*}
+    (T(g)\vec w, \vec u) = (\vec w, T^{-1}(g) \vec u) = (\vec w, T(g^{-1}) \vec u) = (\vec w, \vec u') = 0 ,
+\end{equation*}
+which shows that $W$ is closed under the action of the group, as required. This translates to the submatrix $C(g)$ being the null matrix.
+
+\paragraph{Maschke's theorem}
+All reducible representations of a finite group are completely reducible (decomposable). Since we already know, that all \emph{unitary} representations are decomposable, one only has to show that for a finite group it is always possible to choose a scalar product which makes the representation unitary. This then implies that every reducible matrix representation $D$ is equivalent to a reducible unitary representation $D'$.
+
+\paragraph{Schur's first lemma} \label{para:gt_schurs_first_lemma}
+In matrix form this states that any matrix which commutes with all the matrices of an irreducible representation must be a multiple of the unit matrix, i.e.
+\begin{equation}
+    B D(g) = D(g) B \quad \forall g \in G \Rightarrow B = \lambda \mathds{1},
+\end{equation}
+with $\lambda \in \mathbb{C}$. As a statement about linear operators it says that 
+\begin{equation}
+    \hat B T(g) = T(g) \hat B \quad \forall g \in G \Rightarrow \hat B = \lambda E ,
+\end{equation}
+where $\hat B: U \rightarrow U$ is the linear operator corresponding to B, and E is the identity map $\vec u \mapsto \vec u$.
+
+\paragraph{Schur's second lemma}
+This concerns two inequivalent irreducible representations $D, D'$, and in matrix form states that
+\begin{equation}
+    B D(g) = D'(g)B \quad \forall g \in G \Rightarrow B = 0 . \label{eq:gt_schurs_second_lemma_matrix}
+\end{equation} 
+The corresponding linear operator $\hat B$ will in this case be a map $\hat B: U \rightarrow U'$ between the two vector spaces $U$ and $U'$ supporting the two representations, and the coordinate-free version of \cref{eq:gt_schurs_second_lemma_matrix} is
+\begin{equation}
+    \hat B T(g) = T'(g) \hat B \quad \forall g \in G \Rightarrow \hat B = \hat O ,
+\end{equation}
+where $\hat O$ is the linear operator which maps every vector in $U$ onto the null vector in $U'$: $\hat O \vec u = \vec 0'$ for all $ \vec u \in U$.
+
+
+\paragraph{The fundamental orthogonality theorem}
+Let $U_\nu$ and $U_\mu$ be two $G$-modules carrying inequivalent irreducible representations for a finite group $G$. For the matrix representations then holds
+\begin{equation}
+    \sum_g D^{(\mu)}_{ir} (g) D^{(\nu)}_{sj} (g^{-1}) = \frac{[g]}{n_\mu} \delta^{\mu \nu} \delta_{ij} \delta_{rs} .
+\end{equation}
+
+\paragraph{Orthogonality of characters}
+Recall that the character of a representation $D$ is the set $\{\chi(g)\}$, where $\chi(g)$ is the trace of the matrix $D(g)$. These traces have the following properties:
 \begin{enumerate}
-\item If $a$ and $b$ are any two elements of $G$, then the product $a\ast b$ is
-  also an element of $G$, where $b$ acts before $a$; or $(a,b)\to a\ast b$
-  associates (or maps) an element $a\ast b$ of $G$ with the pair $(a,b)$ of
-  elements of $G$. This property is known as ``$G$ is closed under multiplication
-  of its own elements.\footnote{This means that the group operation is defined as $\ast: G \times G \rightarrow G$ with $(a,b) \mapsto a \ast b$.}''
-\item This multiplication is associative: $(a\ast b)\ast c=a\ast(b\ast c)$.
-\item There is a unit element $1$ in $G$ such that $1\ast a=a\ast 1=a$ for every
-  element $a$ in $G$. The unit is unique: $1=1'\ast 1=1'$.
-\item There is an inverse, or reciprocal, of each element $a$ of $G$, labeled
-  $a^{-1}$, such that $a\ast a^{-1}=a^{-1}\ast a=1$. The inverse is unique: If
-  $a^{-1}$ and $a'^{-1}$ are both inverses of $a$, then
-  $a'^{-1}=a'^{-1}\ast(a\ast a'^{-1})=(a'^{-1}\ast a)\ast a^{-1}=a^{-1}$.
+    \item $\chi$ is the same for equivalent representations, for which $D'(g) = SD(g)S^{-1}$.
+    \item $\chi$ is the same for conjugate elements, since $D(hgh^{-1}) = D(h)D(g)(D(h))^{-1}$.
+    \item If $D$ is unitary, i.e. $D^{-1} = D^\dagger$, then
+    \begin{equation}
+        \chi(g^{-1}) = \text{Tr}((D(g))^{-1}) = \text{Tr}(D(g)^\dagger) = \chi^*(g),
+    \end{equation}
+    which is true for all finite groups.
 \end{enumerate}
 
-Since the $\ast$ for multiplication is tedious to write, it is customary to drop
-it and simply let it be understood. From now on, we write $ab$ instead of
-$a\ast b$.
-
-\begin{itemize}
-    \item If a subset $G'$ of $G$ is closed under multiplication, it is a group and
-    called a \textbf{subgroup} of $G$; that is, $G'$ is closed under the
-    multiplication of $G$. The unit of $G$ always forms a subgroup of $G$.
-    \item If $gg'g^{-1}$ is an element of $G'$ for any $g$ of $G$ and $g'$ of $G'$,
-    then $G'$ is called an \textbf{invariant subgroup} of $G$. The subgroup
-    consisting of the unit is invariant. If the group elements are square matrices,
-    then $gg'g^{-1}$ corresponds to a similarity transformation (see
-    \cref{sec:similarity-transformations}).
-    \item If $ab=ba$ for all $a,b$ of $G$, the group is called \textbf{commutative} or \textbf{abelian}, 
-    that is, the order in products does not matter; commutative multiplication is often
-    denoted by a $+$ sign. Examples are vector spaces whose unit is the zero vector
-    and $-a$ is the inverse of $a$ for all elements $a$ in $G$.
-\end{itemize}
-Another few useful definitions (taken from Wikipedia) are as follows.
-\begin{itemize}
-    \item A group $G$ is called \textbf{cyclic}, if it can be generated by repeated application of one of its elements, i.e. $G=\{ g^n \, | \, n\in \mathbb{Z}\}$ with $g \in G$.
-    \item The \textbf{order} of a group G denotes the number of elements $|G|$ of the group. 
-    \item A \textbf{generating set of a group} is a subset of the group set such that every element of the group can be expressed as a combination (under the group operation) of finitely many elements of the subset and their inverses. 
-    \item The element $g$ of a cyclic group $G=\{ g^n \, | \, n\in \mathbb{Z}\}$ is the \textbf{generator} of that group.
-\end{itemize}
-
-
-\subsection{Homomorphism and isomorphism}
-\label{subsec:homomorphism_and_isomorphism}
-
-There may be a correspondence between the elements of two groups: one-to-one, two-to-
-one, or many-to-one. If this correspondence preserves the group multiplication, we say
-that the two groups are \textbf{homomorphic}. If the correspondence is one-to-one, still preserving the group multiplication,\footnote{Suppose the elements of one group are labeled $g_i$, the elements of the second group $h_i$. Then $g_i \leftrightarrow h_i$ is a one-to-one correspondence for all values of $i$. If $g_i g_j = g_k$ and $h_i h_j = h_k$, then $g_k$ and $h_k$ must be the corresponding group elements.} then the groups are \textbf{isomorphic}.
-
-If a group $G$ is homomorphic to a group of matrices $G'$, then $G'$ is called a \textbf{representation} of $G$. If $G$ and $G'$ are isomorphic, the representation is called \textbf{faithful}. There are many representations of groups; they are not unique.
-
-\paragraph{Example: Rotations} The set of counterclockwise coordinate rotations
-of three-dimensional Euclidean space about its $z$-axis is an example of a group. 
-If the $z$-axis is fixed, the linear transformation is defined through an angle $\varphi$ of the $xy$-coordinate system to a new orientation\footnote{Applying two arbitrary rotations by $\varphi_1$ and $\varphi_2$ successively yields one rotation by $\varphi_1 + \varphi_2$. Thus, the group of rotations is actually closed under multiplication of its own elements. Furthermore, the inverse of $\varphi$ is simply $\varphi^{-1}=-\varphi$ and the unit $\mathds{1}$ is given by the rotation with angle $\varphi=0$.}. One can write these rotations for example with matrices $R_z(\varphi)$ as
+In terms of characters the orthogonality theorem reads
 \begin{equation}
-    \begin{pmatrix}
-        x' \\
-        y' \\
-        z'
-    \end{pmatrix} 
-    = R_z(\varphi) \begin{pmatrix}
-        x \\
-        y \\
-        z
-    \end{pmatrix} 
-    = \begin{pmatrix}
-        \cos \varphi &  \sin \varphi & 0 \\
-        -\sin \varphi & \cos \varphi & 0 \\
-        0 & 0 & 1
-    \end{pmatrix} \begin{pmatrix}
-        x \\
-        y \\
-        z
-    \end{pmatrix}.  \label{eq:rotation_matrices_as_group}
+    \frac{1}{[g]} \sum_g \chi^{(\mu)}(g) \chi^{(\nu)^*}(g) = \delta^{\mu \nu}. \label{eq:gt_character_orthogonality}
 \end{equation}
-One can easily show, that $R_z(\varphi_1)R_z(\varphi_2) = R_z(\varphi_1 + \varphi_2)$ and thereby see, that the matrices $R_z(\varphi)$ are a representation of the group of rotations. This group of rotation matrices is \textbf{abelian}, since the angles of successive rotations simply get added up. Striking off the coordinate vectors in \cref{eq:rotation_matrices_as_group}, we can associate the matrix of the linear transformation with each rotation, which is a group multiplication preserving one-to-one mapping, an isomorphism: The matrices form a faithful representation of the rotation group. 
+Since the characters of conjugate elements are equal, all elements of a conjugacy class will have the same character. Let $\chi_i$ denote the distinct characters where $i=1,\dots,k$ corresponds to the $k$ conjugacy classes $K_i$. \Cref{eq:gt_character_orthogonality} can thus be rewritten as
+\begin{equation}
+    \frac{1}{[g]} \sum_i k_i \chi_i^{(\mu)}(g) \chi_i^{(\nu)^*}(g) = \delta^{\mu \nu} ,
+\end{equation}
+with $k_i$ denoting the number of elements in the conjugacy class $K_i$. 
 
-The unity with angle $\varphi = 0$ and the rotation with $\varphi = \pi$ form a finite subgroup. The finite subgroups with angles $2\pi m/n$, $n$ an integer and $m = 0, 1, \dots, n-1$ are \textbf{cyclic}; that is, the rotations $R(2\pi m/n) = R(2\pi /n)^m$ and thus $R(2\pi /n)$ is the generator of the finite subgroup.
+One can prove that the number of inequivalent irreducible representations $r$ is equal to the number of conjugacy classes $k$.
 
-\paragraph{Example: Permutations} 
 
-\subsection{Reducible and irreducible representations}
+\paragraph{Decomposition of reducible representations}
+For a finite group any reducible representation is completely reducible into a direct sum of irreps (Maschke's theorem), which means that the representation matrices can be cast in block diagonal form, the non-zero diagonal blocks being the matrices of irreducible representations. A given irrep may appear more than once in this decomposition: for example, a 5-dimensional representation could decompose into the trivial representation and two copies of the same 2-dimensional irrep. In the general case the decomposition is written
+\begin{equation}
+    D = \bigoplus_{\nu} a_\nu D^{(\nu)}  ,
+\end{equation}
+where the non-nregative integer $a_\nu$ denotes the number of times the irrep $D^{(\nu)}$ appears in the decomposition. One can show that
+\begin{align}
+    a_\mu &= \frac{1}{[g]} \sum_g \chi (g) \chi^{(\mu)}(g^{-1}) \\
+    &= \frac{1}{[g]} \sum_g \chi (g) \chi^{(\mu)^*}(g) .
+\end{align} 
 
-Representation: Some other way of describing the same group. 
-Example: matrix representation as shown for rotations in $3d$ space around a fixed axis can be written with matrices. $\rightarrow$ important in physics since many things are represented as vectors.
+\paragraph{Construction of the character table}
+The characters of the irreducible representations of a finite group are conveniently presented in the form of a table, the rows of which correspond to the different irreps, and the columns to the conjugacy classes of the group. In the construction of this table the principal tools we use are:
+\begin{enumerate}
+    \item number of irreps = number of conjugacy classes: $r=k$;
+    \item $\sum_\mu n_\mu^2 = [g]$;
+    \item orthogonality: $\sum_i k_i \chi_i^{(\mu)} \chi_i^{(\mu)^*}$;
+    \item any other information we can come by (!). 
+\end{enumerate}
+In the last category is the fact that for one-dimensional representations the characters are the same thing as the matrices, and hence the characters themselves must mimic the group multiplication properties.
 
+\paragraph{Abelian groups}
+
+
+\emph{All irreducible representations of a finite Abelian group $G$ are one-dimensional.}
+
+Take some irreducible matrix representation $D^{(\sigma)}$ of the group $G$\footnote{Each finite group has at least the trivial representation $\rho: G \rightarrow \text{GL}(1, \mathbb{C})$, with $\rho(g) = 1$ for all $g \in G$.}. The matrix $D^{(\sigma)}(g)$ commutes with all the matrices of the representation $D^{(\sigma)}$. Therefore, due to Schur's first lemma, the matrix must be a multiple of the identity: $D^{(\sigma)}(g) = \lambda_g \mathds{1}$. Thus, all the matrices $D^{(\sigma)}(g)$ are diagonal and would therefore be reducible if the dimension is greater than one, which would be a contradiction to our assumption that $D^{(\sigma)}$ is an irrep. 
 
 \end{document}
