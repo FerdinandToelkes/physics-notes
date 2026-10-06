@@ -11,7 +11,7 @@
 \begin{definition}
     A \emph{representation} of dimension $n$ of the abstract group $G$ is defined as a homomorphism $D: G \rightarrow \textnormal{GL}(n, \mathbb{C})$, the group of non-singular $n \times n$ matrices with complex entries. 
 
-    In other words it is a mapping under which $g \mapsto D(g)$, preserving the group structure:
+    In other words it is a mapping under which $g \mapsto D(g)$, perserving the group structure:
     \begin{equation}
         D(g_1 g_2) = D(g_1) D(g_2) \qquad \text{(homomorphism)}.
     \end{equation}
@@ -19,7 +19,7 @@
 \end{definition}
 
 \begin{definition}
-    Two elements $a$ and $b$ of a group $G$ are \emph{conjugate} if there exists and element $g \in G$ such that $a=gbg^{-1}$. The element $g$ is called the \emph{conjugating element}. This is an example of an \emph{equivalence relation}\footnote{A relation must be \emph{reflexive}, \emph{symmetric} and \emph{transitive} to be an equivalence relation.}.
+    Two elements $a$ and $b$ of a group $G$ are \emph{conjugate} if there exists an element $g \in G$ such that $a=gbg^{-1}$. The element $g$ is called the \emph{conjugating element}. This is an example of an \emph{equivalence relation}\footnote{A relation must be \emph{reflexive}, \emph{symmetric} and \emph{transitive} to be an equivalence relation.}.
 
     \emph{Conjugacy classes} are defined as
     \begin{equation}
@@ -51,11 +51,11 @@ From $D(g)D(g') = D(gg')$ follows
     A(gg') &= A(g)A(g') \\
     B(gg') &= B(g)B(g') ,
 \end{align*} 
-so that $\{A(g)\}$ and $\{B(g)\}$ constitute $[m]$ and $[n]$ representations of $G$ respectively. For finite groups it can be shown (see Maschke's theorem, below) that under equivalence $C$ can be taken to be a null matrix. The representation is then said to be \emph{completely reducible} or \emph{decomposable}, and we write
+so that $\{A(g)\}$ and $\{B(g)\}$ constitute $[m]$ and $[n]$ representations of $G$ respectively. For finite groups it can be shown (see Maschke's theorem, below) that under equivalence, $C$ can be taken to be a null matrix. The representation is then said to be \emph{completely reducible} or \emph{decomposable}, and we write
 \begin{equation*}
     D(g) = A(g) \oplus B(g) .
 \end{equation*}
-It may be that the representations $A$ and $B$ are themselves decomposable, in which case it is natural to continue the process, which will terminate when we reach the level of \emph{irreducible representations} (irrep), namely representations which cannot be further reduced. Thus, the matrix representation $D$ of the abstrac group $G$ can be written as a direct sum of irreducible representations.
+It may be that the representations $A$ and $B$ are themselves decomposable, in which case it is natural to continue the process, which will terminate when we reach the level of \emph{irreducible representations} (irrep), namely representations which cannot be further reduced. Thus, the matrix representation $D$ of the abstract group $G$ can be written as a direct sum of irreducible representations.
 
 \begin{definition}
     A map $T: V \rightarrow V$ is \emph{linear} if
@@ -66,7 +66,7 @@ It may be that the representations $A$ and $B$ are themselves decomposable, in w
 \end{definition}
 
 \paragraph{G-module} 
-It turns out to be extremely useful to think of a representation of a group $G$ as a homomorphism mapping $G$ into the group of non-singular\footnote{Non-singular means, that $T(\vec v) = 0 \Rightarrow \vec v = \vec 0$, which is equivalent to $T$ being invertible.} linear transformations of a vector space $V$. That is, every element $g$ of $G$ is mapped into a linear transformation $T(g)$ with the all-important property that 
+It turns out to be extremely useful to think of a representation of a group $G$ as a homomorphism, mapping $G$ into the group of non-singular\footnote{Non-singular means, that $T(\vec v) = 0 \Rightarrow \vec v = \vec 0$, which is equivalent to $T$ being invertible.} linear transformations of a vector space $V$. That is, every element $g$ of $G$ is mapped into a linear transformation $T(g)$ with the all-important property that 
 \begin{equation}
     T(g'g) = T(g')T(g) \qquad \text{(homomorphism)}.
 \end{equation}
@@ -91,11 +91,11 @@ where $(\cdot\, , \cdot)$ denotes the scalar product. This is equivalent to
 since $T$ is invertible. 
 
 \paragraph{Complete reducibility}
-Again, let $U$ be a submodule of the $G$-module $V$, closed under the action of the group: $\vec u \in U \subset V \Rightarrow T(g)\vec u \in U$. Use the scalar product to obtain an orthonormal basis of $U$ and of $W = V \setminus U$ such that W is the orthogonal complement if $U$:
+Again, let $U$ be a submodule of the $G$-module $V$, closed under the action of the group: $\vec u \in U \subset V \Rightarrow T(g)\vec u \in U$. Use the scalar product to obtain an orthonormal basis of $U$ and of $W = V \setminus U$ such that W is the orthogonal complement of $U$:
 \begin{equation}
     W = \{\vec w \in V \mid (\vec w, \vec u) = 0 \quad \forall \vec u \in U \}.
 \end{equation}
-In coordinate-free language, complete reducibility corresponds to the closure of $W$ as well as $U$ under the aciton of the group. This will always be the case of the $T(g)$ are unitary with respect to the scalar product we are using. For then, from \cref{eq:gt_def_unitary_trafo},
+In coordinate-free language, complete reducibility corresponds to the closure of $W$ as well as $U$ under the aciton of the group. This will always be the case if the $T(g)$ are unitary with respect to the scalar product we are using. For then, from \cref{eq:gt_def_unitary_trafo},
 \begin{equation*}
     (T(g)\vec w, \vec u) = (\vec w, T^{-1}(g) \vec u) = (\vec w, T(g^{-1}) \vec u) = (\vec w, \vec u') = 0 ,
 \end{equation*}
@@ -163,7 +163,7 @@ For a finite group any reducible representation is completely reducible into a d
 \begin{equation}
     D = \bigoplus_{\nu} a_\nu D^{(\nu)}  ,
 \end{equation}
-where the non-nregative integer $a_\nu$ denotes the number of times the irrep $D^{(\nu)}$ appears in the decomposition. One can show that
+where the non-negative integer $a_\nu$ denotes the number of times the irrep $D^{(\nu)}$ appears in the decomposition. One can show that
 \begin{align}
     a_\mu &= \frac{1}{[g]} \sum_g \chi (g) \chi^{(\mu)}(g^{-1}) \\
     &= \frac{1}{[g]} \sum_g \chi (g) \chi^{(\mu)^*}(g) .
@@ -173,7 +173,7 @@ where the non-nregative integer $a_\nu$ denotes the number of times the irrep $D
 The characters of the irreducible representations of a finite group are conveniently presented in the form of a table, the rows of which correspond to the different irreps, and the columns to the conjugacy classes of the group. In the construction of this table the principal tools we use are:
 \begin{enumerate}
     \item number of irreps = number of conjugacy classes: $r=k$;
-    \item $\sum_\mu n_\mu^2 = [g]$;
+    \item $\sum_\mu n_\mu^2 = [g]$ ($n_\mu$ is the dimension of the irrep);
     \item orthogonality: $\sum_i k_i \chi_i^{(\mu)} \chi_i^{(\mu)^*}$;
     \item any other information we can come by (!). 
 \end{enumerate}
@@ -186,4 +186,31 @@ In the last category is the fact that for one-dimensional representations the ch
 
 Take some irreducible matrix representation $D^{(\sigma)}$ of the group $G$\footnote{Each finite group has at least the trivial representation $\rho: G \rightarrow \text{GL}(1, \mathbb{C})$, with $\rho(g) = 1$ for all $g \in G$.}. The matrix $D^{(\sigma)}(g)$ commutes with all the matrices of the representation $D^{(\sigma)}$. Therefore, due to Schur's first lemma, the matrix must be a multiple of the identity: $D^{(\sigma)}(g) = \lambda_g \mathds{1}$. Thus, all the matrices $D^{(\sigma)}(g)$ are diagonal and would therefore be reducible if the dimension is greater than one, which would be a contradiction to our assumption that $D^{(\sigma)}$ is an irrep. 
 
+\subsection{Translation operator in quantum mechanics}
+Wiki:
+
+The translation operator $\hat T(\vec x)$ moves particles and fields by the amount $\vec x$ (e.g. $\vec x \in \mathbb R^3$). Therefore, if a particle is in an eigenstate $\ket{r}$ of the position operator, then after $\hat T(\vec x) = \int d\vec r \ket{\vec r + \vec x}\bra{\vec r}$ acts on it, the particle is at the position $\vec r + \vec x$:
+\begin{equation}
+    \hat T (\vec x) \ket{\vec r} = \ket{\vec r + \vec x}
+\end{equation}
+
+The set $\mathcal T$ of translation operators $\hat T(\vec x)$ for all $\vec x$, with the operation of multiplication defined as the result of successive translations, satisfies all the axioms of a group. In order to see this, let $\vec x, \vec x', \vec r \in \mathbb R^3$. Then 
+\begin{equation*}
+    \hat T (\vec x) \hat T (\vec x') \ket{\vec r} = \hat T (\vec x) \ket{\vec r + \vec x'} = \ket{(\vec r + \vec x') + \vec x} = \hat{T}(\vec x + \vec x') \ket{\vec r},
+\end{equation*}
+from which directly follows closure under the action of the group. The existence of an identity and of an inverse for each element, and associativity follows directly from the fact, that $\mathbb R^3$ with addition is a group itself. 
+
+
+% Plan: 
+% Abelian group since addition in R^3 commutative -> one dimensional irreps
+% Restriction to lattice with pbc -> finite group
+% Restriction to one dimension -> cyclic group with generator translation by one lattice constant
+% Application to an Hamiltonian: if T^-1 H T = H <=> [H, T] = 0 (since T unitary)
+%   -> H and T have common eigenstates -> can be labled by eigenvalues of H or/and (??) T
+%   -> H can be written in block diagonal form using irreps of T 
+%   -> characters of irreps as good quantum numbers since ??
+%   -> why are the crystal/lattice momenta equal to the characters and thus the quantum numbers?
+%   -> how do we know which k sector corresponds to state of lowest energy (i.e. the ground state)?
+%   -> how does the symmetrizer projector enter here?
+%   -> what is the connection to symm_exp_sum?
 \end{document}

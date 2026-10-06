@@ -7,12 +7,15 @@
 
 \subsection{Main goal}
 
-Prove that for $\lambda_i$ the eigenvalues of the reduced density matrix and $s_i$ the Schmidt
-values,
+Prove that, for a bipartite pure state, the von Neumann entanglement entropy is
 \begin{equation}
-\boxed{\,S_{\mathrm{Neum}}\equiv\Tr\bigl(\rho_A\log\rho_A\bigr)
-=\sum_i\lambda_i\log\lambda_i=\sum_i s_i^2\log s_i^2\,}.
+\boxed{\,S=-\Tr\bigl(\rho_A\log\rho_A\bigr)
+=-\sum_i\lambda_i\log\lambda_i
+=-\sum_i s_i^2\log s_i^2\,},
 \end{equation}
+where $\lambda_i$ are the eigenvalues of the reduced density matrix $\rho_A$
+and $s_i$ are the Schmidt values, with $\lambda_i=s_i^2$.
+We use the convention $0\log 0=0$.
 
 \subsection{The density operator}
 
@@ -27,7 +30,7 @@ which is a positive semi-definite operator of trace one (see for example Nielsen
 \subsection{Observables on a composite system}
 
 Take a system $A$ with some observable $M$, and a system $B$, giving the composite system
-$AB$ (see Box 2.6). Assume we can measure $M$ on system $A$; then a corresponding measurement
+$AB$ (see Nielsen \& Chuang Box 2.6). Assume we can measure $M$ on system $A$; then a corresponding measurement
 on $AB$ is $\tilde M=M\otimes\mathds{1}_B$.
 
 \begin{proof}
@@ -70,7 +73,7 @@ Therefore
 \end{align}
 and similarly $\Trace\bigl((M\otimes\mathds{1}_B)\rho^{AB}\bigr)
 =\sum_{\alpha,ij}p^\alpha m_i\,c_{ij}^\alpha(c_{ij}^\alpha)^*$, which proves the claim. One can
-also easily show that this is the only map that conserves consistency (see Box 2.6).
+also easily show that this is the only map that conserves consistency (see Nielsen \& Chuang Box 2.6).
 
 \subsection{Reduced density matrix of a pure state}
 
@@ -78,11 +81,11 @@ Now examine the reduced density matrix for a pure state,
 \begin{align}
 \rho_{AB}&=\dyad{\psi}{\psi}
 =\sum_{ijk\ell}c_{ij}(c_{k\ell})^*\,\ket{i}_A\ket{j}_B\bra{\ell}_B\bra{k}_A,\\
-\rho_A&=\Trace_B(\rho_{AB})=\sum_{ijk}c_{ij}(c_{kj})^*\,\dyad{i}{k}_A,
+\rho_A&=\Trace_B(\rho_{AB})=\sum_{ijk}c_{ij}(c_{kj})^*\,\dyad{i}{k}_A, \label{eq:reduced_density_matrix_as_operator}
 \end{align}
 such that the matrix representation is
 \begin{equation}
-\boxed{\,\rho_A=\psi\psi^\dagger\,},
+\boxed{\,\rho_A=\psi\psi^\dagger\,}, \label{eq:density_matrix_as_wavefunction_coefficients}
 \end{equation}
 using that the $c_{ij}$ parametrize the matrix $\psi\in\mathbb C^{d_A\times d_B}$, i.e.\
 $\ket{\psi}=\sum_{ij}c_{ij}\ket{i}_A\ket{j}_B$.
@@ -95,9 +98,12 @@ Now use the SVD on $\psi$:
 \end{equation}
 Then, using $V^\dagger V=\mathds 1$,
 \begin{equation}
-\rho_A=USV^\dagger V S U^\dagger=US^2 U^\dagger,\qquad
-S^2=\diag(s_1^2,s_2^2,\dots)\in\mathbb R_{\geq 0}^{\,d_A\times d_A}.
+\rho_A=USV^\dagger VS^\dagger U^\dagger
+=USS^\dagger U^\dagger,
+\qquad
+SS^\dagger=\diag(s_1^2,\dots,s_r^2,0,\dots,0),
 \end{equation}
+and write $S^2 = \diag(s_1^2,\dots,s_r^2)$.
 Furthermore, since $\rho_A$ is hermitian we can diagonalize it with
 $\rho_A=ODO^\dagger=US^2 U^\dagger$ and $D=\diag(\lambda_1,\dots)$, so that
 \begin{equation}
@@ -116,6 +122,16 @@ $\ket{u_i}$ give $P_i=\dyad{u_i}{u_i}$, since
 \begin{pmatrix}\bra{u_1}\\\vdots\\\bra{u_n}\end{pmatrix},
 \qquad\braket{u_i}{u_j}=\delta_{ij}.
 \end{equation}
+
+
+For a function $f$ defined on the spectrum of $\rho_A$, the spectral
+functional calculus gives
+\begin{equation}
+f(\rho_A)\equiv\sum_i f(\lambda_i)\dyad{u_i}{u_i}
+=U\diag\bigl(f(\lambda_i)\bigr)U^\dagger.
+\end{equation}
+
+TODO: check what the derivation might be and delete following lines
 Thus a function $f(\cdot)$ applied to $\rho_A$ gives
 \begin{align}
 f(\rho_A)
@@ -127,32 +143,183 @@ f(\rho_A)
 where $(*)$ uses $\rho_A^{\,n}=\sum_i\lambda_i^{\,n}\dyad{u_i}{u_i}$ (e.g.\
 $\rho_A\rho_A=\sum_i\lambda_i^2\dyad{u_i}{u_i}$).
 
-\subsection{The Von Neumann entanglement entropy}
+\subsection{The von Neumann entanglement entropy}
 
-Therefore, for the Von Neumann entanglement entropy,
+Therefore, for the von Neumann entanglement entropy,
 \begin{align}
-S=\Tr\bigl(\rho_A\log\rho_A\bigr)
-&=\Tr\bigl(\rho_A\,U\log(\diag(\lambda_i))\,U^\dagger\bigr)\notag\\
-&=\Tr\bigl(U\diag(\lambda_i)\underbrace{U^\dagger U}_{=\mathds 1}\log(\diag(\lambda_i))U^\dagger\bigr)\notag\\
-&=\sum_i\lambda_i\log\lambda_i
-=\boxed{\,\sum_i s_i^2\log s_i^2\,}.
+S=-\Tr\bigl(\rho_A\log\rho_A\bigr)
+&=-\Tr\bigl(\rho_A\,U\log(\diag(\lambda_i))\,U^\dagger\bigr)\notag\\
+&=-\Tr\bigl(U\diag(\lambda_i)\underbrace{U^\dagger U}_{=\mathds 1}\log(\diag(\lambda_i))U^\dagger\bigr)\notag\\
+&=-\sum_i\lambda_i\log\lambda_i
+=-\sum_i s_i^2\log s_i^2.
 \end{align}
 $S$ is zero for two unentangled systems and non-zero for entangled systems.
 
 \subsection{Example}
 
-In our case, for example, $L=2$, $N_f=1$, $N_{\mathrm{ph}}=1$:
+In our case, for example, $L=2$, $N_f=1$, $N_\mathrm{ph}=1$:
 \begin{align}
-&\{\ket{01},\ket{10}\}\ \&\ \{\ket{0},\ket{1}\}
-\quad\text{as bases of }\mathcal H_f\ \&\ \mathcal H_{\mathrm{ph}},\\
-&\Rightarrow\{\ket{01,0};\ \ket{01,1};\ \ket{10,0};\ \ket{10,1}\}
-\quad\text{as basis of }\mathcal H_f\otimes\mathcal H_{\mathrm{ph}},\\
-&\Rightarrow\ket{\psi}=\sum_{i=1}^{2}\sum_{j=1}^{2}\psi_{ij}\ket{i}_f\ket{j}
+& \{\ket{0},\ket{1}\}\ \&\ \{\ket{01},\ket{10}\}
+\quad\text{as bases of }\mathcal H_b\ \&\ \mathcal H_f,\\
+&\Rightarrow\{\ket{0, 01};\ \ket{0, 10};\ \ket{1, 01};\ \ket{1, 10}\}
+\quad\text{as basis of }\mathcal H_b\otimes\mathcal H_f,\\
+&\Rightarrow\ket{\psi}=\sum_{i=1}^{2}\sum_{j=1}^{2}\psi_{ij}\ket{i}_b\ket{j}_f
 \quad\text{with }(\psi)_{ij}=\psi_{ij}\ \&\ \psi\in\mathbb C^{2\times2},\\
-&\Rightarrow S(\rho_A)=\sum_\ell s_\ell^2\log s_\ell^2.
+&\Rightarrow S(\rho_A)=-\sum_\ell s_\ell^2\log s_\ell^2.
 \end{align}
 Note that since $\Trace\rho^{AB}=\Trace\rho^A=\Trace\rho^B=1$ we must have
 $\sum_\ell\lambda_\ell=\sum_\ell s_\ell^2=1$.
+
+
+\section{Computing entanglement entropy with variational quantum states}
+\label{sec:entanglement-entropy-vmc}
+
+
+\subsection{Direct computation using the SVD}
+
+The entanglement entropy for the ground state can be computed directly as follows:
+\begin{enumerate}
+\item Obtain an approximation of the ground state
+      $\ket{\psi_0}=\sum_\alpha c_\alpha\ket{\alpha}\in\mathcal H^{AB} = \mathcal H^{A} \otimes \mathcal H^{B} $ as some parametrized variational state $\psi_\theta(\alpha)$.
+\item Use the variational state (e.g. $\psi_\theta(\alpha) = c_\alpha$) to evaluate the amplitudes on every allowed configuration $\alpha$ and normalize the resulting coefficient vector.
+\item Reshape the coefficients into the matrix
+      $\psi\in\mathbb C^{d_A\times d_B}$, respecting the ordering of the
+      product basis.
+\item Compute the SVD of $\psi$ to obtain the Schmidt values $s_i$, yielding the entropy $S=-\sum_i s_i^2\log s_i^2$
+\end{enumerate}
+This approach is also straightforward with exact diagonalization since the ground state is represented by a vector consisting of the desired amplitudes. However, this quickly becomes unfeasible for ED and variational states as the Hilbert space grows exponentially with the system size.
+
+
+\subsection{Constructing the photon reduced density matrix}
+
+Given that $d_A\ll d_B$, one can estimate the small reduced density matrix $\rho_A$ and diagonalize it directly. For illustrative purposes, let subsystem $A$ describe a single photon mode and let subsystem $B$ describe a fermionic system.
+
+Let $n=0,\dots,N_{\mathrm{ph}}$ denote the photon occupation and $\sigma$
+a fermionic occupation configuration. Define the wavefunction amplitudes by
+\begin{equation}
+\psi(n,\sigma)\equiv\braket{n,\sigma}{\psi}.
+\end{equation}
+For a normalized state, the matrix elements of $\rho_A$ follow from \cref{eq:reduced_density_matrix_as_operator,eq:density_matrix_as_wavefunction_coefficients}
+\begin{equation}
+(\rho_A)_{nn'}
+=\sum_\sigma\psi(n,\sigma)\psi^*(n',\sigma)
+\end{equation}
+
+Since variational states do not necessarily provide normalized amplitudes, we might have to normalize them in the above formula. Defining
+\begin{equation}
+Z\equiv\sum_{m,\sigma}|\psi(m,\sigma)|^2,
+\end{equation}
+we can write the normalized reduced density matrix more generally as
+\begin{equation}
+\boxed{\,
+(\rho_A)_{nn'}
+=\frac{\sum_\sigma\psi(n,\sigma)\psi^*(n',\sigma)}{Z}
+\,}.
+\end{equation}
+For a normalized state, $Z=1$.
+
+\subsection{A Monte Carlo estimator for the reduced density matrix}
+
+For each fermionic configuration $\sigma$, define
+\begin{equation}
+u_n(\sigma)\equiv
+\frac{\psi(n,\sigma)}
+{\sqrt{\sum_{m=0}^{N_{\mathrm{ph}}}|\psi(m,\sigma)|^2}},
+\qquad
+\vec u(\sigma)=
+\begin{pmatrix}
+u_0(\sigma)\\
+\vdots\\
+u_{N_{\mathrm{ph}}}(\sigma)
+\end{pmatrix}
+\end{equation}
+only if the denominator is non-zero. This is almost always the case when using Monte Carlo sampling since these configurations will never be visited, unless you start in one of them.
+This vector is normalized for every $\sigma$ with non-zero marginal
+probability:
+\begin{equation}
+\vec u(\sigma)^\dagger\vec u(\sigma)
+=\sum_{n=0}^{N_{\mathrm{ph}}}|u_n(\sigma)|^2=1.
+\end{equation}
+The matrix elements of its outer product are
+\begin{equation}
+\bigl(\vec u(\sigma)\vec u(\sigma)^\dagger\bigr)_{nn'}
+=
+\frac{\psi(n,\sigma)\psi^*(n',\sigma)}
+{\sum_{m=0}^{N_{\mathrm{ph}}}|\psi(m,\sigma)|^2}.
+\end{equation}
+
+Now consider the marginal probability distribution of the fermionic
+configurations,
+\begin{align}
+p(\sigma) &=
+\sum_{m=0}^{N_{\mathrm{ph}}} p(m, \sigma) \\
+&\equiv \frac{\sum_{m=0}^{N_{\mathrm{ph}}}|\psi(m,\sigma)|^2}
+{\sum_{m,\sigma'}|\psi(m,\sigma')|^2} .
+\end{align}
+Taking the expectation value with respect to this distribution yields
+\begin{align}
+\mathbb E_{\sigma\sim p(\sigma)}
+\bigl[\vec u(\sigma)\vec u(\sigma)^\dagger\bigr]_{nn'}
+&=\sum_\sigma
+  \frac{\psi(n,\sigma)\psi^*(n',\sigma)}
+       {\sum_m|\psi(m,\sigma)|^2}\,p(\sigma)\notag\\
+&=\sum_\sigma
+  \frac{\psi(n,\sigma)\psi^*(n',\sigma)}
+       {\sum_m|\psi(m,\sigma)|^2}\,
+  \frac{\sum_m|\psi(m,\sigma)|^2}
+       {\sum_{m,\sigma'}|\psi(m,\sigma')|^2}\notag\\
+&=\frac{\sum_\sigma\psi(n,\sigma)\psi^*(n',\sigma)}
+       {\sum_{m,\sigma'}|\psi(m,\sigma')|^2}\notag\\
+&=(\rho_A)_{nn'}.
+\end{align}
+Therefore,
+\begin{equation}
+\boxed{\,
+\rho_A=
+\mathbb E_{\sigma\sim p(\sigma)}
+\bigl[\vec u(\sigma)\vec u(\sigma)^\dagger\bigr]
+\,}.
+\end{equation}
+Moreover, since we are only interested in an expectation value over $\sigma$, we have
+\begin{align}
+\mathbb E_{(n,\sigma)\sim p(n, \sigma)}
+\bigl[F(\sigma)\bigr]
+&=\sum_{n,\sigma}
+  p(n, \sigma) F(\sigma) \notag\\
+&=\sum_{\sigma}
+  p(\sigma) F(\sigma) \notag\\
+&= \mathbb E_{\sigma\sim p(\sigma)}
+\bigl[F(\sigma)\bigr] . \label{eq:expectation_value_equal_probability_marginal_probability}
+\end{align}
+Thus, we can sample either from $p(\sigma)$ or from $p(n,\sigma)$, depending on what is more convenient.
+
+\subsection{Computation using variational Monte Carlo}
+
+The resulting procedure is:
+\begin{enumerate}
+\item Sample a configuration $(\tilde n,\sigma)$ using the VMC sampler,
+      i.e.\ from the joint distribution
+      \begin{equation}
+      p(n,\sigma)=\frac{|\psi(n,\sigma)|^2}{Z}.
+      \end{equation}
+      Discard $\tilde n$ and retain $\sigma$. Note, that $Z$ does not need to be known in VMC. The retained configurations follow the marginal distribution $p(\sigma)$ (see \cref{eq:expectation_value_equal_probability_marginal_probability}).
+\item Evaluate all amplitudes $\psi(n,\sigma)$ for
+      $n=0,\dots,N_{\mathrm{ph}}$ and construct $\vec u(\sigma)$.
+\item Compute $\vec u(\sigma)\vec u(\sigma)^\dagger$.
+      Repeat the preceding steps and average the resulting matrices:
+      \begin{equation}
+      \widehat\rho_A=
+      \frac{1}{M}\sum_{k=1}^{M}
+      \vec u(\sigma_k)\vec u(\sigma_k)^\dagger
+      \approx\rho_A.
+      \end{equation}
+      The wide hat indicates that we only obtain an estimate of the true density matrix.
+\item Diagonalize $\widehat\rho_A$ and use its eigenvalues
+      $\widehat\lambda_i$ to estimate the von Neumann entropy:
+      \begin{equation}
+      \widehat S=-\sum_i\widehat\lambda_i\log\widehat\lambda_i.
+      \end{equation}
+\end{enumerate}
 
 \subsection{References}
 \begin{itemize}
