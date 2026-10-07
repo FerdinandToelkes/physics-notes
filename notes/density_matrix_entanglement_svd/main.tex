@@ -88,7 +88,20 @@ such that the matrix representation is
 \boxed{\,\rho_A=\psi\psi^\dagger\,}, \label{eq:density_matrix_as_wavefunction_coefficients}
 \end{equation}
 using that the $c_{ij}$ parametrize the matrix $\psi\in\mathbb C^{d_A\times d_B}$, i.e.\
-$\ket{\psi}=\sum_{ij}c_{ij}\ket{i}_A\ket{j}_B$.
+$\ket{\psi}=\sum_{ij}c_{ij}\ket{i}_A\ket{j}_B$ with $\sum_{ij} \vert c_{ij} \vert^2 = 1$.
+
+
+Furthermore, \cref{eq:reduced_density_matrix_as_operator} results in
+\begin{align}
+      \Trace \rho_A &= \Trace \left[ \sum_{ijk} c_{ij} (c_{kj})^* \dyad{i}{k}_A \right] \notag \\
+      &= \sum_{ijkl} c_{ij} (c_{kj})^* \delta_{il} \delta_{kl} \notag \\
+      &= \sum_{jl} c_{lj} (c_{lj})^* = 1 , \notag
+\end{align}
+which means that that the eigenvalues of the reduced density matrix sum to one. This can be seen using that any hermitian matrix can be diagonalized and the cylic property of the trace
+\begin{equation}
+      \Trace \rho_A = \Trace [O D O^\dagger] = \Trace D = \sum_i \lambda_i = 1. \label{eq:eigenvalues_reduced_density_matrix_sum_to_one}
+\end{equation}
+
 
 \subsection{Connection to the SVD}
 
@@ -109,7 +122,10 @@ $\rho_A=ODO^\dagger=US^2 U^\dagger$ and $D=\diag(\lambda_1,\dots)$, so that
 \begin{equation}
 \boxed{\,\lambda_i=s_i^2\,},
 \end{equation}
-i.e.\ the eigenvalues are given by the (squared) Schmidt values.
+i.e.\ the eigenvalues are given by the squared Schmidt values and hence non-negative. Thus, we can conclude together with \cref{eq:eigenvalues_reduced_density_matrix_sum_to_one} that 
+\begin{equation}
+      \boxed{\, 0 \leq \lambda_i \leq 1 \,} . \label{eq:range_of_eigenvalues_of_reduced_density_matrix}
+\end{equation}
 
 \subsection{Functions of the density matrix via the spectral theorem}
 
@@ -125,35 +141,42 @@ $\ket{u_i}$ give $P_i=\dyad{u_i}{u_i}$, since
 
 
 For a function $f$ defined on the spectrum of $\rho_A$, the spectral
-functional calculus gives
+functional calculus\footnote{See for example Nicholas, J. H. (2008). \emph{Functions of matrices: theory and computation.}} gives
 \begin{equation}
 f(\rho_A)\equiv\sum_i f(\lambda_i)\dyad{u_i}{u_i}
 =U\diag\bigl(f(\lambda_i)\bigr)U^\dagger.
 \end{equation}
 
-TODO: check what the derivation might be and delete following lines
-Thus a function $f(\cdot)$ applied to $\rho_A$ gives
-\begin{align}
-f(\rho_A)
-&=\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}\rho_A^{\,n}
-\overset{(*)}{=}\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}\sum_i\lambda_i^{\,n}\dyad{u_i}{u_i}\notag\\
-&=\sum_i\Bigl(\sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}\lambda_i^{\,n}\Bigr)\dyad{u_i}{u_i}
-=\sum_i f(\lambda_i)\dyad{u_i}{u_i}=U\diag\bigl(f(\lambda_i)\bigr)U^\dagger,
-\end{align}
-where $(*)$ uses $\rho_A^{\,n}=\sum_i\lambda_i^{\,n}\dyad{u_i}{u_i}$ (e.g.\
-$\rho_A\rho_A=\sum_i\lambda_i^2\dyad{u_i}{u_i}$).
-
 \subsection{The von Neumann entanglement entropy}
 
 Therefore, for the von Neumann entanglement entropy,
 \begin{align}
-S=-\Tr\bigl(\rho_A\log\rho_A\bigr)
+S(\rho_A)&\equiv-\Tr\bigl(\rho_A\log\rho_A\bigr) \\
 &=-\Tr\bigl(\rho_A\,U\log(\diag(\lambda_i))\,U^\dagger\bigr)\notag\\
 &=-\Tr\bigl(U\diag(\lambda_i)\underbrace{U^\dagger U}_{=\mathds 1}\log(\diag(\lambda_i))U^\dagger\bigr)\notag\\
 &=-\sum_i\lambda_i\log\lambda_i
 =-\sum_i s_i^2\log s_i^2.
 \end{align}
 $S$ is zero for two unentangled systems and non-zero for entangled systems.
+
+\subsection{The Rényi entanglement entropies}
+
+The Rényi entropy of order $n$ is defined as
+\begin{align}
+      S_n(\rho_A) &\equiv \frac{1}{1-n} \ln (\Trace[\rho_A^n]) \\
+      &=  \frac{1}{1-n} \ln \left( \sum_{i=1}^{d_A} \lambda_i^n \right),
+\end{align}
+using again, that any hermitian matrix is diagonalizable and the cylic property of the trace. 
+Employing l'Hôpital's rule yields for order one that
+\begin{align}
+      S_1(\rho_A) &= \lim_{n \rightarrow 1} \frac{\ln (\Trace[\rho_A^n])}{1-n} 
+      \overset{\mathrm{H}}{=} \lim_{n \rightarrow 1} \frac{\left( \ln \sum_{i=1}^{d_A} \lambda_i^n \right)'}{(1-n)'} \notag \\
+      &= - \lim_{n \rightarrow 1} \frac{\sum_{i=1}^{d_A} \lambda_i^n \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i^n} 
+      = - \frac{\sum_{i=1}^{d_A} \lambda_i \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i} \notag \\
+      &= - \sum_{i=1}^{d_A} \lambda_i \ln \lambda_i .
+\end{align}
+That means, that the Rényi entropy of order one is reduces to the von Neumann entropy.
+
 
 \subsection{Example}
 
@@ -170,11 +193,18 @@ In our case, for example, $L=2$, $N_f=1$, $N_\mathrm{ph}=1$:
 Note that since $\Trace\rho^{AB}=\Trace\rho^A=\Trace\rho^B=1$ we must have
 $\sum_\ell\lambda_\ell=\sum_\ell s_\ell^2=1$.
 
+\subsection{References}
+\begin{itemize}
+\item M.\ Nielsen \& I.\ Chuang, \emph{Quantum Computation and Quantum Information}
+      (density operator, partial trace; Box 2.6).
+\item U.\ Schollw\"ock, \emph{The density-matrix renormalization group in the age of matrix
+      product states}, beginning of Chapter 4 (MPS).
+\end{itemize}
 
 \section{Computing entanglement entropy with variational quantum states}
 \label{sec:entanglement-entropy-vmc}
 
-
+TODO: add renyi entropy
 \subsection{Direct computation using the SVD}
 
 The entanglement entropy for the ground state can be computed directly as follows:
@@ -322,11 +352,9 @@ The resulting procedure is:
 \end{enumerate}
 
 \subsection{References}
+I did not use any literature explicitly, except for AI helping me figure out what to do. The following paper employs a similar approach to the one I demonstrate here.
 \begin{itemize}
-\item M.\ Nielsen \& I.\ Chuang, \emph{Quantum Computation and Quantum Information}
-      (density operator, partial trace; Box 2.6).
-\item U.\ Schollw\"ock, \emph{The density-matrix renormalization group in the age of matrix
-      product states}, beginning of Chapter 4 (MPS).
+\item Tang, Yifan, et al. \emph{Deep quantum Monte Carlo approach for polaritonic chemistry.} The Journal of Chemical Physics 163.3 (2025). (Appendix A.1 and A.3)
 \end{itemize}
 
 \end{document}
