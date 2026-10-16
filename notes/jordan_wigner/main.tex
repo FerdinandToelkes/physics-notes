@@ -2,18 +2,21 @@
 
 \begin{document}
 
-\section{The Jordan--Wigner mapping for spinless Fermions}
+\section{The Jordan-Wigner mapping for spinless Fermions}
 \label{sec:jordan-wigner}
 
 \subsection{Summary}
 
-The Jordan--Wigner transformation (JWT) can be used to map a fermionic system to a system of
-spins. This is essentially done by rewriting
+The Jordan-Wigner transformation (JWT) can be used to map a fermionic system to a system of spins. This is essentially done by rewriting
 \begin{equation*}
 \text{fermion}=\text{string}\times\text{operator},
 \end{equation*}
-where the ``string'' is some product of operators $\hat Z_i=1-2\hat n_i$ and the ``operator''
-is found to obey spin commutation relations.
+where the ``string'' is some product of operators $\hat Z_i=1-2\hat n_i$ and the ``operator'' is found to obey spin commutation relations. Within this section, we only consider spinless fermions, but the JWT can also be applied on spinful systems. 
+
+The importance of the JWT can be seen, when examining how to compute some general matrix element $\bra{x} \hat A \ket{x'}$, where the operator $\hat A$ is given as some product of fermionic creation and annihilation operators. To determine the matrix element, one has to commute operators and keep track of the resulting minus signs. This is exactly what the Jordan-Wigner mapping does for us.
+
+Refer to \cref{subsec:fermionic-systems-with-determinants} to see what role the JWT plays in variational Monte Carlo. 
+
 
 \subsection{Setup: the fermionic Hilbert space}
 
@@ -199,10 +202,10 @@ so that
 \subsection{References}
 
 \begin{itemize}
-\item \emph{Fermions and Jordan--Wigner String} -- ITensor C\texttt{++} Documentation,
-\item \emph{Introduction to Many-Body Physics}, Chapter 4.1 -- Piers Coleman,
-\item \emph{The Fermionic canonical commutation relations and the Jordan--Wigner transform}
-      -- M.\ Nielsen,
+\item \emph{Fermions and Jordan-Wigner String} - ITensor C\texttt{++} Documentation,
+\item \emph{Introduction to Many-Body Physics}, Chapter 4.1 - Piers Coleman,
+\item \emph{The Fermionic canonical commutation relations and the Jordan-Wigner transform}
+      - M.\ Nielsen,
 \end{itemize}
 
 \end{document}

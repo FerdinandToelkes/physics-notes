@@ -305,7 +305,7 @@ elements depend on the full configuration. Combining this with a Jastrow factor
 gives the Slater-Jastrow-backflow wave function.
 
 \subsection{Fermionic systems with determinants}
-\label{sec:fermionic-systems-with-determinants}
+\label{subsec:fermionic-systems-with-determinants}
 In this subsection we review section $5.6$ of the book \emph{Quantum Monte Carlo Approaches for Correlated Systems} by Federico Becca and Sandro Sorella. The presentation closely follows Becca and Sorella, with additional details included for clarity.
 
 Throughout this section, we assume a lattice that contains $L$ sites and each site can contain one spin-up and one spin-down orbital. Therefore, we have $2L$ available orbitals that can be occupied by particles. We use one collective index that contains the site and the spin, by setting
@@ -360,7 +360,6 @@ A general occupation-number configuration can be written as
 \end{equation}
 where $R_1,\ldots,R_{N_{e}}$ are the occupied orbitals in the
 configuration $x$, with $R_j = 1, \ldots 2L$. This is of course a redundant labeling, since for example $c_1^\dagger c_2^\dagger \ket{0}= - c_2^\dagger c_1^\dagger \ket{0}$. But to describe arbitrary configurations, that can occur from applying the Hamiltonian to another arbitrary configuration, they are convenient. The resulting operator string need not be in canonical order and it then must be reordered, producing the appropriate fermionic sign. Thus, different orderings may represent the same physical configuration up to a sign. Therefore, we have
-
 \begin{align}
     \braket{x}{y} &= \bra{0} \hat d_{R_{N_e}} \cdots \hat d_{R_1} \hat d^\dagger_{Q_1} \cdots \hat d^\dagger_{Q_{N_e}} \ket{0} \notag \\
     &= \begin{cases}
@@ -452,8 +451,8 @@ Let's say we have some general fermionic Hamiltonian $\hat H$, which might not b
     \item Repeat until convergence.
 \end{enumerate}
 
-\paragraph{The Jordan--Wigner mapping}
-The Jordan--Wigner mapping (JWM) does not change anything in the derivation above since it is only a rewriting of the operators (and besides doing the above derivation with the JWM would probably be much more tedious). But it might come in handy when computing matrix elements such as $\bra{x} \hat H \ket{x'}$. To see what changes in the VMC workflow described above, we only have to look at how the form of the ansatz $\Phi_U(x)$ might change, since we know that the fermionic and spin configurations map onto each other (see \cref{sec:jordan-wigner}). The overlap written with fermionic operators is given as (see \cref{eq:determinant-describes-ground-state-entry-point-jwm})
+\paragraph{The Jordan-Wigner mapping}
+The Jordan-Wigner mapping (JWM) does not change anything in the derivation above since it is only a rewriting of the operators (and besides doing the above derivation with the JWM would probably be much more tedious). But it might come in handy when computing matrix elements such as $\bra{x} \hat H \ket{x'}$. To see what changes in the VMC workflow described above, we only have to look at how the form of the ansatz $\Phi_U(x)$ might change, since we know that the fermionic and spin configurations map onto each other (see \cref{sec:jordan-wigner}). The overlap written with fermionic operators is given as (see \cref{eq:determinant-describes-ground-state-entry-point-jwm})
 \begin{equation*}
     \braket{x}{\Phi_0}_f
     = \left[\sum_{p\in P}
@@ -475,6 +474,10 @@ Using the JWM on a fermionic basis state $\ket{x_b}_f$ maps it to a spin basis s
     &= \braket{x}{\Phi_0}_s
 \end{align*}
 and thus the computation of the overlap does not change. \textbf{Hence, the only significant change in the VMC workflow is that the Hamiltonian has to be rewritten but the ansatz remains unchanged.} 
+
+Computing matrix elements such as $\bra{x} \hat H \ket{x'}$ involves commuting fermionic operators, which necessitates some book keeping for the resulting sign. This book keeping is exactly what is done by the Jordan-Wigner strings. Thus, in practice or numerically, we often use the Jordan-Wigner such that we do not have to do this book keeping by hand.
+
+Since we can use the JWM to go from fermions to spins and vice versa, another question might be, why we do not use a Slater determinant when treating spin systems that can be mapped on quadratic fermionic ones. One could think, that mapping spins to fermions would imply the use of a Slater determinant even for spin systems. This is not so, because the Jordan-Wigner strings that might arise from mapping the pure spin system to the quadratic fermionic system will cancel out exactly with the signs resulting from fermionic anticommutation relations. Thus, the overlap $\braket{x}{\Phi_0}$ will not be given as a Slater determinant in this case.
 
 \subsection{Parametrization via neural networks}
 
