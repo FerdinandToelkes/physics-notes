@@ -1,0 +1,185 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Fermionic systems with determinants}
+\label{sec:fermionic-systems-with-determinants}
+In this section we review section $5.6$ of the book \emph{Quantum Monte Carlo Approaches for Correlated Systems} by Federico Becca and Sandro Sorella. The presentation closely follows Becca and Sorella, with additional details included for clarity.
+
+Throughout this section, we assume a lattice that contains $L$ sites and each site can contain one spin-up and one spin-down orbital. Therefore, we have $2L$ available orbitals that can be occupied by particles. We use one collective index that contains the site and the spin, by setting
+\begin{equation}
+    \hat c_{i, \uparrow} \equiv \hat d_i \quad \text{and} \quad \hat c_{i, \downarrow} \equiv \hat d_{i+L} . \label{eq:collective-index-site-and-spin}
+\end{equation}
+This corresponds to the fermionic-mode ordering $(1\uparrow,2\uparrow,\ldots,L\uparrow,
+1\downarrow,2\downarrow,\ldots,L\downarrow)$. Any fixed ordering is fine, but it must be used consistently throughout.
+
+Any number-conserving quadratic fermionic Hamiltonian can be diagonalized:
+\begin{align}
+    \hat H_0
+    &= \sum_{I,J=1}^{2L}
+    t_{I,J} d_I^\dagger \hat d_J \\
+    &= \bm d^\dagger \bm T \bm d 
+    = \bm d^\dagger \bm U \bm U^\dagger \bm T \bm U \bm U^\dagger \bm d \\
+    &= \bm \phi^\dagger \bm E \bm \phi 
+    =\sum_{\alpha=1}^{2L}
+    \varepsilon_\alpha \hat \Phi_\alpha^\dagger \hat \Phi_\alpha ,  \\
+    \text{with} \quad \phi^\dagger_\alpha &= \sum_I U_{I,\alpha} d_I^\dagger .
+    \label{eq:quadratic-hamiltonian-diagonal}
+\end{align}
+
+The ground state is thus obtained by occupying the $N_{e}$ lowest-energy
+single-particle orbitals:
+\begin{equation}
+    \ket{\Phi_0}
+    =
+    \prod_{\alpha=1}^{N_{e}}
+    \hat \Phi_\alpha^\dagger \ket{0}
+    =
+    \prod_{\alpha=1}^{N_{e}}
+    \left(
+        \sum_{I=1}^{2L}
+        U_{I\alpha}\hat d_I^\dagger
+    \right)
+    \ket{0}.
+    \label{eq:slater-ground-state}
+\end{equation}
+The matrix $U$ is in general a $2L\times 2L$ unitary matrix, where we only need the first $N_e$ columns to construct the ground state, as can be seen above.
+
+A general occupation-number configuration can be written as
+\begin{equation}
+    \ket{x}
+    =
+    \hat d_{R_1}^\dagger
+    \hat d_{R_2}^\dagger
+    \cdots
+    \hat d_{R_{N_{e}}}^\dagger
+    \ket{0},
+    \label{eq:configuration-state}
+\end{equation}
+where $R_1,\ldots,R_{N_{e}}$ are the occupied orbitals in the
+configuration $x$, with $R_j = 1, \ldots 2L$. This is of course a redundant labeling, since for example $c_1^\dagger c_2^\dagger \ket{0}= - c_2^\dagger c_1^\dagger \ket{0}$. But to describe arbitrary configurations, that can occur from applying the Hamiltonian to another arbitrary configuration, they are convenient. The resulting operator string need not be in canonical order and it then must be reordered, producing the appropriate fermionic sign. Thus, different orderings may represent the same physical configuration up to a sign. Therefore, we have
+
+\begin{align}
+    \braket{x}{y} &= \bra{0} \hat d_{R_{N_e}} \cdots \hat d_{R_1} \hat d^\dagger_{Q_1} \cdots \hat d^\dagger_{Q_{N_e}} \ket{0} \notag \\
+    &= \begin{cases}
+        0 , \quad &\text{iff } \{R_1, \ldots, R_{N_e}\} \neq \{Q_1, \ldots, Q_{N_e}\} \\
+        \sign (p), \quad &\text{else, with } p\left( (Q_1, \ldots, Q_{N_e}) \right) = (R_1, \ldots, R_{N_e}) ,
+    \end{cases} \label{eq:overlap_two_fermionic_configs}
+\end{align}
+where $\{ . \}$ denotes a mathematical set and $( . )$ an ordered tuple.
+
+The overlap between a general configuration $\ket{x}$ and the ground state of the quadratic Hamiltonian is thus given as
+\begin{align}
+    \braket{x}{\Phi_0}
+    &=
+    \bra{0}
+    \hat d_{R_{N_{e}}}
+    \cdots
+    \hat d_{R_1}
+    \prod_{\alpha=1}^{N_{e}}
+    \left(
+        \sum_{i=1}^{2L}
+        U_{i\alpha}\hat d_i^\dagger
+    \right)
+    \ket{0}
+    \nonumber\\
+    &=
+    \bra{0}
+    \hat d_{R_{N_{e}}}
+    \cdots
+    \hat d_{R_1}
+    \left[\sum_{p\in P}
+    \sign(p)
+    \prod_{\alpha=1}^{N_{e}}
+    U_{p\{Q_j\},\alpha}\right] \hat d^\dagger_{Q_1}
+    \cdots
+    \hat d^\dagger_{Q_{N_{e}}} \ket{0},
+    \label{eq:overlap-permutation-sum}
+\end{align}
+with $P$ containing all possible permutations of the $Q_j$. These have now to be restricted on all valid permutations of the $R_j$ within $x$ (see \cref{eq:overlap_two_fermionic_configs}), which yields
+\begin{align}
+    \braket{x}{\Phi_0}
+    &= \bra{0} \hat d_{R_{N_{e}}} \cdots \hat d_{R_1}
+    \left[\sum_{p\in P}
+    \sign(p)
+    \prod_{\alpha=1}^{N_{e}}
+    U_{R_{p\{Q_j\}},\alpha}\right] \hat d^\dagger_{R_1}
+    \cdots
+    \hat d^\dagger_{R_{N_{e}}} \ket{0} \label{eq:determinant-describes-ground-state-entry-point-jwm} \\
+    &= \sum_{p\in P}
+    \sign(p)
+    \prod_{\alpha=1}^{N_{e}}
+    U_{R_{p\{Q_j\}},\alpha}  \\
+    &= \det\left[
+        U_{R_i,\alpha}
+    \right]_{
+        \substack{
+            i=1,\ldots,N_{e}\\
+            \alpha=1,\ldots,N_{e}
+        }
+    },
+    \label{eq:slater-determinant-overlap}
+\end{align}
+where we used the Leibniz formula in the last step.
+
+In other words, although $U$ is a $2L\times 2L$ matrix, only the
+$N_{e}$ columns corresponding to the occupied lowest-energy
+orbitals and the $N_{e}$ rows corresponding to the occupied
+orbitals $R_i$ of the configuration $x$ are needed:
+\begin{equation}
+    U_x
+    =
+    \begin{pmatrix}
+        U_{R_1,1}  & \cdots & U_{R_1,N_{e}} \\
+        \vdots     & \ddots & \vdots \\
+        U_{R_{N_{e}},1} & \cdots & U_{R_{N_{e}},N_{e}}
+    \end{pmatrix}
+\end{equation}
+and hence
+\begin{equation}
+    \braket{x}{\Phi_0} = \det(U_x).
+\end{equation}
+This construction can also be used for BCS-type Hamiltonians (see end of section $5.6.1$ of the book by Becca and Sorella).
+
+\paragraph{Variational Monte Carlo}
+Let's say we have some general fermionic Hamiltonian $\hat H$, which might not be quadratic and we choose the Slater determinant as our variational ansatz $\braket{x}{\Phi_U} = \det(U_x)$ with the entries of the full $U$ as the variational parameters. The variational Monte Carlo (VMC) workflow then roughly looks like
+\begin{enumerate}
+    \item Sample fermionic occupation configurations $x = (R_1, \ldots, R_{N_e})$ following the distribution resulting from $\Phi_U(x) = \det(U_x)$.
+    \item Evaluate Hamiltonian matrix elements $\bra{x} \hat H \ket{x'}$ and estimate the local energy $e_L(x) = \sum_{x'} \bra{x} \hat H \ket{x'} \frac{\braket{x'}{\Phi_U}}{\braket{x}{\Phi_U}}$.
+    \item Compute the gradient of the energy $\langle E \rangle \approx \frac{1}{N} \sum_{n=1}^N e_L(x_n)$ and optimize the variational parameters with it.
+    \item Repeat until convergence.
+\end{enumerate}
+
+\paragraph{The Jordan--Wigner mapping}
+The Jordan--Wigner mapping (JWM) does not change anything in the derivation above since it is only a rewriting of the operators (and besides doing the above derivation with the JWM would probably be much more tedious). But it might come in handy when computing matrix elements such as $\bra{x} \hat H \ket{x'}$. To see what changes in the VMC workflow described above, we only have to look at how the form of the ansatz $\Phi_U(x)$ might change, since we know that the fermionic and spin configurations map onto each other (see \cref{sec:jordan-wigner}). The overlap written with fermionic operators is given as (see \cref{eq:determinant-describes-ground-state-entry-point-jwm})
+\begin{equation*}
+    \braket{x}{\Phi_0}_f
+    = \left[\sum_{p\in P}
+    \sign(p)
+    \prod_{\alpha=1}^{N_{e}}
+    U_{R_{p\{Q_j\}},\alpha}\right]
+    \bra{0} \hat d_{R_{N_{e}}} \cdots \hat d_{R_1}
+    \hat d^\dagger_{R_1}
+    \cdots
+    \hat d^\dagger_{R_{N_{e}}} \ket{0} .
+\end{equation*}
+Using the JWM on a fermionic basis state $\ket{x_b}_f$ maps it to a spin basis state $\ket{x_b}_s$ (see \cref{sec:jordan-wigner}). Thus, applying the JWM to some fermionic configuration state $\ket{x}_f = \sign(x_f) \ket{x_b}_f$ maps it to some spin configuration state $\ket{x}_s = \sign(x_s) \ket{x_b}_s$. Therefore, we have $\braket{x}{x}_f = \braket{x}{x}_s = 1$ and 
+\begin{align*}
+    \braket{x}{\Phi_0}_f
+    &= \det U_x
+    \braket{x}{x}_f \\
+    &= \det U_x
+    \braket{x}{x}_s \\
+    &= \braket{x}{\Phi_0}_s
+\end{align*}
+and thus the computation of the overlap does not change. \textbf{Hence, the only significant change in the VMC workflow is that the Hamiltonian has to be rewritten but the ansatz remains unchanged.} 
+
+
+\paragraph{References}
+\begin{itemize}
+    \item \emph{Quantum Monte Carlo Approaches for Correlated Systems} by Federico Becca and Sandro Sorella
+    \item \emph{Fermions and Jordan--Wigner String} -- ITensor C\texttt{++} Documentation
+\end{itemize}
+
+
+\end{document}

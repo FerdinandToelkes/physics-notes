@@ -35,6 +35,14 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem*{lemma*}{Hadamard Lemma}
 
+
+% Source - https://tex.stackexchange.com/a/104099
+% Posted by Sigur, modified by community. See post 'Timeline' for change history
+% Retrieved 2026-10-08, License - CC BY-SA 3.0
+\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}{\hfill $\blacksquare$}
+
+
 \titleformat{\paragraph}
   {\normalfont\normalsize\bfseries} % format
   {\theparagraph}                   % label
@@ -54,6 +62,7 @@
 \DeclareMathOperator{\Tr}{Tr}      % full trace
 \DeclareMathOperator{\Trace}{tr}   % (partial) trace, lowercase
 \DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\sign}{sign}
 
 % display vectors in boldface, rather than with an arrow on top
 \renewcommand{\vec}[1]{\bm{#1}}

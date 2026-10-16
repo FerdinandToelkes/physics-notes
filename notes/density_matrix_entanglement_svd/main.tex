@@ -159,25 +159,6 @@ S(\rho_A)&\equiv-\Tr\bigl(\rho_A\log\rho_A\bigr) \\
 \end{align}
 $S$ is zero for two unentangled systems and non-zero for entangled systems.
 
-\subsection{The Rényi entanglement entropies}
-
-The Rényi entropy of order $n$ is defined as
-\begin{align}
-      S_n(\rho_A) &\equiv \frac{1}{1-n} \ln (\Trace[\rho_A^n]) \\
-      &=  \frac{1}{1-n} \ln \left( \sum_{i=1}^{d_A} \lambda_i^n \right),
-\end{align}
-using again, that any hermitian matrix is diagonalizable and the cylic property of the trace. 
-Employing l'Hôpital's rule yields for order one that
-\begin{align}
-      S_1(\rho_A) &= \lim_{n \rightarrow 1} \frac{\ln (\Trace[\rho_A^n])}{1-n} 
-      \overset{\mathrm{H}}{=} \lim_{n \rightarrow 1} \frac{\left( \ln \sum_{i=1}^{d_A} \lambda_i^n \right)'}{(1-n)'} \notag \\
-      &= - \lim_{n \rightarrow 1} \frac{\sum_{i=1}^{d_A} \lambda_i^n \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i^n} 
-      = - \frac{\sum_{i=1}^{d_A} \lambda_i \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i} \notag \\
-      &= - \sum_{i=1}^{d_A} \lambda_i \ln \lambda_i .
-\end{align}
-That means, that the Rényi entropy of order one is reduces to the von Neumann entropy.
-
-
 \subsection{Example}
 
 In our case, for example, $L=2$, $N_f=1$, $N_\mathrm{ph}=1$:
@@ -192,6 +173,62 @@ In our case, for example, $L=2$, $N_f=1$, $N_\mathrm{ph}=1$:
 \end{align}
 Note that since $\Trace\rho^{AB}=\Trace\rho^A=\Trace\rho^B=1$ we must have
 $\sum_\ell\lambda_\ell=\sum_\ell s_\ell^2=1$.
+
+\subsection{The Rényi entanglement entropies}
+
+The Rényi entropy of order $n$ is defined as
+\begin{align}
+      S_n(\rho_A) &\equiv \frac{1}{1-n} \ln (\Trace[\rho_A^n]) \\
+      &=  \frac{1}{1-n} \ln \left( \sum_{i=1}^{d_A} \lambda_i^n \right),
+\end{align}
+using again, that any hermitian matrix is diagonalizable and the cylic property of the trace.
+
+\begin{claim}
+The Rényi entropy of order one reduces to the von Neumann entropy.
+\end{claim}
+\begin{claimproof}
+      We can examine the first order by using l'Hôpital's rule, which yields
+      \begin{align*}
+            S_1(\rho_A) &= \lim_{n \rightarrow 1} \frac{\ln (\Trace[\rho_A^n])}{1-n} 
+            \overset{\mathrm{H}}{=} \lim_{n \rightarrow 1} \frac{\left( \ln \sum_{i=1}^{d_A} \lambda_i^n \right)'}{(1-n)'} \\
+            &= - \lim_{n \rightarrow 1} \frac{\sum_{i=1}^{d_A} \lambda_i^n \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i^n} 
+            = - \frac{\sum_{i=1}^{d_A} \lambda_i \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i} \\
+            &= - \sum_{i=1}^{d_A} \lambda_i \ln \lambda_i .
+      \end{align*}
+\end{claimproof}
+
+\begin{claim}
+      $S_n \geq S_m$ for $n<m$.
+\end{claim}
+\begin{claimproof}
+      Define $z_i(n) = \lambda_i^n / \sum_{j=1}^{d_A} \lambda_j^n$, which is a probability distribution because $0 \leq \lambda_i \leq 1$, and $F(n) = \ln \sum_{j=1}^{d_A} \lambda_j$. We take n to be a continuous variable and differentiate $F$ with respect to it using again that $\frac{d}{dn} \lambda^n = \lambda^n \ln \lambda $:
+      \begin{align*}
+            F'(n) &= \frac{\sum_{i=1}^{d_A} \lambda_i^n \ln \lambda_i }{\sum_{j=1}^{d_A} \lambda_j^n} 
+            = \sum_i z_i(n) \ln \lambda_i \qquad \text{and} \\
+            F''(n) &= \sum_i z_i(n) (\ln \lambda_i)^2 - \left( \sum_i z_i(n) \ln \lambda_i \right)^2 \\
+            &= \mathrm{Var}_{z(n)}(\ln \lambda_i) \geq 0 ,
+      \end{align*}
+      which implies, that $F'$ is non-decreasing. Thus, we can follow w.l.o.g for $x\geq a$
+      \begin{align*}
+            F(x) - F(n) &= \int_n^x F'(s) ds \leq \int_a^x F'(n) ds = F'(n) (x - n),
+      \end{align*}
+      which is equivalent to saying that $F$ lays above all of its tangent, since it is convex. Since $F(1) = \ln \sum_i \lambda_i = \ln 1 = 0 $, it follows that
+      \begin{equation*}
+            F(1) = 0 \leq F(n) + F'(n)(1-n) .
+      \end{equation*}
+      We can employ this now to yield 
+      \begin{equation*}
+            \frac{d S(n)}{dn} = \frac{d}{dn} \frac{F(n)}{1-n} = \frac{(1-n) F'(n) + F(n)}{(1-n)^2} \leq 0 ,
+      \end{equation*}  
+      which proves, that $S_n$ is non-increasing for $n \neq 1$.
+      Finally, employing l'Hôpital's rule yields for $n=1$ that
+      \begin{equation*}
+            \lim_{n\rightarrow1} = - \frac{1}{2} F''(1) \leq 0 .
+      \end{equation*}
+\end{claimproof}
+
+
+
 
 \subsection{References}
 \begin{itemize}
