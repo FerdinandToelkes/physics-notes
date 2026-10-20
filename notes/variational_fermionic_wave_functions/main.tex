@@ -452,32 +452,37 @@ Let's say we have some general fermionic Hamiltonian $\hat H$, which might not b
 \end{enumerate}
 
 \paragraph{The Jordan-Wigner mapping}
-The Jordan-Wigner mapping (JWM) does not change anything in the derivation above since it is only a rewriting of the operators (and besides doing the above derivation with the JWM would probably be much more tedious). But it might come in handy when computing matrix elements such as $\bra{x} \hat H \ket{x'}$. To see what changes in the VMC workflow described above, we only have to look at how the form of the ansatz $\Phi_U(x)$ might change, since we know that the fermionic and spin configurations map onto each other (see \cref{sec:jordan-wigner}). The overlap written with fermionic operators is given as (see \cref{eq:determinant-describes-ground-state-entry-point-jwm})
-\begin{equation*}
-    \braket{x}{\Phi_0}_f
-    = \left[\sum_{p\in P}
-    \sign(p)
-    \prod_{\alpha=1}^{N_{e}}
-    U_{R_{p\{Q_j\}},\alpha}\right]
-    \bra{0} \hat d_{R_{N_{e}}} \cdots \hat d_{R_1}
-    \hat d^\dagger_{R_1}
-    \cdots
-    \hat d^\dagger_{R_{N_{e}}} \ket{0} .
-\end{equation*}
-Using the JWM on a fermionic basis state $\ket{x_b}_f$ maps it to a spin basis state $\ket{x_b}_s$ (see \cref{sec:jordan-wigner}). Thus, applying the JWM to some fermionic configuration state $\ket{x}_f = \sign(x_f) \ket{x_b}_f$ maps it to some spin configuration state $\ket{x}_s = \sign(x_s) \ket{x_b}_s$. Therefore, we have $\braket{x}{x}_f = \braket{x}{x}_s = 1$ and 
-\begin{align*}
-    \braket{x}{\Phi_0}_f
-    &= \det U_x
-    \braket{x}{x}_f \\
-    &= \det U_x
-    \braket{x}{x}_s \\
-    &= \braket{x}{\Phi_0}_s
-\end{align*}
-and thus the computation of the overlap does not change. \textbf{Hence, the only significant change in the VMC workflow is that the Hamiltonian has to be rewritten but the ansatz remains unchanged.} 
+The Jordan-Wigner mapping (JWM) does not change anything in the derivation above since it is only a \emph{rewriting of the operators} (and besides doing the above derivation with the JWM would probably be much more tedious). But it might come in handy when computing matrix elements such as $\bra{x} \hat H \ket{x'}$. To see what changes in the VMC workflow described above, we only have to look at how the form of the ansatz $\Phi_U(x)$ might change, since we know that the fermionic and spin configurations map onto each other (see \cref{sec:jordan-wigner}). But again, since the JWM is simply a rewriting of operators, the overlap of two states stays exactly the same and therefore the determinant ansatz remains. \textbf{Hence, the only significant change in the VMC workflow is that the Hamiltonian has to be rewritten but the ansatz remains unchanged.} 
 
-Computing matrix elements such as $\bra{x} \hat H \ket{x'}$ involves commuting fermionic operators, which necessitates some book keeping for the resulting sign. This book keeping is exactly what is done by the Jordan-Wigner strings. Thus, in practice or numerically, we often use the Jordan-Wigner such that we do not have to do this book keeping by hand.
+Computing matrix elements as for instance $\bra{x} \hat H \ket{x'}$ involves commuting fermionic operators, which necessitates some book keeping for the resulting sign. This book keeping is exactly what is done by the Jordan-Wigner strings. Thus, in practice or numerically, we often use the Jordan-Wigner in order to circumvent having to do this book keeping by hand.
 
-Since we can use the JWM to go from fermions to spins and vice versa, another question might be, why we do not use a Slater determinant when treating spin systems that can be mapped on quadratic fermionic ones. One could think, that mapping spins to fermions would imply the use of a Slater determinant even for spin systems. This is not so, because the Jordan-Wigner strings that might arise from mapping the pure spin system to the quadratic fermionic system will cancel out exactly with the signs resulting from fermionic anticommutation relations. Thus, the overlap $\braket{x}{\Phi_0}$ will not be given as a Slater determinant in this case.
+% this calculation is I think unnecessary since we only rewrite operators and thus matrix elements and overlap between states remain unchanged.
+% The overlap written with fermionic operators is given as (see \cref{eq:determinant-describes-ground-state-entry-point-jwm})
+% \begin{equation*}
+%     \braket{x}{\Phi_0}_f
+%     = \left[\sum_{p\in P}
+%     \sign(p)
+%     \prod_{\alpha=1}^{N_{e}}
+%     U_{R_{p\{Q_j\}},\alpha}\right]
+%     \bra{0} \hat d_{R_{N_{e}}} \cdots \hat d_{R_1}
+%     \hat d^\dagger_{R_1}
+%     \cdots
+%     \hat d^\dagger_{R_{N_{e}}} \ket{0} .
+% \end{equation*}
+% Using the JWM on a fermionic basis state $\ket{x_b}_f$ maps it to a spin basis state $\ket{x_b}_s$ (see \cref{sec:jordan-wigner}\footnote{We have showed that fermionic basis states map to their corresponding spin basis states for spinless fermions. Thus, one needs to generalize this to spinful fermions and to unordered states. The unordered states might lead to extra minus signs, which is unimportant for this calculation, since each extra minus sign will appear twice and thus cancel out.}). Thus, applying the JWM to some fermionic configuration state $\ket{x}_f = \sign(x_f) \ket{x_b}_f$ maps it to some spin configuration state $\ket{x}_s = \sign(x_s) \ket{x_b}_s$. Therefore, we have $\braket{x}{x}_f = \braket{x}{x}_s = 1$ and 
+% \begin{align*}
+%     \braket{x}{\Phi_0}_f
+%     &= \det U_x
+%     \braket{x}{x}_f \\
+%     &= \det U_x
+%     \braket{x}{x}_s \\
+%     &= \braket{x}{\Phi_0}_s
+% \end{align*}
+% and thus the computation of the overlap does not change. 
+
+% I underestimated the complexity of approaches for spin systems. For the XX model for instance, the exact ground state is actually a determinant, which can be seen for example via the Jordan-Wigner transformation 
+% Since we can use the JWM to go from fermions to spins and vice versa, another question might be, why we do not use a Slater determinant when treating spin systems that can be mapped on quadratic fermionic ones. One could think, that mapping spins to fermions would imply the use of a Slater determinant even for spin systems. This is not so, because the Jordan-Wigner strings that might arise from mapping the pure spin system to the quadratic fermionic system will cancel out exactly with the signs resulting from fermionic anticommutation relations. Thus, the overlap $\braket{x}{\Phi_0}$ will not be given as a Slater determinant in this case.
+
 
 \subsection{Parametrization via neural networks}
 
