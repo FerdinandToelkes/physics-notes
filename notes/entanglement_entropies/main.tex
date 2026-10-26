@@ -1,0 +1,307 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+
+\section{Entanglement entropies}
+\label{sec:entanglement-entropies}
+
+Entanglement can be quantified in various different fashions. Here, we want to explore the von Neumann and the Rényi entropies.
+
+\subsection{The von Neumann entanglement entropy}
+The von Neumann entropy is defined as
+\begin{equation}
+      S(\rho_A)\equiv-\Tr\bigl(\rho_A\ln\rho_A\bigr)
+\end{equation}
+$S$ is zero for two unentangled systems and non-zero for entangled systems.
+\begin{claim}
+      $S(\rho_A)\equiv-\Tr\bigl(\rho_A\ln\rho_A\bigr) = -\sum_i\lambda_i\ln\lambda_i =-\sum_i s_i^2\ln s_i^2.$
+\end{claim}
+\begin{claimproof}
+      Since $\rho_A$ is hermitian, we can use the spectral theorem to write it as
+      $\rho_A=\sum_i\lambda_i P_i$ where $\lambda_i$ are its eigenvalues and the eigenvectors
+      $\ket{u_i}$ give $P_i=\dyad{u_i}{u_i}$, since
+      \begin{equation}
+      \rho_A=UDU^\dagger=\bigl(\ket{u_1},\dots,\ket{u_n}\bigr)
+      \begin{pmatrix}\lambda_1& &\\ &\ddots&\\ & &\lambda_n\end{pmatrix}
+      \begin{pmatrix}\bra{u_1}\\\vdots\\\bra{u_n}\end{pmatrix},
+      \qquad\braket{u_i}{u_j}=\delta_{ij}.
+      \end{equation}
+      For a function $f$ defined on the spectrum of $\rho_A$, the spectral
+      functional calculus\footnote{See for example Nicholas, J. H. (2008). \emph{Functions of matrices: theory and computation.}} gives
+      \begin{equation}
+      f(\rho_A)\equiv\sum_i f(\lambda_i)\dyad{u_i}{u_i}
+      =U\diag\bigl(f(\lambda_i)\bigr)U^\dagger.
+      \end{equation}
+      Therefore, one can rewrite the von Neumann entanglement entropy as
+      \begin{align}
+      S(\rho_A)&\equiv-\Tr\bigl(\rho_A\ln\rho_A\bigr) \\
+      &=-\Tr\bigl(\rho_A\,U\ln(\diag(\lambda_i))\,U^\dagger\bigr)\notag\\
+      &=-\Tr\bigl(U\diag(\lambda_i)\underbrace{U^\dagger U}_{=\mathds 1}\ln(\diag(\lambda_i))U^\dagger\bigr)\notag\\
+      &=-\sum_i\lambda_i\ln\lambda_i
+      =-\sum_i s_i^2\ln s_i^2.
+      \end{align}
+\end{claimproof}
+
+
+
+\paragraph{Example}
+
+In our case, for example, $L=2$, $N_f=1$, $N_\mathrm{ph}=1$:
+\begin{align}
+& \{\ket{0},\ket{1}\}\ \&\ \{\ket{01},\ket{10}\}
+\quad\text{as bases of }\mathcal H_b\ \&\ \mathcal H_f,\\
+&\Rightarrow\{\ket{0, 01};\ \ket{0, 10};\ \ket{1, 01};\ \ket{1, 10}\}
+\quad\text{as basis of }\mathcal H_b\otimes\mathcal H_f,\\
+&\Rightarrow\ket{\psi}=\sum_{i=1}^{2}\sum_{j=1}^{2}\psi_{ij}\ket{i}_b\ket{j}_f
+\quad\text{with }(\psi)_{ij}=\psi_{ij}\ \&\ \psi\in\mathbb C^{2\times2},\\
+&\Rightarrow S(\rho_A)=-\sum_\ell s_\ell^2\ln s_\ell^2.
+\end{align}
+Note that since $\Trace\rho^{AB}=\Trace\rho^A=\Trace\rho^B=1$ we must have
+$\sum_\ell\lambda_\ell=\sum_\ell s_\ell^2=1$.
+
+\subsection{The Rényi entanglement entropies}
+
+The Rényi entropy of order $n$ is defined as
+\begin{align}
+      S_n(\rho_A) &\equiv \frac{1}{1-n} \ln (\Trace[\rho_A^n]) \\
+      &=  \frac{1}{1-n} \ln \left( \sum_{i=1}^{d_A} \lambda_i^n \right) \equiv S_n(\vec \lambda),
+\end{align}
+using again, that any hermitian matrix is diagonalizable and the cylic property of the trace. Keep in mind, that $0 \leq \lambda_i \leq 1$ and $\sum_i \lambda_i = 1$.
+
+The Rényi entropy has the following useful properties, which we will prove subsequently:
+\begin{itemize}
+      \item The Rényi entropy of order one reduces to the von Neumann entropy.
+      \item $\lim_{n \to \infty} S_n (\vec \lambda) \equiv S_\infty (\vec \lambda)= - \ln \max_i \lambda_i$ and $S_2(\vec \lambda) \leq 2 S_\infty(\vec \lambda)$.
+      \item We have $S_n \geq S_m$ for $n<m$ and therefore $S_2$ is a lower bound for the Von Neumann entropy $S_1$.
+\end{itemize}
+
+\begin{claim}
+The Rényi entropy of order one reduces to the von Neumann entropy.
+\end{claim}
+\begin{claimproof}
+      We can examine the first order by using l'Hôpital's rule, which yields
+      \begin{align*}
+            S_1(\rho_A) &= \lim_{n \to 1} \frac{\ln (\Trace[\rho_A^n])}{1-n} 
+            \overset{\mathrm{H}}{=} \lim_{n \to 1} \frac{\left( \ln \sum_{i=1}^{d_A} \lambda_i^n \right)'}{(1-n)'} \\
+            &= - \lim_{n \to 1} \frac{\sum_{i=1}^{d_A} \lambda_i^n \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i^n} 
+            = - \frac{\sum_{i=1}^{d_A} \lambda_i \ln \lambda_i }{\sum_{i=1}^{d_A} \lambda_i} \\
+            &= - \sum_{i=1}^{d_A} \lambda_i \ln \lambda_i .
+      \end{align*}
+\end{claimproof}
+
+\begin{claim}
+      $\lim_{n \to \infty} S_n (\vec \lambda) \equiv S_\infty (\vec \lambda)= - \ln \max_i \lambda_i$ and $S_2(\vec \lambda) \leq 2 S_\infty(\vec \lambda)$.
+\end{claim}
+\begin{claimproof}
+      Order the different eigenvalues of $\rho_A$ such that $\lambda_1 \leq \lambda_2 \leq \ldots \leq \lambda_2$. Furthermore, denote the number of degenerate $\lambda_1\equiv\lambda_{\text{max}}$ as $m$. It then follows      
+      \begin{align*}
+            S_\infty (\vec \lambda) &= \lim_{n \to \infty} \frac{1}{1-n} \ln \left( \sum_{i=1}^{d_A} \lambda_i^n \right) \\
+            &= \lim_{n \to \infty} \frac{1}{1-n} 
+            \ln \left(  
+            \sum_{i=1}^{m} \lambda_\text{max} ^n + \sum_{i=m+1}^{d_A}  \lambda_i^n
+            \right) \\
+            &= \lim_{n \to \infty} \frac{1}{1-n} 
+            \ln \left(  m \lambda_\text{max}^n + 0 \right) \\
+            &= \lim_{n \to \infty} \frac{\ln m + n \ln \lambda_\text{max}}{1-n} = - \ln \max_{i} \lambda_i .
+      \end{align*}
+      The second inequality quickly follows
+      \begin{equation*}
+            S_2 (\vec \lambda) = - \ln(\sum_{i=1}^{d_A} \lambda_i^n) \leq - \ln (\lambda_\text{max}^2) = -2 S_\infty (\vec \lambda),
+      \end{equation*}
+      since the logarithm decreases monotonically.
+\end{claimproof}
+
+\begin{claim}
+      $S_n \geq S_m$ for $n<m$.
+\end{claim}
+\begin{claimproof}
+      Define $z_i(n) = \lambda_i^n / \sum_{j=1}^{d_A} \lambda_j^n$, which is a probability distribution, and $F(n) = \ln \sum_{j=1}^{d_A} \lambda^n_j$. We take n to be a continuous variable and differentiate $F$ with respect to it using again that $\frac{d}{dn} \lambda^n = \lambda^n \ln \lambda $:
+      \begin{align*}
+            F'(n) &= \frac{\sum_{i=1}^{d_A} \lambda_i^n \ln \lambda_i }{\sum_{j=1}^{d_A} \lambda_j^n} 
+            = \sum_i z_i(n) \ln \lambda_i \qquad \text{and} \\
+            F''(n) &= \sum_i z_i(n) (\ln \lambda_i)^2 - \left( \sum_i z_i(n) \ln \lambda_i \right)^2 \\
+            &= \mathrm{Var}_{z(n)}(\ln \lambda_i) \geq 0 ,
+      \end{align*}
+      which implies, that $F'$ is non-decreasing. Thus, we can follow w.l.o.g for $x\geq n$
+      \begin{align*}
+            F(x) - F(n) &= \int_n^x F'(s) ds \leq \int_n^x F'(n) ds = F'(n) (x - n),
+      \end{align*}
+      which is equivalent to saying that $F$ lays above all of its tangent, since it is convex. Since $F(1) = \ln \sum_i \lambda_i = \ln 1 = 0 $, it follows that
+      \begin{equation*}
+            F(1) = 0 \leq F(n) + F'(n)(1-n) .
+      \end{equation*}
+      We can employ this now to yield 
+      \begin{equation*}
+            \frac{d S(n)}{dn} = \frac{d}{dn} \frac{F(n)}{1-n} = \frac{(1-n) F'(n) + F(n)}{(1-n)^2} \leq 0 ,
+      \end{equation*}  
+      which proves, that $S_n$ is non-increasing for $n \neq 1$.
+      Finally, employing l'Hôpital's rule yields for $n=1$ that
+      \begin{equation*}
+            \lim_{n\rightarrow1} = - \frac{1}{2} F''(1) \leq 0 .
+      \end{equation*}
+\end{claimproof}
+
+
+
+\subsection{Computing von Neumann entropy with variational quantum states}
+\label{subsec:von-neumann-entanglement-entropy-vmc}
+
+
+\subsubsection{Direct computation using the SVD}
+
+The entanglement entropy for the ground state can be computed directly as follows:
+\begin{enumerate}
+\item Obtain an approximation of the ground state
+      $\ket{\psi_0}=\sum_\alpha c_\alpha\ket{\alpha}\in\mathcal H^{AB} = \mathcal H^{A} \otimes \mathcal H^{B} $ as some parametrized variational state $\psi_\theta(\alpha)$.
+\item Use the variational state (e.g. $\psi_\theta(\alpha) = c_\alpha$) to evaluate the amplitudes on every allowed configuration $\alpha$ and normalize the resulting coefficient vector.
+\item Reshape the coefficients into the matrix
+      $\psi\in\mathbb C^{d_A\times d_B}$, respecting the ordering of the
+      product basis.
+\item Compute the SVD of $\psi$ to obtain the Schmidt values $s_i$, yielding the entropy $S=-\sum_i s_i^2\ln s_i^2$
+\end{enumerate}
+This approach is also straightforward with exact diagonalization since the ground state is represented by a vector consisting of the desired amplitudes. However, this quickly becomes unfeasible for ED and variational states as the Hilbert space grows exponentially with the system size.
+
+
+\subsubsection{Constructing the reduced density matrix}
+
+Given that $d_A\ll d_B$, one can estimate the small reduced density matrix $\rho_A$ and diagonalize it directly. For illustrative purposes, let subsystem $A$ describe a single photon mode and let subsystem $B$ describe a fermionic system.
+
+Let $n=0,\dots,N_{\mathrm{ph}}$ denote the photon occupation and $\sigma$
+a fermionic occupation configuration. Define the wavefunction amplitudes by
+\begin{equation}
+\psi(n,\sigma)\equiv\braket{n,\sigma}{\psi}.
+\end{equation}
+For a normalized state, the matrix elements of $\rho_A$ follow from \cref{eq:reduced_density_matrix_as_operator,eq:density_matrix_as_wavefunction_coefficients}
+\begin{equation}
+(\rho_A)_{nn'}
+=\sum_\sigma\psi(n,\sigma)\psi^*(n',\sigma)
+\end{equation}
+
+Since variational states do not necessarily provide normalized amplitudes, we might have to normalize them in the above formula. Defining
+\begin{equation}
+Z\equiv\sum_{m,\sigma}|\psi(m,\sigma)|^2,
+\end{equation}
+we can write the normalized reduced density matrix more generally as
+\begin{equation}
+\boxed{\,
+(\rho_A)_{nn'}
+=\frac{\sum_\sigma\psi(n,\sigma)\psi^*(n',\sigma)}{Z}
+\,}.
+\end{equation}
+For a normalized state, $Z=1$.
+
+\subsubsection{A Monte Carlo estimator for the reduced density matrix}
+
+For each fermionic configuration $\sigma$, define
+\begin{equation}
+u_n(\sigma)\equiv
+\frac{\psi(n,\sigma)}
+{\sqrt{\sum_{m=0}^{N_{\mathrm{ph}}}|\psi(m,\sigma)|^2}},
+\qquad
+\vec u(\sigma)=
+\begin{pmatrix}
+u_0(\sigma)\\
+\vdots\\
+u_{N_{\mathrm{ph}}}(\sigma)
+\end{pmatrix}
+\end{equation}
+only if the denominator is non-zero. This is almost always the case when using Monte Carlo sampling since these configurations will never be visited, unless you start in one of them.
+This vector is normalized for every $\sigma$ with non-zero marginal
+probability:
+\begin{equation}
+\vec u(\sigma)^\dagger\vec u(\sigma)
+=\sum_{n=0}^{N_{\mathrm{ph}}}|u_n(\sigma)|^2=1.
+\end{equation}
+The matrix elements of its outer product are
+\begin{equation}
+\bigl(\vec u(\sigma)\vec u(\sigma)^\dagger\bigr)_{nn'}
+=
+\frac{\psi(n,\sigma)\psi^*(n',\sigma)}
+{\sum_{m=0}^{N_{\mathrm{ph}}}|\psi(m,\sigma)|^2}.
+\end{equation}
+
+Now consider the marginal probability distribution of the fermionic
+configurations,
+\begin{align}
+p(\sigma) &=
+\sum_{m=0}^{N_{\mathrm{ph}}} p(m, \sigma) \\
+&\equiv \frac{\sum_{m=0}^{N_{\mathrm{ph}}}|\psi(m,\sigma)|^2}
+{\sum_{m,\sigma'}|\psi(m,\sigma')|^2} .
+\end{align}
+Taking the expectation value with respect to this distribution yields
+\begin{align}
+\mathbb E_{\sigma\sim p(\sigma)}
+\bigl[\vec u(\sigma)\vec u(\sigma)^\dagger\bigr]_{nn'}
+&=\sum_\sigma
+  \frac{\psi(n,\sigma)\psi^*(n',\sigma)}
+       {\sum_m|\psi(m,\sigma)|^2}\,p(\sigma)\notag\\
+&=\sum_\sigma
+  \frac{\psi(n,\sigma)\psi^*(n',\sigma)}
+       {\sum_m|\psi(m,\sigma)|^2}\,
+  \frac{\sum_m|\psi(m,\sigma)|^2}
+       {\sum_{m,\sigma'}|\psi(m,\sigma')|^2}\notag\\
+&=\frac{\sum_\sigma\psi(n,\sigma)\psi^*(n',\sigma)}
+       {\sum_{m,\sigma'}|\psi(m,\sigma')|^2}\notag\\
+&=(\rho_A)_{nn'}.
+\end{align}
+Therefore,
+\begin{equation}
+\boxed{\,
+\rho_A=
+\mathbb E_{\sigma\sim p(\sigma)}
+\bigl[\vec u(\sigma)\vec u(\sigma)^\dagger\bigr]
+\,}.
+\end{equation}
+Moreover, since we are only interested in an expectation value over $\sigma$, we have
+\begin{align}
+\mathbb E_{(n,\sigma)\sim p(n, \sigma)}
+\bigl[F(\sigma)\bigr]
+&=\sum_{n,\sigma}
+  p(n, \sigma) F(\sigma) \notag\\
+&=\sum_{\sigma}
+  p(\sigma) F(\sigma) \notag\\
+&= \mathbb E_{\sigma\sim p(\sigma)}
+\bigl[F(\sigma)\bigr] . \label{eq:expectation_value_equal_probability_marginal_probability}
+\end{align}
+Thus, we can sample either from $p(\sigma)$ or from $p(n,\sigma)$, depending on what is more convenient.
+
+\subsubsection{Computation using variational Monte Carlo}
+
+The resulting procedure is:
+\begin{enumerate}
+\item Sample a configuration $(\tilde n,\sigma)$ using the VMC sampler,
+      i.e.\ from the joint distribution
+      \begin{equation}
+      p(n,\sigma)=\frac{|\psi(n,\sigma)|^2}{Z}.
+      \end{equation}
+      Discard $\tilde n$ and retain $\sigma$. Note, that $Z$ does not need to be known in VMC. The retained configurations follow the marginal distribution $p(\sigma)$ (see \cref{eq:expectation_value_equal_probability_marginal_probability}).
+\item Evaluate all amplitudes $\psi(n,\sigma)$ for
+      $n=0,\dots,N_{\mathrm{ph}}$ and construct $\vec u(\sigma)$.
+\item Compute $\vec u(\sigma)\vec u(\sigma)^\dagger$.
+      Repeat the preceding steps and average the resulting matrices:
+      \begin{equation}
+      \widehat\rho_A=
+      \frac{1}{M}\sum_{k=1}^{M}
+      \vec u(\sigma_k)\vec u(\sigma_k)^\dagger
+      \approx\rho_A.
+      \end{equation}
+      The wide hat indicates that we only obtain an estimate of the true density matrix.
+\item Diagonalize $\widehat\rho_A$ and use its eigenvalues
+      $\widehat\lambda_i$ to estimate the von Neumann entropy:
+      \begin{equation}
+      \widehat S=-\sum_i\widehat\lambda_i\ln\widehat\lambda_i.
+      \end{equation}
+\end{enumerate}
+
+\subsection{References}
+I did not use any literature explicitly, except for AI helping me figure out what to do. The following paper employs a similar approach to the one I demonstrate here.
+\begin{itemize}
+      \item M.\ Nielsen \& I.\ Chuang, \emph{Quantum Computation and Quantum Information}
+      (density operator, partial trace; Box 2.6).
+      \item U.\ Schollw\"ock, \emph{The density-matrix renormalization group in the age of matrix
+            product states}, beginning of Chapter 4 (MPS).
+      \item Tang, Yifan, et al. \emph{Deep quantum Monte Carlo approach for polaritonic chemistry.} The Journal of Chemical Physics 163.3 (2025). (Appendix A.1 and A.3)
+\end{itemize}
+
+\end{document}
