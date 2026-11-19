@@ -15,21 +15,27 @@ with $i,j,k=x,y,z=1,2,3$ and using the Einstein summation convention.
 One can define raising and lowering operators as
 \begin{equation}
 \boxed{\,\hat S_\pm=\hat S_x\pm i\hat S_y\,}\qquad\text{with}\qquad
-\boxed{\,[S_-,S_+]=-2S_z\,}.
+\boxed{\,[S_+,S_-]=2S_z\, \quad \& \quad \,[S_\pm,S_z]=S_\pm\,}\, .
 \end{equation}
 
 \begin{proof}
-\begin{align}
-[S_-,S_+]&=[S_x-iS_y,\ S_x+iS_y]\notag\\
+This can be shown with two quick calcations:
+\begin{align*}
+[S_-,S_+]&=[S_x-iS_y,\ S_x+iS_y]\\
 &=
-[S_x,S_x] +i[S_x,S_y]-i[S_y,S_x]+[S_y,S_y]\notag\\
+[S_x,S_x] +i[S_x,S_y]-i[S_y,S_x]+[S_y,S_y]\\
 &=2i[S_x,S_y]
 \overset{\eqref{eq:spin-comm}}{=}2i\cdot i\,\epsilon_{12\ell}S_\ell
 =-2\,\epsilon_{12\ell}S_\ell
 =-2S_z,
-\end{align}
+\end{align*}
 where the first step used the bilinearity of the commutator and the last step uses $\epsilon_{jk\ell}=0$ if two indices are equal, leaving
-$\epsilon_{123}S_3=S_z$.
+$\epsilon_{123}S_3=S_z$. Furthermore,
+\begin{align*}
+[S_z,S_\pm]&=[S_z,\ S_x\pm iS_y] 
+= [S_z,S_x] \pm i[S_z,S_y] \\
+&\overset{\eqref{eq:spin-comm}}{=}-i S_y \mp S_x = - S_\pm
+\end{align*}
 \end{proof}
 
 For spin-$\tfrac12$ particles, one can write

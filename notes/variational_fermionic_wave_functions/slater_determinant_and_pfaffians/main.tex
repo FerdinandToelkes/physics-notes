@@ -1,0 +1,209 @@
+\documentclass[../../../main.tex]{subfiles}
+
+\begin{document}
+In this subsection we review section $5.6$ of the book \emph{Quantum Monte Carlo Approaches for Correlated Systems} by Federico Becca and Sandro Sorella. The presentation closely follows Becca and Sorella, with additional details included for clarity.
+
+Throughout this section, we assume a lattice that contains $L$ sites and each site can contain one spin-up and one spin-down orbital. Therefore, we have $2L$ available orbitals that can be occupied by particles. We use one collective index that contains the site and the spin, by setting
+\begin{equation}
+    \hat c_{i, \uparrow} \equiv \hat d_i \quad \text{and} \quad \hat c_{i, \downarrow} \equiv \hat d_{i+L} . \label{eq:collective-index-site-and-spin}
+\end{equation}
+This corresponds to the fermionic-mode ordering $(1\uparrow,2\uparrow,\ldots,L\uparrow,
+1\downarrow,2\downarrow,\ldots,L\downarrow)$. Any fixed ordering is fine, but it must be used consistently throughout.
+
+We begin by quickly showing how any number-conserving quadratic fermionic Hamiltonian can be diagonalized:
+\begin{align}
+    \hat H_0
+    &= \sum_{I,J=1}^{2L}
+    t_{I,J} d_I^\dagger \hat d_J \\
+    &= \bm d^\dagger \bm T \bm d 
+    = \bm d^\dagger \bm U \bm U^\dagger \bm T \bm U \bm U^\dagger \bm d \\
+    &= \bm \phi^\dagger \bm E \bm \phi 
+    =\sum_{\alpha=1}^{2L}
+    \varepsilon_\alpha \hat \Phi_\alpha^\dagger \hat \Phi_\alpha ,  \\
+    \text{with} \quad \phi^\dagger_\alpha &= \sum_{I=1}^{2L} U_{I,\alpha} d_I^\dagger .
+    \label{eq:quadratic-hamiltonian-diagonal}
+\end{align}
+The ground state is thus obtained by occupying the $N_{e}$ lowest-energy
+single-particle orbitals
+\begin{equation}
+    \ket{\Phi_0}
+    =
+    \prod_{\alpha=1}^{N_{e}}
+    \hat \Phi_\alpha^\dagger \ket{0}
+    =
+    \prod_{\alpha=1}^{N_{e}}
+    \left(
+        \sum_{I=1}^{2L}
+        U_{I\alpha}\hat d_I^\dagger
+    \right)
+    \ket{0}.
+    \label{eq:slater-ground-state}
+\end{equation}
+The matrix $U$ is in general a $2L\times 2L$ unitary matrix, where we only need the first $N_e$ columns to construct the ground state, as can be seen above.
+
+A general occupation-number configuration can be written as
+\begin{equation}
+    \ket{x}
+    =
+    \hat d_{R_1}^\dagger
+    \hat d_{R_2}^\dagger
+    \cdots
+    \hat d_{R_{N_{e}}}^\dagger
+    \ket{0},
+    \label{eq:configuration-state}
+\end{equation}
+where $R_1,\ldots,R_{N_{e}}$ are the occupied orbitals in the
+configuration $x$, with $R_j = 1, \ldots 2L$. This is of course a redundant labeling, since for example $c_1^\dagger c_2^\dagger \ket{0}= - c_2^\dagger c_1^\dagger \ket{0}$. But to describe arbitrary configurations, that can occur from applying the Hamiltonian to another arbitrary configuration, they are convenient. The resulting operator string does not need to be in canonical order and therefore, it then must be reordered, producing the appropriate fermionic sign. Thus, different orderings may represent the same physical configuration up to a sign. This results in
+\begin{align}
+    \braket{x}{y} &= \bra{0} \hat d_{R_{N_e}} \cdots \hat d_{R_1} \hat d^\dagger_{Q_1} \cdots \hat d^\dagger_{Q_{N_e}} \ket{0} \notag \\
+    &= \begin{cases}
+        0 , \quad &\text{iff } \{R_1, \ldots, R_{N_e}\} \neq \{Q_1, \ldots, Q_{N_e}\} \\
+        \sign (p), \quad &\text{else, with } p\left( (Q_1, \ldots, Q_{N_e}) \right) = (R_1, \ldots, R_{N_e}) ,
+    \end{cases} \label{eq:overlap_two_fermionic_configs}
+\end{align}
+where $\{ . \}$ denotes a mathematical set and $( . )$ an ordered tuple. The overlap between a general configuration $\ket{x}$ and the ground state of the quadratic Hamiltonian is hence given as
+\begin{align}
+    \braket{x}{\Phi_0}
+    &=
+    \bra{0}
+    \hat d_{R_{N_{e}}}
+    \cdots
+    \hat d_{R_1}
+    \prod_{\alpha=1}^{N_{e}}
+    \left(
+        \sum_{i=1}^{2L}
+        U_{i\alpha}\hat d_i^\dagger
+    \right)
+    \ket{0}
+    \nonumber\\
+    &=
+    \bra{0}
+    \hat d_{R_{N_{e}}}
+    \cdots
+    \hat d_{R_1}
+    \left[\sum_{p\in P}
+    \sign(p)
+    \prod_{\alpha=1}^{N_{e}}
+    U_{p\{Q_j\},\alpha}\right] \hat d^\dagger_{Q_1}
+    \cdots
+    \hat d^\dagger_{Q_{N_{e}}} \ket{0},
+    \label{eq:overlap-permutation-sum}
+\end{align}
+with $P$ containing all possible permutations of the $Q_j$. These have now to be restricted on all valid permutations of the $R_j$ within $x$ (see \cref{eq:overlap_two_fermionic_configs}), which yields
+\begin{align}
+    \braket{x}{\Phi_0}
+    &= \bra{0} \hat d_{R_{N_{e}}} \cdots \hat d_{R_1}
+    \left[\sum_{p\in P}
+    \sign(p)
+    \prod_{\alpha=1}^{N_{e}}
+    U_{R_{p\{Q_j\}},\alpha}\right] \hat d^\dagger_{R_1}
+    \cdots
+    \hat d^\dagger_{R_{N_{e}}} \ket{0} \label{eq:determinant-describes-ground-state-entry-point-jwm} \\
+    &= \sum_{p\in P}
+    \sign(p)
+    \prod_{\alpha=1}^{N_{e}}
+    U_{R_{p\{Q_j\}},\alpha}  \\
+    &= \det\left[
+        U_{R_i,\alpha}
+    \right]_{
+        \substack{
+            i=1,\ldots,N_{e}\\
+            \alpha=1,\ldots,N_{e}
+        }
+    },
+    \label{eq:slater-determinant-overlap}
+\end{align}
+where we used the Leibniz formula in the last step.
+
+In other words, although $U$ is a $2L\times 2L$ matrix, only the
+$N_{e}$ columns corresponding to the occupied lowest-energy
+orbitals and the $N_{e}$ rows corresponding to the occupied
+orbitals $R_i$ of the configuration $x$ are needed:
+\begin{equation}
+    U_x
+    =
+    \begin{pmatrix}
+        U_{R_1,1}  & \cdots & U_{R_1,N_{e}} \\
+        \vdots     & \ddots & \vdots \\
+        U_{R_{N_{e}},1} & \cdots & U_{R_{N_{e}},N_{e}}
+    \end{pmatrix}
+\end{equation}
+and hence
+\begin{equation}
+    \braket{x}{\Phi_0} = \det(U_x).
+\end{equation}
+
+\paragraph{Variational Monte Carlo}
+Let's say we have some general fermionic Hamiltonian $\hat H$, which might not be quadratic and we choose the Slater determinant as our variational ansatz $\braket{x}{\Phi_U} = \det(U_x)$ with the entries of the full $U$ as the variational parameters. The variational Monte Carlo (VMC) workflow then roughly looks like
+\begin{enumerate}
+    \item Sample fermionic occupation configurations $x = (R_1, \ldots, R_{N_e})$ following the distribution resulting from $\Phi_U(x) = \det(U_x)$.
+    \item Evaluate Hamiltonian matrix elements $\bra{x} \hat H \ket{x'}$ and estimate the local energy $e_L(x) = \sum_{x'} \bra{x} \hat H \ket{x'} \frac{\braket{x'}{\Phi_U}}{\braket{x}{\Phi_U}}$.
+    \item Compute the gradient of the energy $\langle E \rangle \approx \frac{1}{N} \sum_{n=1}^N e_L(x_n)$ and optimize the variational parameters with it.
+    \item Repeat until convergence.
+\end{enumerate}
+
+\paragraph{The Jordan-Wigner mapping}
+The Jordan-Wigner mapping (JWM) does not change anything in the derivation above since it is only a \emph{rewriting of the operators} (and besides doing the above derivation with the JWM would probably be much more tedious). But it might come in handy when computing matrix elements such as $\bra{x} \hat H \ket{x'}$. To see what changes in the VMC workflow described above, we only have to look at how the form of the ansatz $\Phi_U(x)$ might change, since we know that the fermionic and spin configurations map onto each other (see \cref{sec:jordan-wigner}). But again, since the JWM is simply a rewriting of operators, the overlap of two states stays exactly the same and therefore the determinant ansatz remains. \textbf{Hence, the only significant change in the VMC workflow is that the Hamiltonian has to be rewritten but the ansatz remains unchanged.} 
+
+Computing matrix elements as for instance $\bra{x} \hat H \ket{x'}$ involves commuting fermionic operators, which necessitates some book keeping for the resulting sign. This book keeping is exactly what is done by the Jordan-Wigner strings. Thus, in practice or numerically, we often use the Jordan-Wigner in order to circumvent having to do this book keeping by hand.
+
+\subsubsection{Extension to a BCS Hamiltonian}
+We will show now, that the Slater determinants are also suitable for a BCS Hamiltonian
+\begin{equation}
+    H = \sum_{i,j\sigma} t_{i,j}c_{i,\sigma}^\dagger c_{j,\sigma} - \mu_0 \sum_{i,\sigma}c_{i,\sigma}^\dagger c_{i,\sigma} + \sum_{i,j}\Delta_{i,j} c_{i,\uparrow}^\dagger c_{j,\downarrow}^\dagger + h.c. ,
+\end{equation}
+which does not conserve the number of particles. One can fix the average number of electrons the system contains by tuning the chemical potential $\mu_0$. One can indeed still transform this Hamiltonian unitarily to one, that does conserve the number of particles, making it again possible to diagonalize it.
+
+\paragraph{Particle-hole transformation on the spin-down electrons}
+
+The particle hole transformation is defined by 
+\begin{equation*}
+    f_{i\uparrow}=c_{i\uparrow}, \qquad f_{i\downarrow}=c_{i\downarrow}^{\dagger} .
+\end{equation*} 
+The question is, whether the underlying transformation is actually unitary. We will focus on the spin down operators, since the transformation on the spin up sector acts trivially. One can directly see, that the anticommutation relations remain intact
+\[
+\{f_{i\downarrow},f_{j\downarrow}^{\dagger}\}
+=\{c_{i\downarrow}^{\dagger},c_{j\downarrow}\}=\delta_{ij} .
+\]
+The vacuum of one site is defined as the state $\ket{0}_i$ with $c_{i\sigma} \ket{0}_i = 0$ and the full vacuum is then given as $\bigotimes_i \ket{0}_i$. Thus, the vacuum for the $f$ operators is 
+\begin{align*}
+\tilde{\ket{0}} &= \bigotimes_i \tilde{\ket{0}}_i =
+\bigotimes_i c_{i\downarrow}^{\dagger}\ket{0}_i \qquad \text{with } \\
+f_{i\downarrow} \tilde{\ket{0}}_i&= c^\dagger_{i,\downarrow} c_{i\downarrow}^{\dagger}\ket{0}_i = 0 ,
+\end{align*}
+due to antisymmetry. Now we know, that we can build a basis by acting with the creation operators $f^\dagger_{i\sigma}$ on this vacuum 
+\begin{equation*}
+    \ket{\tilde{ \bm n}} = \prod_{I} (f_I^\dagger)^{n_I} \tilde{\ket{0}} ,
+\end{equation*}
+where $I$ is a collective index. The anticommutation relation makes this an orthonormal basis.
+
+
+is equivalent, at least up to a possible minus sign, to the action of the original creation and annihilation operators on the original vacuum. Therefore, the transformation $U$ that maps between these two kind of operators, will map the corresponding orthonormal basis to one another and it is hence a unitary mapping. We can write that transformation as
+
+\[
+U c_{i\downarrow}^{\dagger} U^{\dagger}=f_{i\downarrow}
+\quad\text{\&}\quad U c_{i\uparrow} U^{\dagger}=f_{i\uparrow}
+\]
+TODO: finish section above and update section below accordingly
+
+The different parts of the Hamiltonian transform as follows. The occupation number operators are given by
+\begin{align*}
+U c_{i\downarrow}^{\dagger} c_{i\downarrow} U^{\dagger}
+&=U c_{i\downarrow}^{\dagger} U^{\dagger} U c_{i\downarrow} U^{\dagger}\\
+&= f_{i\downarrow} f_{i\downarrow}^{\dagger}
+=1-f_{i\downarrow}^{\dagger} f_{i\downarrow} ,
+\end{align*}
+which shows why the mapping is called particle hole transformation. Writing the unitaries is not necessary, but we did it to make it clear that it is a unitary transformation. The hopping terms are transformed to
+\[
+U c_{i\downarrow}^{\dagger} c_{j\downarrow} U^{\dagger}
+=f_{i\downarrow} f_{j\downarrow}^{\dagger}
+=-f_{j\downarrow}^{\dagger} f_{i\downarrow}
+\]
+and finally the pairing term is
+\[
+U c_{i\uparrow}^{\dagger} c_{j\downarrow}^{\dagger} U^{\dagger}
+=f_{i\uparrow}^{\dagger} f_{j\downarrow} .
+\]
+We therefore only have terms, that conserve the number of particles and we know that we can diagonalize that. Therefore, the ground state of the BCS Hamiltonian can also be written as a Slater determinant.
+
+\end{document}

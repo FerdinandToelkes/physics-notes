@@ -1,0 +1,643 @@
+
+
+\documentclass[../../main.tex]{subfiles}
+
+
+
+
+\begin{document}
+
+\section{Analytical phonon integration in Hubbard--Holstein VMC}
+
+\paragraph{Abstract}
+A conditional phonon state can be contracted analytically before sampling the
+fermionic configurations. For coherent packets, normally ordered matrix
+elements follow from the coherent-state eigenvalue equation. For squeezed
+packets, they follow by differentiating one overlap kernel. The same kernels
+give the energy gradient, the quantum geometric tensor used in stochastic
+reconfiguration, and the fermion--phonon R\'enyi entropy.
+
+
+\subsection{Conditional state and sampling}
+\label{sec:state}
+
+Let \(s=(n_{i\sigma})\) be a fermionic Fock configuration and let
+\(f(s)\) be its Slater, backflow, or other variational amplitude. For
+\(N\) phonon modes and \(K\) packets, define
+\begin{align}
+ \ket{\phi_s} &= \sum_{k=1}^K W_k(s)\ket{G_k(s)}, &
+ \ket{G_k(s)} &= \bigotimes_{i=1}^{N}\ket{G_{i,k}(s)}, \label{eq:packets}\\
+ Z_s &= \braket{\phi_s}{\phi_s}, &
+ \ket{\chi_s} &= Z_s^{-1/2}\ket{\phi_s}. \label{eq:normalized-conditional}
+\end{align}
+Each \(\ket{G_{i,k}}\) is normalized. The complex weights describe a
+superposition, so pairwise interference contributes to \(Z_s\).
+The product over sites is a tensor product within one packet. The
+superposition can correlate different phonon modes.
+
+The normalized conditional states give the following expression for the
+trial state and its sampling measure.
+\begin{equation}
+ \ket{\Psi}=\sum_s A(s)\ket{s}\otimes\ket{\chi_s},
+ \qquad
+ \mathcal{N}=\langle\Psi\mid\Psi\rangle=\sum_s |A(s)|^2,\qquad
+ p(s)=|A(s)|^2/\mathcal{N}.
+ \label{eq:state}
+\end{equation}
+The notes use two conventions for \(f\).
+\begin{description}
+ \item[Normalized conditional ansatz.] If
+ \(\ket{\Psi}=\sum_s f(s)\ket{s}\otimes\ket{\chi_s}\), then \(A(s)=f(s)\)
+ and the sampler uses \(p(s)\propto |f(s)|^2\).
+ \item[Unnormalized conditional ansatz.] If
+ \(\ket{\Psi}=\sum_s f(s)\ket{s}\otimes\ket{\phi_s}\), then
+ \(A(s)=f(s)\sqrt{Z_s}\) and the sampler uses \(p(s)\propto |f(s)|^2Z_s\).
+\end{description}
+These describe the same state after the corresponding redefinition of the
+fermionic amplitude. For a fixed \(f\), they generally describe different
+states. For a symmetric Metropolis proposal the acceptance ratio before
+clipping at one is \(|A(s')/A(s)|^2\). The formulas using division by \(A\)
+or \(Z_s\) are evaluated where the corresponding quantities are nonzero.
+A zero unnormalized component can be kept as a zero vector in a connected
+ket without constructing its normalized state.
+
+\subsection{Phonon overlap and operator kernels}
+\label{sec:kernels}
+
+For a phonon operator \(B\), introduce the matrix and scalar kernels
+\begin{align}
+ [G_B(s,s')]_{\ell k} &= \mel{G_\ell(s)}{B}{G_k(s')},\\
+ K_B(s,s') &= W(s)^\dagger G_B(s,s')W(s'), &
+ C_B(s,s') &= \frac{K_B(s,s')}{\sqrt{Z_s Z_{s'}}}.
+ \label{eq:kernels}
+\end{align}
+For \(B=\id\), write \(G\), \(K_{\id}\), and \(C\). In particular,
+\(Z_s=K_{\id}(s,s)\) and \(C(s,s')=\braket{\chi_s}{\chi_{s'}}\).
+The same-configuration matrix \(G(s,s)\) is a positive-semidefinite
+Hermitian Gram matrix with unit diagonal. The cross-configuration matrix
+satisfies \(G(s',s)=G(s,s')^\dagger\). For an operator acting on one site,
+the tensor product gives
+\begin{equation}
+ [G_{B_i}(s,s')]_{\ell k}
+ =\mel{G_{i,\ell}(s)}{B_i}{G_{i,k}(s')}
+   \prod_{j\ne i}\braket{G_{j,\ell}(s)}{G_{j,k}(s')}.
+ \label{eq:site-kernel}
+\end{equation}
+
+\subsubsection{Coherent packets}
+\label{sec:coh}
+
+For one mode, write
+\(\ket{\alpha}=D(\alpha)\ket{0}\), with
+\(D(\alpha)=\exp(\alpha b^\dagger-\alpha^* b)\). The scalar commutator in
+the Baker--Campbell--Hausdorff identity gives
+\(\ket{\alpha}=e^{-|\alpha|^2/2}e^{\alpha b^\dagger}\ket 0\).
+Contracting the two exponentials gives the overlap. Applying
+\(b\ket{\alpha}=\alpha\ket{\alpha}\) and its adjoint gives every normally
+ordered matrix element \cite{glauber1963}. For bra \(L\) and ket \(R\),
+\begin{align}
+ h_{LR} &= \braket{\alpha_L}{\alpha_R}
+     = \exp\!\left(-\frac{|\alpha_L|^2+|\alpha_R|^2}{2}
+                    +\alpha_L^*\alpha_R\right), \label{eq:coh-overlap}\\
+ \mel{\alpha_L}{(b^\dagger)^m b^n}{\alpha_R}
+     &= h_{LR}(\alpha_L^*)^m\alpha_R^n. \label{eq:coh-monomial}
+\end{align}
+In particular, the factors multiplying \(h_{LR}\) for \(b^\dagger b\)
+and \(b+b^\dagger\) are \(\alpha_L^*\alpha_R\) and
+\(\alpha_R+\alpha_L^*\). For real displacements
+\(h_{LR}=\exp[-(\alpha_L-\alpha_R)^2/2]\).
+With complex displacements its phase is
+\(\Ima(\alpha_L^*\alpha_R)\).
+
+\subsubsection{Displaced squeezed packets}
+\label{sec:sq}
+
+Let \(\zeta=r e^{\ii\vartheta}\) be the unitary squeezing parameter and
+\(\alpha\) the physical displacement. The linear and quadratic
+coefficients in the creation-operator exponential are \(\beta\) and \(q\).
+\begin{align}
+ S(\zeta)&=\exp\!\left[\tfrac12(\zeta^* b^2-\zeta(b^\dagger)^2)\right],
+ \qquad q=-e^{\ii\vartheta}\tanh r, \label{eq:squeeze}\\
+ \ket{G}&=D(\alpha)S(\zeta)\ket{0}
+      =c\,\exp\!\left[\beta b^\dagger+\tfrac12 q(b^\dagger)^2\right]\ket{0},\\
+ \beta&=\alpha-q\alpha^*, \qquad
+ c=\frac{\exp[-|\alpha|^2/2+q(\alpha^*)^2/2]}{\sqrt{\cosh r}}.
+ \label{eq:gaussian-state}
+\end{align}
+To obtain this form, the Bogoliubov transform gives
+\(S b S^\dagger=(b-qb^\dagger)\cosh r\), so
+\((b-qb^\dagger)S\ket{0}=0\). Disentangling \(S\) fixes the prefactor of
+the squeezed vacuum. The displacement then shifts \(b^\dagger\) to
+\(b^\dagger-\alpha^*\) and maps the vacuum to \(\ket{\alpha}\).
+\Cref{app:squeeze} gives the operator identities explicitly. In particular,
+\(b\ket{G}=(\beta+q b^\dagger)\ket{G}\).
+
+Put \(x=\beta_L^*\), \(y=\beta_R\), and \(d=1-q_L^*q_R\).
+The single-mode overlap has the form
+\begin{equation}
+ h_{LR}=c_L^*c_R\,\mathcal{F}(x,y),\qquad
+ \mathcal{F}(x,y)=\frac{1}{\sqrt{d}}\,
+ \exp\!\left[\frac{xy+\tfrac12 q_R x^2+\tfrac12 q_L^*y^2}{d}\right].
+ \label{eq:gauss-overlap}
+\end{equation}
+The square root is continued from \(d=1\). For finite squeezing
+\(|q_{L,R}|<1\), so \(d\) lies in the right half-plane. One short way to get
+\(\mathcal{F}\) is to differentiate the overlap of the bare exponentials
+in \cref{eq:gaussian-state}, keeping \(q_L^*,q_R\) fixed and treating \(x,y\)
+as independent. The equation \(b\ket{G}=(\beta+qb^\dagger)\ket{G}\) and
+its bra counterpart give
+\(\partial_x\mathcal{F}=(y+q_R\partial_y)\mathcal{F}\) and
+\(\partial_y\mathcal{F}=(x+q_L^*\partial_x)\mathcal{F}\).
+Solving these two equations gives
+\begin{equation}
+ u\equiv\partial_x\log\mathcal{F}=\frac{y+q_Rx}{d},\qquad
+ v\equiv\partial_y\log\mathcal{F}=\frac{x+q_L^*y}{d}.
+ \label{eq:uv}
+\end{equation}
+Integrating gives the exponent in \cref{eq:gauss-overlap}.
+At \(x=y=0\), the vacuum contractions give
+\(\sum_{m\ge 0}\binom{2m}{m}(q_L^*q_R/4)^m=d^{-1/2}\).
+The coherent-state completeness route in the original notes gives the
+same result and is recorded in \cref{app:squeeze}.
+
+The same derivatives of the bare kernel give the two operator insertions.
+\begin{align}
+ \frac{\mel{G_L}{b+b^\dagger}{G_R}}{h_{LR}} &= u+v,\\
+ \frac{\mel{G_L}{b^\dagger b}{G_R}}{h_{LR}}
+    &=\frac{\partial_x\partial_y\mathcal{F}}{\mathcal{F}}-1
+      =uv+\frac{q_L^*q_R}{d}.
+ \label{eq:transition-moments}
+\end{align}
+The subtraction comes from \(b^\dagger b=bb^\dagger-1\).
+The prefactors \(c_L^*,c_R\) cancel in these ratios, which is why the
+\(x,y\) derivatives act only on \(\mathcal{F}\).
+At coincident packets, \(h_{LL}=1\), \(u=\alpha\), \(v=\alpha^*\), and
+\(\langle b^\dagger b\rangle=|\alpha|^2+\sinh^2 r\).
+Setting \(r=0\) recovers \cref{eq:coh-overlap,eq:coh-monomial} for these
+operators.
+
+\subsection{Local energy after contraction}
+\label{sec:energy}
+
+For the Hubbard-Holstein Hamiltonian
+\begin{align}
+  \hat H &= -t \sum_{\langle i,j \rangle, \sigma} (\hat c_{i \sigma}^\dagger \hat c_{i \sigma} + H.c.) + U \sum_i \hat n_{i\downarrow}\hat n_{i \uparrow} + \omega \sum_i \hat b_i^\dagger \hat b_i + g \sum_i \hat n_i (\hat b_i^\dagger + \hat b_i)  \label{eq:hubbard_holstein_hamiltonian} \\
+  &= \hat H_t + \hat H_U + \hat H_\omega + \hat H_g, \notag
+\end{align} 
+let \(T_{ss'}=\mel{s}{\hat H_t}{s'}\). Write \(d_i(s)=n_{i\uparrow}(s)n_{i\downarrow}(s)\) and
+\(n_i(s)=n_{i\uparrow}(s)+n_{i\downarrow}(s)\). As an operator on phonons,
+the block \(H_{ss'}=\mel{s}{H}{s'}\) is
+\begin{equation}
+ H_{ss'}=T_{ss'}\id+\delta_{ss'}
+ \sum_i\left[U d_i(s)\id+\omega_0 \hat b_i^\dagger \hat b_i+
+               g n_i(s)(\hat b_i+\hat b_i^\dagger)\right].
+ \label{eq:H-block}
+\end{equation}
+Inserting the fermion resolution of identity once gives
+\begin{align}
+ E &= \E_p[E_{\mathrm{loc}}(s)], \\
+ E_{\mathrm{loc}}(s)
+   &=\sum_{s'} \frac{A(s')}{A(s)}\, C_{H_{ss'}}(s,s') \notag\\
+   &= \sum_{s'} T_{ss'}\,\frac{A(s')}{A(s)}\, C(s,s')
+      + \sum_i\!\left[
+        U d_i(s)+\omega_0 C_{b_i^\dagger b_i}(s,s)
+        +g n_i(s) C_{b_i+b_i^\dagger}(s,s)\right].
+ \label{eq:energy}
+\end{align}
+The first sum runs over hopping-connected configurations and includes
+the fermionic sign through \(T_{ss'}\). A complex local energy can occur
+for individual configurations. Its expectation is real.
+
+In a joint fermion--phonon basis, this is the conditional average of
+the ordinary local energy over the phonon configuration given \(s\).
+The law of total variance reduces the single-draw variance by the
+average conditional variance. Monte Carlo error also depends on
+the autocorrelation of the remaining fermion sampler.
+
+For the unnormalized conditional ansatz this is equivalently
+\(\sum_{s'}[f(s')/f(s)]K_{H_{ss'}}(s,s')/Z_s\).
+This form shows why the factor \(\sqrt{Z_{s'}}\) from the sampling
+amplitude cancels that in the normalized kernel. The same construction
+applies to any observable with known blocks \(B_{ss'}=\mel{s}{B}{s'}\).
+A diagonal electronic observable such as \(n_i n_j\) is evaluated on
+\(s\) directly. A hopping observable uses \(C(s,s')\). A phonon number
+uses \(C_{b_i^\dagger b_i}(s,s)\).
+
+\paragraph{One coherent packet per configuration.}
+With its scalar weight absorbed into \(A(s)\), the phonon contribution
+at fixed \(s\) is
+\(\sum_i [\omega_0|\alpha_i(s)|^2+2g n_i(s)\Rea\alpha_i(s)]\).
+Completing the square gives
+\begin{equation}
+ \omega_0|\alpha_i|^2+2g n_i\Rea\alpha_i
+ =\omega_0\left|\alpha_i+\frac{g}{\omega_0}n_i\right|^2
+     -\frac{g^2}{\omega_0}n_i^2 .
+ \label{eq:atomic}
+\end{equation}
+For \(t=0\), the minimizing displacement is
+\(\alpha_i(s)=-g n_i(s)/\omega_0\), the exact oscillator ground state in
+that fermionic sector. Keeping this displacement at finite \(t\), a
+single hop changes the occupations on two sites by one, so its real
+phonon overlap is \(e^{-(g/\omega_0)^2}\).
+This is the elementary Lang--Firsov overlap in the hopping channel.
+
+\subsection{Energy gradient}
+\label{sec:grad}
+
+Use real variational coordinates \(\theta_\mu\), including real and
+imaginary parts if the network outputs complex amplitudes. For
+\(E=\langle\Psi|H|\Psi\rangle/\mathcal{N}\) and a
+parameter-independent \(H\), the quotient rule gives
+\begin{equation}
+ \partial_\mu E=2\Rea\,
+ \frac{\mel{\partial_\mu\Psi}{H-E}{\Psi}}{\mathcal{N}}.
+ \label{eq:gradient}
+\end{equation}
+The following form applies automatic differentiation to the same
+kernels used for the energy. Let \(\theta_0\) be the current parameters,
+hold the ket fixed at \(\theta_0\), and let \(L\) be an independent bra
+parameter vector. Define
+\begin{align*}
+ r_L(s) &=
+       \frac{A_L(s)^*}{A_0(s)^*}, &
+ C_B^{L,0}(s,s') &= \mel{\chi_s(L)}{B}{\chi_{s'}(\theta_0)},\\
+ e^{L,0}(s)&=
+ \sum_{s'}\frac{A_0(s')}{A_0(s)}\,C_{H_{ss'}}^{L,0}(s,s').
+\end{align*}
+Then the whole gradient is
+\begin{equation}
+ \partial_\mu E\big|_{\theta_0}
+ =\left.\partial_{L_\mu}
+ \left(2\Rea\,\E_{p_0}\!\left[
+     r_L(s)\big(e^{L,0}(s)-E_0 C_{\id}^{L,0}(s,s)\big)
+ \right]\right)\right|_{L=\theta_0}.
+ \label{eq:surrogate}
+\end{equation}
+Indeed, multiplying the first term by
+\(p_0(s)=|A_0(s)|^2/\mathcal{N}_0\) cancels both reference amplitudes
+in the denominator, giving the bra-varied energy numerator divided by
+\(\mathcal N_0\). The second term performs the same cancellation for
+the norm. For a sampled batch, hold the configurations, the ket
+parameters, the reference denominators and the energy estimate fixed
+during this derivative. A same-configuration overlap equals one
+after identifying the bra and ket parameters, so it must retain
+its bra dependence in \cref{eq:surrogate}.
+
+An equivalent form makes the force contributions explicit. Put
+\begin{align}
+ O_\mu(s)&=\partial_\mu\log A(s),&
+ a_\mu(s)&=\braket{\chi_s}{\partial_\mu\chi_s},&
+ \ell_\mu(s)&=O_\mu(s)+a_\mu(s), \notag\\
+ \ket{D_\mu(s)}&=(\id-\ket{\chi_s}\bra{\chi_s})\ket{\partial_\mu\chi_s},&
+ \ket{\eta_s}&=\sum_{s'}\frac{A(s')}{A(s)}H_{ss'}\ket{\chi_{s'}}.
+ \label{eq:tangents}
+\end{align}
+Here the logarithmic derivative means \((\partial_\mu A)/A\), and
+\(E_{\mathrm{loc}}(s)=\braket{\chi_s}{\eta_s}\).
+The derivative of the amplitude-weighted conditional state is
+\(A(s)[\ell_\mu(s)\ket{\chi_s}+\ket{D_\mu(s)}]\). Inserting it into
+\cref{eq:gradient} gives
+\begin{equation}
+ \partial_\mu E
+   = 2\Rea\,\E_p\!\left[
+        \ell_\mu(s)^*(E_{\mathrm{loc}}(s)-E)
+        +\braket{D_\mu(s)}{\eta_s}
+      \right].
+ \label{eq:force-decomp}
+\end{equation}
+The last term comes from changing the phonon state in a direction
+orthogonal to itself. For the unnormalized conditional ansatz,
+\(O_\mu=\partial_\mu\log f+\frac12\partial_\mu\log Z_s\).
+The sampled gradient and metric formulas assume that the tangent has
+support on the sampled configurations. If a configuration has exactly
+zero amplitude but a nonzero derivative of the full component, its
+contribution must be taken directly in the full Hilbert-space
+expressions.
+
+\subsection{Quantum geometric tensor and stochastic reconfiguration}
+\label{sec:qgt}
+
+The quantum geometric tensor (QGT) is
+\begin{equation}
+ S_{\mu\nu}=
+ \frac{\braket{\partial_\mu\Psi}{\partial_\nu\Psi}}{\mathcal N}
+ -\frac{\braket{\partial_\mu\Psi}{\Psi}\braket{\Psi}{\partial_\nu\Psi}}
+        {\mathcal N^2}.
+ \label{eq:qgt-global}
+\end{equation}
+In each electronic sector, the two pieces of the tangent in
+\cref{eq:tangents} are orthogonal. Their inner products give the
+uncentered \(\ell_\mu^*\ell_\nu\) term and the conditional QGT \(Q\),
+while projection along the full state centers only \(\ell\). Thus
+\begin{equation}
+ S_{\mu\nu}
+   = \E_p[(\ell_\mu-\E_p[\ell_\mu])^*(\ell_\nu-\E_p[\ell_\nu])]
+     +\E_p[Q_{\mu\nu}(s)],
+ \qquad Q_{\mu\nu}(s)=\braket{D_\mu(s)}{D_\nu(s)} .
+ \label{eq:qgt-decomp}
+\end{equation}
+Expanding \(\ell=O+a\) gives the amplitude, bosonic phase-connection and
+mixed covariances in the original notes. For a smooth locally real gauge
+\(a_\mu=0\). \(Q_{\mu\nu}(s)\) can still be nonzero. For example, for a
+product of single coherent states, differentiating
+\cref{eq:coh-overlap} gives
+\begin{align}
+ a_\mu(s)&=\tfrac12\sum_i
+     \left[\alpha_i^*\partial_\mu\alpha_i
+            -\alpha_i\partial_\mu\alpha_i^*\right], &
+ Q_{\mu\nu}(s)&=\sum_i
+     (\partial_\mu\alpha_i)^*(\partial_\nu\alpha_i).
+ \label{eq:qgt-coherent}
+\end{align}
+Under \(\ket{\chi_s}\to e^{\ii\varphi_s}\ket{\chi_s}\) and
+\(A(s)\to e^{-\ii\varphi_s}A(s)\), the shifts in \(O_\mu\) and \(a_\mu\)
+cancel and \(Q\) is invariant.
+
+For general packets, duplicate the parameters on both sides of the
+identity kernel. Keep \(L,R\) independent until both derivatives have
+been taken.
+\begin{equation}
+ a_\nu(s)=
+   \left.\partial_{R_\nu} C_{\id}^{L,R}(s,s)\right|_{L=R},\qquad
+ Q_{\mu\nu}(s)=
+   \left.\partial_{L_\mu}\partial_{R_\nu}
+        \log K_{\id}^{L,R}(s,s)\right|_{L=R}.
+ \label{eq:qgt-kernel}
+\end{equation}
+The mixed derivative is the mixed derivative of \(K\) divided by \(K\)
+minus the product of its first derivatives divided by \(K^2\).
+Normalization contributes only separate left and right terms to
+\(\log C\), so the same mixed derivative can be taken on \(\log C\).
+The logarithm is local around the coincident state, where \(K=Z_s>0\).
+
+\subsubsection{Schur complement for a small phonon parameter block}
+\label{sec:sr}
+
+Suppose the variational coordinates split into disjoint blocks
+\(\theta_f,\theta_b\) and \(\chi_s\) depends only on \(\theta_b\).
+The amplitude \(A(s)\) may depend on both blocks, as for
+\(A=f\sqrt{Z_s}\). For \(M\) sampled configurations let \(D_f,D_b\)
+be the real matrices formed by taking the centered columns of \(\ell\)
+in each block, dividing by \(\sqrt M\), and stacking the real and
+imaginary parts vertically. Then \(D_x^{\mathsf T}D_y\) represents the
+real part of the corresponding covariance block. Write
+\(\overline Q_b=\Rea\,\widehat{\E}_p[Q_{bb}]\). With shift
+\(\lambda>0\), the real SR equation for a direction \(\delta\) is
+\begin{equation}
+ \begin{pmatrix}
+      \lambda I+D_f^{\mathsf T}D_f & D_f^{\mathsf T}D_b\\
+      D_b^{\mathsf T}D_f & \lambda I+D_b^{\mathsf T}D_b+\overline Q_b
+ \end{pmatrix}
+ \begin{pmatrix}\delta_f\\\delta_b\end{pmatrix}
+ =\begin{pmatrix}F_f\\F_b\end{pmatrix}.
+ \label{eq:sr-block}
+\end{equation}
+For a descent direction one may take \(F=-\nabla E\).
+If \(P=(\lambda I+D_f D_f^{\mathsf T})^{-1}\), the identity
+\((\lambda I+D_f^{\mathsf T}D_f)^{-1}D_f^{\mathsf T}=D_f^{\mathsf T}P\)
+gives the Schur complement and the reduced force.
+\begin{align}
+ (\lambda I+\overline Q_b+\lambda D_b^{\mathsf T}P D_b)\delta_b
+       &=F_b-D_b^{\mathsf T}P D_f F_f,\label{eq:schur}\\
+ \delta_f&=(\lambda I+D_f^{\mathsf T}D_f)^{-1}F_f
+                 -D_f^{\mathsf T}P D_b\,\delta_b .
+ \label{eq:schur-back}
+\end{align}
+In the first line the subtraction combines with the bosonic covariance
+by \(I-D_f D_f^{\mathsf T}P=\lambda P\).
+The first term in \cref{eq:schur-back} can be applied as
+\(\lambda^{-1}(F_f-D_f^{\mathsf T}P D_f F_f)\). When
+\(F_f=D_f^{\mathsf T}e\) for a sample-space force \(e\), as for the
+covariance force on a purely fermionic block, it reduces to
+\(D_f^{\mathsf T}Pe\). The inverse symbols denote linear solves.
+The \(D_fD_f^{\mathsf T}\) solve is the MinSR step
+\cite{chen2024}, while \(\overline Q_b\) contributes to the small
+parameter-space solve. If the phonon network shares parameters with
+the fermion network, \(Q\) can also occupy the other blocks and the
+specialized reduction above then requires a different block solve.
+For the normalized ansatz with \(A=f(\theta_f)\) and real conditional
+phonon states, \(\ell_b=a_b=0\) and the two blocks decouple.
+
+\subsection{Fermion--phonon second R\'enyi entropy}
+\label{sec:renyi}
+
+For the normalized density matrix
+\(\rho=\ket{\Psi}\bra{\Psi}/\mathcal N\), tracing out the fermions gives
+a statistical mixture of the conditional states.
+\begin{equation}
+ \rho_b=\sum_s p(s)\ket{\chi_s}\bra{\chi_s},\qquad
+ (\rho_f)_{ss'}=
+       \frac{A(s)A(s')^*}{\mathcal N}\,C(s',s).
+ \label{eq:reduced}
+\end{equation}
+Both reduced density matrices have the same nonzero spectrum.
+Squaring \(\rho_b\) and taking the trace gives
+\begin{equation}
+ \mathcal P=\Tr(\rho_b^2)=
+ \E_{s,s'\,\mathrm{ind.}\sim p}|C(s,s')|^2,\qquad
+ S_2=-\log\mathcal P.
+ \label{eq:purity}
+\end{equation}
+Equivalently the pair observable is
+\(\lvert K_{\id}(s,s')\rvert^2/(Z_s Z_{s'})\).
+This is the two-copy swap identity for purity with the phonon
+contraction already done \cite{hastings2010}.
+The pair observable is the pure-state fidelity of two phonon clouds
+and lies in \([0,1]\). When all clouds on the support have the same
+ray, the fidelity is one and \(S_2=0\). For a single coherent packet,
+\[
+ |C(s,s')|^2=\exp\!\left[-\sum_i|\alpha_i(s)-\alpha_i(s')|^2\right].
+\]
+
+With two independent chains at stationarity, averaging one matched
+pair per index gives the purity estimator with \(M\) overlap evaluations.
+\begin{equation}
+ \widehat{\mathcal P}
+   =\frac1M\sum_{j=1}^{M}|C(s_j,s'_j)|^2 .
+ \label{eq:purity-mc}
+\end{equation}
+All \(M^2\) cross-chain pairs can also be averaged. Each overlap costs
+\(O(K^2N)\) to contract once the network outputs are available.
+For \(M\) independent draws from a single sample set, the average over
+the distinct index pairs \(i\ne j\), normalized by \(M(M-1)\), is
+unbiased for \(\mathcal P\).
+The all-pairs estimator in the notes includes \(M\) self-pairs with
+fidelity one, giving an upward purity bias of
+\((1-\mathcal P)/M\) even for independent draws.
+In a single Markov chain, distinct indices can still be correlated.
+Taking the logarithm of the estimated purity also introduces
+finite-sample bias.
+
+\subsection{Relation to prior work}
+\label{sec:references}
+
+Coherent-state overlap and normal-ordering algebra are standard
+\cite{glauber1963}. The exponential-quadratic kernel belongs to the
+more general Bargmann treatment of Gaussian states
+\cite{john2021}. Cataudella \emph{et al.} used coherent-state expansions
+for optimized phonon exact diagonalization \cite{cataudella2004}.
+Bera \emph{et al.} used conditional multimode coherent superpositions
+and analytical contractions in the spin--boson model
+\cite{bera2014}.
+Walsh, Boettcher and Marsiglio give a close example of the analytic
+algebra for the one-electron Holstein polaron. Their Appendix A uses
+coherent overlaps and annihilation eigenvalues to construct the
+overlap and Hamiltonian matrices \cite{walsh2026}.
+For a direct many-electron VMC precedent, Ohgoe and Imada sample both
+the electronic configuration and phonon coordinates
+\cite{ohgoe2014}. Mahajan \emph{et al.} develop neural VMC for
+electron--phonon problems in a joint configuration basis
+\cite{mahajan2025}. Here the conditional packet representation
+contracts the phonons analytically before sampling fermions.
+
+\clearpage
+\appendix
+
+\subsection{Disentangling and the Gaussian integral}
+\label[appendix]{app:squeeze}
+
+Set \(K_+=(b^\dagger)^2/2\), \(K_-=b^2/2\), and
+\(K_0=(b^\dagger b+1/2)/2\). The commutators
+\([K_+,K_-]=-2K_0\) and \([K_0,K_\pm]=\pm K_\pm\)
+allow the two-by-two representation
+\[
+ K_+\mapsto\begin{pmatrix}0&1\\0&0\end{pmatrix},\qquad
+ K_-\mapsto\begin{pmatrix}0&0\\-1&0\end{pmatrix},\qquad
+ K_0\mapsto\tfrac12\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+\]
+Exponentiating \(\zeta^* K_--\zeta K_+\) in this representation gives
+diagonal entries \(\cosh r\) and off-diagonal entries
+\(-e^{\pm\ii\vartheta}\sinh r\). Multiplying the upper triangular,
+diagonal and lower triangular factors gives the operator identity
+\begin{equation}
+ S(\zeta)=\exp(qK_+)\exp[-2\log(\cosh r)K_0]\exp(-q^*K_-).
+ \label{eq:disentangle}
+\end{equation}
+The right factor acts trivially on the vacuum and the middle factor
+gives \((\cosh r)^{-1/2}\). Displacing the result uses
+\(D(\alpha)b^\dagger D(\alpha)^\dagger=b^\dagger-\alpha^*\) and
+\(\ket{\alpha}=e^{-|\alpha|^2/2}e^{\alpha b^\dagger}\ket0\), so the
+quadratic in \(b^\dagger-\alpha^*\) gives precisely the linear term and
+prefactor in \cref{eq:gaussian-state}.
+
+Alternatively, insert the coherent-state resolution of the identity
+\(\int_{\mathbb C}\frac{\dd^2 z}{\pi}\ket z\bra z=\id\)
+between the bare exponentials. The integral is
+\begin{equation}
+ \mathcal F(x,y)=
+ \int_{\mathbb C}\frac{\dd^2 z}{\pi}\exp\!\left[
+    -|z|^2+\tfrac12 q_L^*z^2+xz+
+       \tfrac12 q_R(z^*)^2+yz^*\right].
+ \label{eq:integral}
+\end{equation}
+Completing the square in \(\Rea z,\Ima z\) gives the determinant
+\(d=1-q_L^*q_R\) and the exponent in \cref{eq:gauss-overlap}.
+
+\subsection{Single-mode cavity Peierls coupling}
+\label[appendix]{app:cavity}
+
+For a link with the photon operator
+\(e^{\ii\kappa(a+a^\dagger)}=D(\ii\kappa)\), \(\kappa\in\mathbb R\),
+the block formula in \cref{eq:energy} uses the displaced overlap
+on that link. For coherent packets, normal ordering gives
+\begin{equation}
+ \mel{\alpha_L}{e^{\ii\kappa(a+a^\dagger)}}{\alpha_R}
+   = h_{LR}\exp\!\left[-\kappa^2/2+
+                         \ii\kappa(\alpha_L^*+\alpha_R)\right].
+ \label{eq:peierls}
+\end{equation}
+The reverse hopping uses \(-\kappa\).
+For squeezed packets the Weyl relation gives, with \(\xi=\ii\kappa\),
+\[
+ D(\xi)\ket{G_R}
+   = e^{(\xi\alpha_R^*-\xi^*\alpha_R)/2}
+        D(\alpha_R+\xi) S(\zeta_R)\ket{0}.
+\]
+Hence evaluate \cref{eq:gauss-overlap} with
+\(\alpha_R\to\alpha_R+\xi\), then multiply by the indicated phase.
+For a packet superposition the contraction is the same
+\(W(s)^\dagger G_B(s,s')W(s')\) as above.
+This analytically contracts the entire oscillator Hilbert space for
+the chosen ansatz. A finite Fock-basis sum contracts the projected
+state and can also be used for arbitrary photon-dependent amplitudes.
+
+\clearpage
+\subsection*{Changes from the supplied notes}
+\begin{itemize}
+ \item Equations (6)--(8) and (30) use the same symbol for unitary
+ squeezing and the quadratic coefficient, omit the displacement
+ shift of the linear coefficient, and show a positive sign in the overlap
+ prefactor exponent. The corrected kernel has unit self-overlap
+ and retains the coherent-state phase.
+ \item Equations (22), (26)--(29), and (32)--(33) are covered by the
+ corrected normal-ordering sign, the explicit Hubbard prefactor \(U\),
+ a single Gram contraction, and the energy gradient including its
+ norm derivative. The sampling measure follows the state convention.
+ \item Equations (39)--(41) give the starting block elimination. The
+ reduced expressions here retain the boson block and force and subtract
+ the corresponding fermionic correction. Sample centering and
+ regularization are explicit.
+ \item Equations (82)--(83) now allow complex weights and displacements
+ via the full kernel. Equation (93) is replaced by independent pair
+ sampling or the distinct-index estimator for independent draws.
+\end{itemize}
+
+\begin{thebibliography}{9}
+
+\bibitem{glauber1963}
+R.~J. Glauber, \emph{Coherent and Incoherent States of the Radiation Field},
+Phys.\ Rev.\ \textbf{131}, 2766 (1963).
+\href{https://doi.org/10.1103/PhysRev.131.2766}{DOI}.
+
+\bibitem{chen2024}
+A. Chen and M. Heyl, \emph{Empowering deep neural quantum states through
+efficient optimization}, Nat.\ Phys.\ \textbf{20}, 1476--1481 (2024).
+\href{https://doi.org/10.1038/s41567-024-02566-1}{DOI}.
+
+\bibitem{hastings2010}
+M.~B. Hastings, I. Gonz\'alez, A.~B. Kallin, and R.~G. Melko,
+\emph{Measuring Renyi entanglement entropy in quantum Monte Carlo
+simulations}, Phys.\ Rev.\ Lett.\ \textbf{104}, 157201 (2010).
+\href{https://doi.org/10.1103/PhysRevLett.104.157201}{DOI}.
+
+\bibitem{john2021}
+T.~C. John and K.~R. Parthasarathy,
+\emph{A common parametrization for finite mode Gaussian states, their
+symmetries, and associated contractions with some applications},
+J.\ Math.\ Phys.\ \textbf{62}, 022102 (2021).
+\href{https://arxiv.org/abs/1911.06555}{arXiv:1911.06555}.
+
+\bibitem{cataudella2004}
+V. Cataudella, G. De Filippis, F. Martone, and C.~A. Perroni,
+\emph{Variational approach to the optimized phonon technique for
+electron-phonon problems}, Phys.\ Rev.\ B \textbf{70}, 193105 (2004).
+\href{https://doi.org/10.1103/PhysRevB.70.193105}{DOI}.
+
+\bibitem{bera2014}
+S. Bera, A. Nazir, A.~W. Chin, H.~U. Baranger, and S. Florens,
+\emph{Generalized multipolaron expansion for the spin-boson model:
+Environmental entanglement and the biased two-state system},
+Phys.\ Rev.\ B \textbf{90}, 075110 (2014).
+\href{https://doi.org/10.1103/PhysRevB.90.075110}{DOI}.
+
+\bibitem{walsh2026}
+C.~M. Walsh, I. Boettcher, and F. Marsiglio,
+\emph{Coherent-state ansatz for the Holstein polaron in one and two
+dimensions} (2026).
+\href{https://arxiv.org/html/2603.07290v1}{arXiv:2603.07290v1}.
+
+\bibitem{ohgoe2014}
+T. Ohgoe and M. Imada, \emph{Variational Monte Carlo method for
+electron-phonon coupled systems}, Phys.\ Rev.\ B \textbf{89}, 195139 (2014).
+\href{https://doi.org/10.1103/PhysRevB.89.195139}{DOI}.
+
+\bibitem{mahajan2025}
+A. Mahajan, P.~J. Robinson, J. Lee, and D.~R. Reichman,
+\emph{Structure and dynamics of electron-phonon coupled systems using
+neural quantum states}, Phys.\ Rev.\ B \textbf{112}, 184310 (2025).
+\href{https://doi.org/10.1103/p8qz-p45d}{DOI}.
+
+\end{thebibliography}
+\end{document}
+
+

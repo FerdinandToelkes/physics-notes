@@ -1,4 +1,9 @@
-\usepackage{amsmath,amssymb,amsthm}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{microtype}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{tikz}
 \usetikzlibrary{
     decorations.pathmorphing,
@@ -10,12 +15,16 @@
 \usepackage{parskip}   % for paragraph spacing
 \usepackage{bm}
 \usepackage{titlesec}  % for customizing for instance the \paragraph{} command
-\usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
+\usepackage[a4paper,margin=26mm]{geometry}
+\usepackage[pdfusetitle,hidelinks]{hyperref}
 \usepackage{cleveref}
-\usepackage{mathtools}
 \usepackage{booktabs}  % for better tables
 \usepackage{subfiles}  % loads each note both standalone and as part of this master doc
+
+
+\definecolor{linkblue}{HTML}{174C79}
+\hypersetup{colorlinks=true,linkcolor=linkblue,citecolor=linkblue,urlcolor=linkblue}
+\allowdisplaybreaks[2]
 
 % --- shared macros, used by every note ---
 \newcommand{\ad}{\mathrm{ad}}
@@ -59,11 +68,23 @@
 \newcommand{\bra}[1]{\left\langle #1 \right\rvert}
 \newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
 \newcommand{\dyad}[2]{\left\lvert #1 \right\rangle\!\left\langle #2 \right\rvert}
+\newcommand{\mel}[3]{\langle #1\rvert #2\lvert #3\rangle} % matrix element
 \DeclareMathOperator{\Tr}{Tr}      % full trace
 \DeclareMathOperator{\Trace}{tr}   % (partial) trace, lowercase
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\sign}{sign}
+\newcommand{\Rea}{\operatorname{Re}}
+\newcommand{\Ima}{\operatorname{Im}}
+\newcommand{\id}{\mathbf{1}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\dd}{\mathrm{d}}
 
 % display vectors in boldface, rather than with an arrow on top
 \renewcommand{\vec}[1]{\bm{#1}}
+
+
+
+
+
 
