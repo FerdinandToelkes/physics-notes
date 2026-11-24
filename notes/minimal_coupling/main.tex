@@ -1,0 +1,113 @@
+\documentclass[../../main]{subfiles}
+
+\begin{document}
+
+\section{Minimal coupling}
+\label{sec:minimal_coupling}
+Throughout this section, we will closely follow the arguments and derivations of David Tong's book. We will refer to other sources explicitly, if statements do not originate from there. 
+
+The equation of motion for a nonrelativistic particle of mass $m$ and charge $q$ moving in an electromagnetic field is given by the Lorentz force law
+\begin{equation}
+    m \ddot{\bm{x}} = q(\bm{E} + \dot{\bm{x}} \times \bm{B}).
+\end{equation}
+Here and below, we often omit the arguments $(\bm x, t)$ of the fields. We use the same charge convention as Tong, so $q=-e$ for an electron, where $e>0$. As god intended, we set \(c = \hbar = 1\) thorughout. Lorentz's law can be derived by the Euler-Lagrange equations from the following Lagrangian
+\begin{equation}
+    L = \frac 12 m  \dot{\bm{x}}^2 + q \dot{\bm{x}} \cdot \bm{A} - q\phi , 
+\end{equation}
+where $\bm E = -\bm \nabla \phi - \partial_t \bm A$ and $\bm B = \bm \nabla \times \bm A$. The canoncial momentum is give as $\bm{p} = \frac{\partial L}{\partial \dot{\bm{x}}} = m \dot{\bm{x}} + q\bm{A}$. We can obtain the corresponding Hamiltonian by using the Legendre transformation, which finally yields
+\begin{equation}
+    H = \dot{\bm{x}} \cdot \bm{p} - L = \frac{1}{2m}(\bm{p} - q\bm{A})^2 + q\phi ,
+\end{equation}
+with \(\bm{p}=-i\hbar\bm{\nabla}=-i\bm{\nabla}\) in the position representation of quantum mechanics. Note, that this Hamiltonian has the known form of kinetic energy plus potential energy with the exception that the momentum is not $\bm{p}$ but $\bm{p}-q\bm{A}$. Replacing $\bm{p} \to \bm{p} - q\bm{A}$ in order to include the effect of an electromagnetic field inside a Hamiltonian is referred to \emph{minimal coupling}. It is not called maximal coupling, since it does not include all possible types of interaction, e.g. the coupling of a particles intrinsic magnetic momentum $\bm \mu$ with the magnetic field via $-\bm \mu \cdot \bm B$. On the other hand, it is the minimal framwork, that ensures that the Schrödinger equation is gauge covariant under the local $U(1)$ gauge transformations (Altland and Simmons, chapter 5.3.4)
+\begin{align}
+    \bm{A} &\to \bm{A}' = \bm{A}+\bm{\nabla}\chi \notag \\
+    \phi   &\to \phi' = \phi-\partial_t\chi \\
+    \psi   &\to \psi' = e^{iq\chi} \psi , \notag
+\end{align} \label{eq:minimal_coupling_gauge_transformations}
+where $\chi=\chi(\bm{x},t)$ is a smooth real function. The name minimal coupling does hence not seem like such a big stretch.
+
+\subsection{Gauge transformations}
+\label{subsec:minimal_coupling_gauge_transformations}
+
+Let's check the aforementioned claim of gauge covariance. The primed and unprimed potentials describe the same electric and magnetic fields. Thus, they must yield the same physical predictions. The transformation $\psi' = U_\chi \psi$, with \(U_\chi=e^{iq\chi(\bm{x},t)}\), already preserves the position probability density, $|\psi'(\bm x, t)|^2 = |\psi(\bm x, t)|^2$. To check the dynamics, we show that whenever $\psi$ solves the original Schrödinger equation, $\psi'$ solbes the equation with the gauge transformed fields. We write $H' = H \left[\bm A', \phi' \right]$.
+
+The time dependent Schrödinger equations reads
+\begin{align*}
+  i\partial_t\psi &= H\psi
+    = \left[\frac{1}{2m}\bigl(-i\bm{\nabla}-q\bm{A}\bigr)^2+q\phi\right]\psi .
+\end{align*}
+Applying the product rule gives
+\begin{align*}
+  \bm{p}(U_\chi\psi)
+    &= (-i)(iq)\bigl(\bm{\nabla}\chi(\bm{r},t)\bigr)U_\chi\psi
+       +(\bm{p}\psi)U_\chi \\
+    &= U_\chi\bigl(q(\bm{\nabla}\chi)+\bm{p}\bigr)\psi
+\end{align*}
+and therefore
+\begin{align*}
+  (\bm{p}-q\bm{A}')\psi'
+    &= (\bm{p}-q\bm{A}-q\bm{\nabla}\chi)U_\chi\psi \\
+    &= U_\chi(\bm{p}-q\bm{A})\psi ,
+\end{align*}
+which is valid for all physical, i.e. sufficiently smooth, $\psi$. We can apply this identity a second time by writing $\Pi_k = p_k - qA_k$ and $\Pi'_k = p_k - qA'_k$ where $k$ denotes the Cartesian coordinate. The identity above therefore reads $\Pi'_k (U_\chi \tilde \psi) = U_\chi \Pi_k \tilde \psi$. Taking $\tilde \psi = \Pi_k \psi$ and summing over $k$ reads
+\begin{equation}
+    (\bm{p}-q\bm{A}')^2\psi'
+       =\sum_k \Pi'_k(U_\chi\Pi_k\psi)
+       =U_\chi\sum_k \Pi_k^2\psi
+       =U_\chi(\bm{p}-q\bm{A})^2\psi. \label{eq:minimal_coupling_momentum_identity}
+\end{equation}
+We finally obtain
+\begin{align*}
+    i\partial_t\psi'
+       &=U_\chi\bigl(i\partial_t\psi-q(\partial_t\chi)\psi\bigr) \\
+       &=U_\chi\left[\frac{1}{2m}(\bm{p}-q\bm{A})^2
+                       +q(\phi-\partial_t\chi)\right]\psi \\
+       &=\left[\frac{1}{2m}(\bm{p}-q\bm{A}')^2+q\phi'\right]\psi'
+        =H'\psi'.
+\end{align*}
+where we have applied the sum rule again in the first line, the original Schrödinger equation in the second one and \cref{eq:minimal_coupling_momentum_identity} in the last line.
+
+Thus a gauge transformation maps each solution to a solution of the transformed equation. This is what it means for the Schrödinger equation to be \emph{gauge covariant}. Rewriting the second and third line gives
+\begin{align*}
+    H' U_\chi \psi = U_\chi (H -q \, \partial_t \chi)\psi 
+\end{align*}
+for all $\psi$. The Hamiltonian hence transforms as
+\begin{equation*}
+    H' = U_\chi H U_\chi^\dagger - q\, \partial_t \chi .
+\end{equation*}
+For a time-independent gauge transformation the two Hamiltonians are unitarily equivalent and therefore have the same spectrum.
+
+\subsection{The Peierls substitution}
+
+Now how do creation and annihilation operators in second quantization transform under a gauge transformation? We will answer this question for the discrete case, when one is looking at models that are defined on a lattice. This section is merely meant to develop some intuition for the origins of the Peierls phase and we refer to the papers \emph{Electromagnetic coupling in tight-binding models for strongly correlated light and matter} by Li et al. and \emph{Gauge fixing for strongly correlated electrons coupled to quantum light} by Dmytruk and Schiró for more rigorous approaches to include light matter coupling in lattice models.
+
+Take a general single-particle state on the lattice in position representation
+\begin{equation*}
+    \ket{\psi} 
+    = \sum_j \braket{\bm r_j}{\psi} \ket{\bm r_j} 
+    = \sum_j \psi(\bm r_j) c^\dagger_{\bm r_j} \ket{0}
+\end{equation*}
+and apply a gauge transformation, which results in
+\begin{equation*}
+    \ket{\psi'} 
+    = \sum_j \psi'(\bm r_j) c^\dagger_{\bm r_j} \ket{0}
+    = \sum_j \psi(\bm r_j) U_\chi c^\dagger_{\bm r_j} \ket{0}.
+\end{equation*}
+We can see, that transforming the creation operators as
+\begin{equation}
+    c^\dagger_j \to c'^\dagger_j = U_\chi c^\dagger_j = e^{iq\chi(\bm r_j, t)} c^\dagger_j  
+\end{equation}
+is equivalent to transforming the wave function itself. This is the starting point of the short derivation done in “Tight-binding models in a magnetic field: Peierls substitution,” by Akhmerov, Sau and van Heck. I will subsequently follow their line of reasoning.
+
+
+  
+
+\paragraph{References}
+\begin{itemize}
+    \item Tong, David. "Applications of quantum mechanics." University of Cambridge Part II Mathematical Tripos (2017). (Chapter 6.1)
+    \item Altland and Simons. Condensed matter field theory. Cambridge university press, 2010. (Chapter 5.3.4)
+    \item Bartelmann, et al. Theoretische Physik 2| Elektrodynamik. Berlin: Springer Spektrum, 2018. (Chapter: Lagrange- und Hamilton-Formalismus in der Elektrodynamik)
+    \item Bartelmann, et al. Theoretische Physik 3| Quantenmechanik. Berlin: Springer Spektrum, 2018.(Chapter: Beobachtbarkeit der Potenziale)
+    \item A. Akhmerov, J. Sau, and B. van Heck, “Tight-binding models in a magnetic field: Peierls substitution,” in Topology in Condensed Matter: Tying Quantum Knots. (URL: https://topocondmat.org/w2-majorana/peierls/) 
+\end{itemize}
+\end{document}
